@@ -1,0 +1,322 @@
+<html>
+
+<canvas id="gameCanvas" width="1000" height="667"></canvas>
+<script>
+var canvas;
+var canvasContext;
+
+var blue = '#6dcff6';
+
+var bgColor = '#713784';
+var railColor = '#f5989d';
+var railThickness = 30;
+const RAIL_COLLIDER = 15;
+const GOAL_POST_SIZE = 250; //it's 115 in the mock, making it larger to test for collision
+const GOALIE_SIZE = 55;
+var puckColor = blue;
+
+var shooting = false;
+var shootStart;
+var shotVector = {};
+
+var ballX = 500;
+var ballY = 300;
+var ballSpeedX = 0;
+var ballSpeedY = 0;
+
+var player1Score = 0;
+var player2Score = 0;
+const WINNING_SCORE = 3;
+
+var showingWinScreen = false;
+
+var paddle1Y = 250;
+var paddle2Y = 0;
+const PADDLE_THICKNESS = 10;
+const PADDLE_HEIGHT = 100;
+
+//just following along verbatim rn
+function Stick(){
+	this.position = {x:0, y: 400};
+}
+
+function calculateMousePos(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	};
+}
+
+function subtractAbsValPoints(point1, point2){
+	point1XAbs = Math.abs(point1.x);
+	point2XAbs = Math.abs(point2.x);
+	largerXVal = Math.max(point1XAbs, point2XAbs);
+	smallerXVal = Math.min(point1XAbs, point2XAbs);
+
+	point1YAbs = Math.abs(point1.y);
+	point2YAbs = Math.abs(point2.y);
+	largerYVal = Math.max(point1YAbs, point2YAbs);
+	smallerYVal = Math.min(point1YAbs, point2YAbs);
+
+
+	xDiff = largerXVal - smallerXVal;
+	yDiff = largerYVal - smallerYVal;
+
+	return {
+		x: xDiff,
+		y: yDiff
+	}
+}
+
+function handleMouseDown(evt) {
+	shooting = true;
+	shootStart = calculateMousePos(evt);
+	//console.log('shoot start is' + shootStart.x + ',' + shootStart.y);
+
+}
+
+function handleMouseUp(evt){
+	//console.log('mouse up!');
+	if(shooting){
+		/*
+		var shootEnd = calculateMousePos(evt);
+		//console.log('shootEnd is' + shootEnd.x + ',' + shootEnd.y);
+		//get shootStart and shootEnd into abs, then subtract a from b. 
+		shotVector = subtractAbsValPoints(shootStart, shootEnd);
+		//console.log('shotVector is' + mousePosDiff.x + ',' + mousePosDiff.y);
+		*/
+		//below is Chris' code
+		var shootEnd = calculateMousePos(evt);
+		/*
+		ballSpeedX = shootStart.x-shootEnd.x; //// apply speed immediately
+	 	ballSpeedY = shootStart.y-shootEnd.y; 
+		*/
+		ballSpeedX = shootStart.x-shootEnd.x; //// apply speed immediately
+	 	ballSpeedY = shootStart.y-shootEnd.y; 
+		console.log(ballSpeedX);
+	}
+}
+
+window.onload = function() {
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
+
+	var framesPerSecond = 30;
+	setInterval(function() {
+			moveEverything();
+			drawEverything();	
+		}, 1000/framesPerSecond);
+
+	canvas.addEventListener('mousedown', handleMouseDown);
+	canvas.addEventListener('mouseup', handleMouseUp);
+
+	canvas.addEventListener('mousemove',
+		function(evt) {
+			var mousePos = calculateMousePos(evt);
+			/*
+			paddle1X = mousePos.x;
+			paddle1Y = mousePos.y;
+			*/
+		});
+}
+
+function ballReset() {
+	if(player1Score >= WINNING_SCORE ||
+		player2Score >= WINNING_SCORE) {
+
+		showingWinScreen = true;
+
+	}
+
+	ballSpeedX = -ballSpeedX;
+	ballX = canvas.width/2;
+	ballY = canvas.height/2;
+}
+
+function computerMovement() {
+	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+	if(paddle2YCenter < ballY - 35) {
+		paddle2Y = paddle2Y + 6;
+	} else if(paddle2YCenter > ballY + 35) {
+		paddle2Y = paddle2Y - 6;
+	}
+}
+
+function moveEverything() {
+	if(showingWinScreen) {
+		return;
+	}
+
+	//computerMovement();
+
+	// disabling bc the mouse is going to hit the ball 
+	//Chris: bring back, and it'll work on the walls too. 
+	ballX = ballX + ballSpeedX;
+	ballY = ballY + ballSpeedY;
+
+	if(shotVector.x && shotVector.y){
+		ballX += shotVector.x;
+		ballY += shotVector.y;
+	}
+
+	
+	if(ballX < 0) {
+		if(ballY > paddle1Y &&
+			ballY < paddle1Y+PADDLE_HEIGHT) {
+			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY
+					-(paddle1Y+PADDLE_HEIGHT/2);
+			ballSpeedY = deltaY * 0.35;
+		} else {
+			player2Score++; // must be BEFORE ballReset()
+			ballReset();
+		}
+	}
+	//BELOW IS RIGHT SIDE COLLISION
+	//puck bounces off top right rail
+	if(ballY < (canvas.height/2)-(GOAL_POST_SIZE/2) && ballX > canvas.width-railThickness){
+		console.log('puck bounced off rail');
+		ballSpeedX = -ballSpeedX;
+	}
+	//puck bounces off bottom right rail
+	if(ballY > (canvas.height/2)+(GOAL_POST_SIZE/2) && ballX > canvas.width-railThickness){
+		console.log('puck bounced off rail');
+		ballSpeedX = -ballSpeedX;
+	}
+	//puck enters right goal
+	if(ballY > (canvas.height/2)-(GOAL_POST_SIZE/2) &&
+	   ballY < (canvas.height/2)+(GOAL_POST_SIZE/2) &&
+	   ballX > canvas.width){
+		console.log('player 1 scores!');
+		ballReset();	
+	}
+
+
+	//BELOW IS LEFT SIDE COLLISION
+	//puck bounces off top left rail
+	if(ballY < (canvas.height/2)-(GOAL_POST_SIZE/2) && ballX < railThickness){
+		console.log('puck bounced off rail');
+		ballSpeedX = -ballSpeedX;
+	}
+
+	//puck bounces off bottom right rail
+	if(ballY > (canvas.height/2)+(GOAL_POST_SIZE/2) && ballX < railThickness){
+		console.log('puck bounced off rail');
+		ballSpeedX = -ballSpeedX;
+	}
+	//puck enters right goal
+	if(ballY > (canvas.height/2)-(GOAL_POST_SIZE/2) &&
+	   ballY < (canvas.height/2)+(GOAL_POST_SIZE/2) &&
+	   ballX < 0){
+		console.log('player 2 scores!');
+		ballReset();	
+	}
+
+
+	if(ballY < railThickness + RAIL_COLLIDER) {
+		ballSpeedY = -ballSpeedY;
+	}
+	if(ballY > canvas.height - railThickness - RAIL_COLLIDER) {
+		ballSpeedY = -ballSpeedY;
+	}
+}
+
+function drawNet() {
+	for(var i=0;i<canvas.height;i+=60) {
+		colorRect(canvas.width/2-1,i,8,30,'white');
+	}
+//	colorCircle(canvas.width/2, canvas.height/2, 140, 'white')
+}
+
+function drawEverything() {
+	canvasContext.globalAlpha = 0.10;
+	colorRect(0,0,canvas.width,canvas.height,bgColor);
+	canvasContext.globalAlpha = 1.0;
+
+	drawNet();
+
+	//top rail
+	colorRect(0, 0, canvas.width, railThickness, railColor);
+	//bottom rail
+	colorRect(0, canvas.height - railThickness, canvas.width, railThickness, railColor);
+	//left rail
+	colorRect(0, 0, railThickness, canvas.height, railColor);
+	//right rail
+	colorRect(canvas.width-railThickness, 0, railThickness, canvas.height, railColor);
+
+	//goal posts
+	//left
+	colorRect(0, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
+	//right
+	colorRect(canvas.width-railThickness, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
+
+
+	if(showingWinScreen) {
+		canvasContext.fillStyle = 'white';
+
+		if(player1Score >= WINNING_SCORE) {
+			canvasContext.fillText("Left Player Won", 350, 200);
+		} else if(player2Score >= WINNING_SCORE) {
+			canvasContext.fillText("Right Player Won", 350, 200);
+		}
+
+		canvasContext.fillText("click to continue", 350, 500);
+		return;
+	}
+
+	// this is left player paddle
+	//colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
+
+	// this is right computer paddle
+	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+
+	// next line draws the puck
+	colorCircle(ballX, ballY, 30, puckColor);
+
+	canvasContext.fillText(player1Score, 100, 100, 300);
+	canvasContext.fillText(player2Score, canvas.width-100, 100);
+
+	//draws left goalie
+	colorRect(railThickness*3, canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);
+
+	//draws right goalie
+	colorRect(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);
+
+	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
+	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
+	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);
+	
+	
+}
+
+function colorCircle(centerX, centerY, radius, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+	canvasContext.fill();
+}
+
+function colorRect(leftX,topY, width,height, drawColor, rotation=0) {
+	canvasContext.save();
+	canvasContext.fillStyle = drawColor;
+	canvasContext.fillRect(leftX,topY, width,height);
+	canvasContext.rotate(45);
+	canvasContext.restore();
+}
+
+function drawStick(position, origin){
+	this.canvasContext.save();
+	this.canvasContext.translate(position.x, position.y);
+	//attempt to use ColorRect
+	colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
+
+}
+
+</script>
+<script src='scripts/stick.js'></script>
+</html>
