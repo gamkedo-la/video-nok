@@ -212,20 +212,34 @@ function moveEverything() {
 	}
 }
 
-function drawNet() {
-	for(var i=0;i<canvas.height;i+=60) {
-		colorRect(canvas.width/2-1,i,8,30,'white');
-	}
-	strokeCircle(canvas.width/2, canvas.height/2, 140, 'white');
+function drawEverything() {
+	drawBackground();
+
+	// this is left player paddle
+	//colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
+
+	// this is right computer paddle
+	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+
+	//draws left goalie
+	colorRect(railThickness*3, canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);
+
+	//draws right goalie
+	colorRect(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);	
+
+	// next line draws the puck
+	colorCircle(ballX, ballY, 30, puckColor);
+
+	drawUI();
 }
 
-function drawEverything() {
+function drawBackground() {
 	canvasContext.globalAlpha = 0.10;
 	colorRect(0,0,canvas.width,canvas.height,bgColor);
 	canvasContext.globalAlpha = 1.0;
 
 	drawNet();
-
+	
 	//top rail
 	colorRect(0, 0, canvas.width, railThickness, railColor);
 	//bottom rail
@@ -240,8 +254,20 @@ function drawEverything() {
 	colorRect(0, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
 	//right
 	colorRect(canvas.width-railThickness, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
+}
 
+function drawNet() {
+	const stripeWidth = canvas.width/100;
+	const spacing = canvas.height/10;
+	const stripeHeight = spacing/2;
 
+	for(var i=stripeHeight/2; i<canvas.height; i+=spacing) {
+		colorRect(canvas.width/2-stripeWidth/2, i, stripeWidth, stripeHeight,'white');
+	}
+	strokeCircle(canvas.width/2, canvas.height/2, 140, 'white');
+}
+
+function drawUI() {
 	if(showingWinScreen) {
 		canvasContext.fillStyle = 'white';
 
@@ -255,29 +281,12 @@ function drawEverything() {
 		return;
 	}
 
-	// this is left player paddle
-	//colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
-
-	// this is right computer paddle
-	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
-
-	// next line draws the puck
-	colorCircle(ballX, ballY, 30, puckColor);
-
 	canvasContext.fillText(player1Score, 100, 100, 300);
 	canvasContext.fillText(player2Score, canvas.width-100, 100);
 
-	//draws left goalie
-	colorRect(railThickness*3, canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);
-
-	//draws right goalie
-	colorRect(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);
-
 	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
-	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);
-	
-	
+	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);	
 }
 
 function colorCircle(centerX, centerY, radius, drawColor) {
