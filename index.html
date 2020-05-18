@@ -80,26 +80,17 @@ function handleMouseDown(evt) {
 }
 
 function handleMouseUp(evt){
-	//console.log('mouse up!');
 	if(shooting){
-		/*
 		var shootEnd = calculateMousePos(evt);
-		//console.log('shootEnd is' + shootEnd.x + ',' + shootEnd.y);
-		//get shootStart and shootEnd into abs, then subtract a from b. 
-		shotVector = subtractAbsValPoints(shootStart, shootEnd);
-		//console.log('shotVector is' + mousePosDiff.x + ',' + mousePosDiff.y);
-		*/
-		//below is Chris' code
-		var shootEnd = calculateMousePos(evt);
-		/*
-		ballSpeedX = shootStart.x-shootEnd.x; //// apply speed immediately
-	 	ballSpeedY = shootStart.y-shootEnd.y; 
-		*/
-		ballSpeedX = shootStart.x-shootEnd.x; //// apply speed immediately
-	 	ballSpeedY = shootStart.y-shootEnd.y; 
-		console.log(ballSpeedX);
-	}
-}
+
+		ballSpeedX = Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10);
+		ballSpeedY = Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10);
+
+		// for bugging: outputs vector to be applied to the puck
+		//console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
+		
+	} // end check if shooting
+} // end handleMouseUp()
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -157,11 +148,6 @@ function moveEverything() {
 	//Chris: bring back, and it'll work on the walls too. 
 	ballX = ballX + ballSpeedX;
 	ballY = ballY + ballSpeedY;
-
-	if(shotVector.x && shotVector.y){
-		ballX += shotVector.x;
-		ballY += shotVector.y;
-	}
 
 	
 	if(ballX < 0) {
