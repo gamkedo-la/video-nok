@@ -3,6 +3,8 @@ function ballClass() {
     this.y = 333;
     this.velX = 0;
     this.velY = 0;
+	this.size = 30;
+	this.color = "blue";
 
     this.ballReset = function() {
         if (player1Score >= WINNING_SCORE ||
@@ -85,4 +87,8 @@ function ballClass() {
             this.velY = -this.velY;
         }
     }
+	
+	this.draw = function(){		
+		colorCircle(this.x, this.y, this.size, this.color);
+	}
 }
