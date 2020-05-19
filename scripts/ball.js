@@ -1,6 +1,6 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .94
+const BALL_SPEED_DECAY_MULT = .96;
 
 
 function ballClass() {
@@ -12,15 +12,9 @@ function ballClass() {
 	this.color = blue;
 
     this.ballReset = function() {
-        if (player1Score >= WINNING_SCORE ||
-            player2Score >= WINNING_SCORE) {
-
-            showingWinScreen = true;
-
-            this.velX = -this.velX;
-            this.x = canvas.width / 2;
-            this.y = canvas.height / 2;
-        }
+        this.velX = -this.velX;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
     }
 
     this.move = function() {
@@ -40,8 +34,8 @@ function ballClass() {
 
                 this.velY = deltaY * 0.35;
             } else {
-                player2Score++;
                 this.ballReset();
+                scoreManager.add(1, 1);// Player 2 scores
             }
         }
 
@@ -61,8 +55,8 @@ function ballClass() {
         if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width) {
-            player1Score++;
             this.ballReset();
+            scoreManager.add(0, 1); //Player 1 scores
         }
 
         //puck bounces off top left rail
@@ -83,8 +77,8 @@ function ballClass() {
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x < 0) {
 
-            player1Score++;
             this.ballReset();
+            scoreManager.add(0, 1);
         }
 
         if (this.y < railThickness + RAIL_COLLIDER) {

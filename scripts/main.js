@@ -1,17 +1,11 @@
 var canvas;
 var canvasContext;
 
-
-
 var shooting = false;
 var shootStart;
 var shotVector = {};
 
-var player1Score = 0;
-var player2Score = 0;
-const WINNING_SCORE = 3;
-
-var showingWinScreen = false;
+let scoreManager = new ScoreManager();
 
 var ballOne = new ballClass();
 
@@ -65,6 +59,8 @@ function handleMouseUp(evt){
 		console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
 		
 	} // end check if shooting
+	if (scoreManager.winner) resetGame();
+
 } // end handleMouseUp()
 
 window.onload = function() {
@@ -91,6 +87,11 @@ window.onload = function() {
 		});
 }
 
+function resetGame() {
+	scoreManager.reset();
+	ballOne.ballReset();
+}
+
 function computerMovement() {
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
 	if(paddle2YCenter < ballOne.x - 35) {
@@ -101,7 +102,7 @@ function computerMovement() {
 }
 
 function moveEverything() {
-	if(showingWinScreen) {
+	if(scoreManager.winner) {
 		//return;
 	}
 
@@ -164,26 +165,20 @@ function drawNet() {
 }
 
 function drawUI() {
-	if(showingWinScreen) {
+	if(scoreManager.winner) {
 		canvasContext.fillStyle = 'white';
 
-		if(player1Score >= WINNING_SCORE) {
-			canvasContext.fillText("Left Player Won", 350, 200);
-		} else if(player2Score >= WINNING_SCORE) {
-			canvasContext.fillText("Right Player Won", 350, 200);
-		}
+		let winName = scoreManager.winner === 0 ? 'Left Player' : 'Right Player';
+		canvasContext.fillText(winName + ' Won', 350, 200);
 
 		canvasContext.fillText("click to continue", 350, 500);
 		return;
 	}
 
-	canvasContext.fillText(player1Score, 100, 100, 300);
-	canvasContext.fillText(player2Score, canvas.width-100, 100);
+	canvasContext.fillText(scoreManager.scores[1], 100, 100, 300);
+	canvasContext.fillText(scoreManager.scores[2], canvas.width-100, 100);
 
 	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
 	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);	
 }
-
-
-
