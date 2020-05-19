@@ -175,8 +175,8 @@ function drawUI() {
 		return;
 	}
 
-	canvasContext.fillText(scoreManager.scores[1], 100, 100, 300);
-	canvasContext.fillText(scoreManager.scores[2], canvas.width-100, 100);
+	canvasContext.fillText(scoreManager.scores[0], 100, 100, 300);
+	canvasContext.fillText(scoreManager.scores[1], canvas.width-100, 100);
 
 	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
