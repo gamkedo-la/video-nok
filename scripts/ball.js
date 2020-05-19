@@ -95,6 +95,18 @@ function ballClass() {
         }
     }
 	
+	this.checkForCollisions = function(objectX, objectY, objectHeight, objectWidth){
+		if(	this.x > objectX && this.x < objectX + objectWidth &&
+			this.y > objectY && this.y < objectY + objectHeight){
+			
+			var deltaY = this.y - (objectY + objectHeight / 2);
+            this.velX = -this.velX;
+
+			this.velY = deltaY * 0.35;
+		}
+	}
+
+	
 	this.draw = function(){		
 		colorCircle(this.x, this.y, this.size, this.color);
 	}

@@ -74,6 +74,7 @@ window.onload = function() {
 	var framesPerSecond = 30;
 	setInterval(function() {
 			moveEverything();
+			checkForCollisions();
 			drawEverything();	
 		}, 1000/framesPerSecond);
 
@@ -112,6 +113,14 @@ function moveEverything() {
 
 	
 }
+
+function checkForCollisions(){
+	paddle1X = railThickness*3;
+	paddle2X = canvas.width-PADDLE_THICKNESS
+	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+}
+
 
 function drawEverything() {
 	drawBackground();
