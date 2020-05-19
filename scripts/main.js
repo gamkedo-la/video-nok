@@ -26,6 +26,8 @@ var paddle2Y = 0;
 const PADDLE_THICKNESS = 10;
 const PADDLE_HEIGHT = 100;
 
+var ballOne = new ballClass();
+
 //just following along verbatim rn
 function Stick(){
 	this.position = {x:0, y: 400};
@@ -74,8 +76,8 @@ function handleMouseUp(evt){
 	if(shooting){
 		var shootEnd = calculateMousePos(evt);
 
-		ballSpeedX = Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10);
-		ballSpeedY = Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10);
+		ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10);
+		ballOne.valY = Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10);
 
 		// for bugging: outputs vector to be applied to the puck
 		//console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
@@ -108,9 +110,9 @@ window.onload = function() {
 
 function computerMovement() {
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
-	if(paddle2YCenter < ballY - 35) {
+	if(paddle2YCenter < ballOne.x - 35) {
 		paddle2Y = paddle2Y + 6;
-	} else if(paddle2YCenter > ballY + 35) {
+	} else if(paddle2YCenter > ballOne.y + 35) {
 		paddle2Y = paddle2Y - 6;
 	}
 }
@@ -124,70 +126,9 @@ function moveEverything() {
 
 	// disabling bc the mouse is going to hit the ball 
 	//Chris: bring back, and it'll work on the walls too. 
-	ballX = ballX + ballSpeedX;
-	ballY = ballY + ballSpeedY;
+	ballOne.move();
 
 	
-	if(ballX < 0) {
-		if(ballY > paddle1Y &&
-			ballY < paddle1Y+PADDLE_HEIGHT) {
-			ballSpeedX = -ballSpeedX;
-
-			var deltaY = ballY
-					-(paddle1Y+PADDLE_HEIGHT/2);
-			ballSpeedY = deltaY * 0.35;
-		} else {
-			player2Score++; // must be BEFORE ballReset()
-			ballReset();
-		}
-	}
-	//BELOW IS RIGHT SIDE COLLISION
-	//puck bounces off top right rail
-	if(ballY < (canvas.height/2)-(GOAL_POST_SIZE/2) && ballX > canvas.width-railThickness){
-		console.log('puck bounced off rail');
-		ballSpeedX = -ballSpeedX;
-	}
-	//puck bounces off bottom right rail
-	if(ballY > (canvas.height/2)+(GOAL_POST_SIZE/2) && ballX > canvas.width-railThickness){
-		console.log('puck bounced off rail');
-		ballSpeedX = -ballSpeedX;
-	}
-	//puck enters right goal
-	if(ballY > (canvas.height/2)-(GOAL_POST_SIZE/2) &&
-	   ballY < (canvas.height/2)+(GOAL_POST_SIZE/2) &&
-	   ballX > canvas.width){
-		console.log('player 1 scores!');
-		ballReset();	
-	}
-
-
-	//BELOW IS LEFT SIDE COLLISION
-	//puck bounces off top left rail
-	if(ballY < (canvas.height/2)-(GOAL_POST_SIZE/2) && ballX < railThickness){
-		console.log('puck bounced off rail');
-		ballSpeedX = -ballSpeedX;
-	}
-
-	//puck bounces off bottom right rail
-	if(ballY > (canvas.height/2)+(GOAL_POST_SIZE/2) && ballX < railThickness){
-		console.log('puck bounced off rail');
-		ballSpeedX = -ballSpeedX;
-	}
-	//puck enters right goal
-	if(ballY > (canvas.height/2)-(GOAL_POST_SIZE/2) &&
-	   ballY < (canvas.height/2)+(GOAL_POST_SIZE/2) &&
-	   ballX < 0){
-		console.log('player 2 scores!');
-		ballReset();	
-	}
-
-
-	if(ballY < railThickness + RAIL_COLLIDER) {
-		ballSpeedY = -ballSpeedY;
-	}
-	if(ballY > canvas.height - railThickness - RAIL_COLLIDER) {
-		ballSpeedY = -ballSpeedY;
-	}
 }
 
 function drawEverything() {
@@ -206,7 +147,7 @@ function drawEverything() {
 	colorRect(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE, railColor, 45);	
 
 	// next line draws the puck
-	colorCircle(ballX, ballY, 30, puckColor);
+	colorCircle(ballOne.x, ballOne.y, 30, puckColor);
 
 	drawUI();
 }
