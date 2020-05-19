@@ -1,6 +1,7 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .94;
+const BALL_SPEED_DECAY_MULT = .94
+
 
 function ballClass() {
     this.x = 500;
