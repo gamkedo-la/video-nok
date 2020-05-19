@@ -1,0 +1,23 @@
+function colorCircle(centerX, centerY, radius, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+	canvasContext.fill();
+}
+
+function strokeCircle(centerX, centerY, radius, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+	canvasContext.lineWidth = 5;
+	canvasContext.strokeStyle = 'white';
+	canvasContext.stroke();
+}
+
+function colorRect(leftX,topY, width,height, drawColor, rotation=0) {
+	canvasContext.save();
+	canvasContext.fillStyle = drawColor;
+	canvasContext.fillRect(leftX,topY, width,height);
+	canvasContext.rotate(45);
+	canvasContext.restore();
+}
