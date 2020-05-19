@@ -1,10 +1,12 @@
+var blue = '#6dcff6';
+
 function ballClass() {
     this.x = 500;
     this.y = 333;
     this.velX = 0;
     this.velY = 0;
 	this.size = 30;
-	this.color = "blue";
+	this.color = blue;
 
     this.ballReset = function() {
         if (player1Score >= WINNING_SCORE ||
@@ -27,7 +29,7 @@ function ballClass() {
             if (this.y > paddle1Y &&
                 this.y < paddle1Y + PADDLE_HEIGHT) {
 
-                var deltaY = ballY - (paddle1Y + PADDLE_HEIGHT / 2);
+                var deltaY = this.y - (paddle1Y + PADDLE_HEIGHT / 2);
                 this.velX = -this.velX;
 
                 this.velY = deltaY * 0.35;
@@ -78,7 +80,6 @@ function ballClass() {
             player1Score++;
             this.ballReset();
         }
-
 
         if (this.y < railThickness + RAIL_COLLIDER) {
             this.velY = -this.velY;

@@ -1,7 +1,7 @@
 var canvas;
 var canvasContext;
 
-var blue = '#6dcff6';
+
 
 var shooting = false;
 var shootStart;
@@ -101,7 +101,7 @@ function computerMovement() {
 
 function moveEverything() {
 	if(showingWinScreen) {
-		return;
+		//return;
 	}
 
 	//computerMovement();
