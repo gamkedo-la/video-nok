@@ -1,5 +1,7 @@
 var blue = '#6dcff6';
 
+const BALL_SPEED_DECAY_MULT = .94;
+
 function ballClass() {
     this.x = 500;
     this.y = 333;
@@ -23,6 +25,9 @@ function ballClass() {
     this.move = function() {
         this.x = this.x + this.velX;
         this.y = this.y + this.velY;
+        
+        this.velX *= BALL_SPEED_DECAY_MULT;
+        this.velY *= BALL_SPEED_DECAY_MULT;
 
         //check if ball is left of canvas boundary or paddle hit the ball
         if (this.x < 0) {
