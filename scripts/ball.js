@@ -13,15 +13,9 @@ function ballClass() {
 	this.color = blue;
 
     this.ballReset = function() {
-        if (player1Score >= WINNING_SCORE ||
-            player2Score >= WINNING_SCORE) {
-
-            showingWinScreen = true;
-
-            this.velX = -this.velX;
-            this.x = canvas.width / 2;
-            this.y = canvas.height / 2;
-        }
+        this.velX = -this.velX;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
     }
 
     this.move = function() {
@@ -41,8 +35,8 @@ function ballClass() {
 
                 this.velY = deltaY * 0.35;
             } else {
-                player2Score++;
                 this.ballReset();
+                scoreManager.add(1, 1);// Player 2 scores
             }
         }
 
@@ -70,8 +64,8 @@ function ballClass() {
         if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width) {
-            player1Score++;
             this.ballReset();
+            scoreManager.add(0, 1); //Player 1 scores
         }
 
         //puck bounces off top left rail
@@ -100,8 +94,8 @@ function ballClass() {
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x < 0) {
 
-            player1Score++;
             this.ballReset();
+            scoreManager.add(0, 1);
         }
 
         // puck bounces off top rail
@@ -122,6 +116,18 @@ function ballClass() {
             */
         }
     }
+	
+	this.checkForCollisions = function(objectX, objectY, objectHeight, objectWidth){
+		if(	this.x > objectX && this.x < objectX + objectWidth &&
+			this.y > objectY && this.y < objectY + objectHeight){
+			
+			var deltaY = this.y - (objectY + objectHeight / 2);
+            this.velX = -this.velX;
+
+			this.velY = deltaY * 0.35;
+		}
+	}
+
 	
 	this.draw = function(){		
 		colorCircle(this.x, this.y, this.size, this.color);
