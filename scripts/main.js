@@ -120,6 +120,8 @@ function checkForCollisions(){
 	paddle2X = canvas.width-PADDLE_THICKNESS
 	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	// check for right goalie collision
+	ballOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOAL_POST_SIZE, GOAL_POST_SIZE);
 }
 
 
