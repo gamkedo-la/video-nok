@@ -3,7 +3,7 @@ var bgColor = '#713784';
 var railColor = '#f5989d';
 var railThickness = 30;
 const RAIL_COLLIDER = 15;
-const GOAL_POST_SIZE = 250; //it's 115 in the mock, making it larger to test for collision
+const GOAL_POST_SIZE = 115; //it's 115 in the mock, making it larger to test for collision
 const GOALIE_SIZE = 55;
 
 var paddle1Y = 250;

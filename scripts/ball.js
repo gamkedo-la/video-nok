@@ -1,6 +1,7 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .96;
+const BALL_SPEED_DECAY_MULT = .98;
+const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
 
 
 function ballClass() {
@@ -21,7 +22,7 @@ function ballClass() {
     this.move = function() {
         this.x = this.x + this.velX;
         this.y = this.y + this.velY;
-        
+
         this.velX *= BALL_SPEED_DECAY_MULT;
         this.velY *= BALL_SPEED_DECAY_MULT;
 
@@ -45,12 +46,20 @@ function ballClass() {
             this.x > canvas.width - railThickness) {
 
             this.velX = -this.velX;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
         //check if ball bounces off bottom right rail
         if (this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width - railThickness) {
 
             this.velX = -this.velX;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
         //puck enters right goal
         if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
@@ -65,6 +74,10 @@ function ballClass() {
             this.x < railThickness) {
 
             this.velX = -this.velX;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
 
         //puck bounces off bottom right rail
@@ -72,8 +85,12 @@ function ballClass() {
             this.x < railThickness) {
 
             this.velX = -this.velX;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
-        //puck enters right goal
+        //puck enters left goal
         if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x < 0) {
@@ -82,11 +99,22 @@ function ballClass() {
             scoreManager.add(0, 1);
         }
 
+        // puck bounces off top rail
         if (this.y < railThickness + RAIL_COLLIDER) {
             this.velY = -this.velY;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
+
+        // puck bounces off bottom rail
         if (this.y > canvas.height - railThickness - RAIL_COLLIDER) {
             this.velY = -this.velY;
+            /*
+            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
+            */
         }
     }
 	
