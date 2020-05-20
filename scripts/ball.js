@@ -8,7 +8,8 @@ function ballClass() {
     this.y = 333;
     this.velX = 0;
     this.velY = 0;
-	this.size = 30;
+    this.shotVector = null;
+	this.radius = 30;
 	this.color = blue;
 
     this.ballReset = function() {
@@ -100,8 +101,23 @@ function ballClass() {
 		}
 	}
 
-	
+    this.hold = function(vector) {
+        let newShot = clampVector2(vector, 0, 200);
+        this.shotVector = newShot;
+    }
+
+    this.release = function() {
+        if (!this.shotVector) return;
+        this.velX = this.shotVector.x / -10;
+        this.velY = this.shotVector.y / -10;
+
+        this.shotVector = null
+    }
+    
 	this.draw = function(){		
-		colorCircle(this.x, this.y, this.size, this.color);
+        if (this.shotVector) {
+            colorLine(this.x, this.y, this.x + this.shotVector.x, this.y + this.shotVector.y, 2, 'white');
+        }
+        colorCircle(this.x, this.y, this.radius, this.color);
 	}
 }

@@ -21,3 +21,12 @@ function colorRect(leftX,topY, width,height, drawColor, rotation=0) {
 	canvasContext.rotate(45);
 	canvasContext.restore();
 }
+
+function colorLine(startX, startY, endX, endY, width, color) {
+	canvasContext.strokeStyle = color;
+	canvasContext.lineWidth = width;
+	canvasContext.beginPath();
+	canvasContext.moveTo(startX, startY);
+	canvasContext.lineTo(endX, endY);
+	canvasContext.stroke();
+}
