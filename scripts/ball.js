@@ -1,6 +1,6 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .98;
+const BALL_SPEED_DECAY_MULT = .90;
 const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
 
 
@@ -24,6 +24,17 @@ function ballClass() {
 
         this.velX *= BALL_SPEED_DECAY_MULT;
         this.velY *= BALL_SPEED_DECAY_MULT;
+
+        /*
+        if(this.velX < Math.abs(1) && this.velY < Math.abs(1)){
+            if(activePlayer == 1){
+                activePlayer = 2;
+            }
+            if(activePlayer == 2){
+                activePlayer = 1;
+            }
+        }
+        */
 
         //check if ball is left of canvas boundary or paddle hit the ball
         if (this.x < 0) {
@@ -65,6 +76,8 @@ function ballClass() {
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width) {
             this.ballReset();
+            //activePlayer = 1;
+            console.log(activePlayer);
             scoreManager.add(0, 1); //Player 1 scores
         }
 
@@ -95,6 +108,8 @@ function ballClass() {
             this.x < 0) {
 
             this.ballReset();
+            //activePlayer = 2;
+            console.log(activePlayer);
             scoreManager.add(0, 1);
         }
 

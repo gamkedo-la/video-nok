@@ -8,6 +8,7 @@ var shotVector = {};
 let scoreManager = new ScoreManager();
 
 var ballOne = new ballClass();
+var activePlayer = 1;
 
 function calculateMousePos(evt) {
 	var rect = canvas.getBoundingClientRect();
@@ -52,11 +53,22 @@ function handleMouseUp(evt){
 	if(shooting){
 		var shootEnd = calculateMousePos(evt);
 
-		ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x), 30), -30);
-		ballOne.velY = Math.max(Math.min((shootStart.y-shootEnd.y), 30), -30);
+		if(activePlayer == 1){
+			ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x), 30), -30);
+			ballOne.velY = Math.max(Math.min((shootStart.y-shootEnd.y), 30), -30);
+		}
+		//pretend this is an AI for right now. 
+
+		var randomFloat = Math.random() * 30;
+		console.log(randomFloat);
+
+		if(activePlayer == 2){
+			ballOne.velX = Math.max(Math.min(randomFloat, 30), -30);
+			ballOne.velY = Math.max(Math.min(randomFloat, 30), -30);
+		}
 
 		// for debugging: outputs vector to be applied to the puck
-		console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
+		//console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
 		
 	} // end check if shooting
 	if (scoreManager.winner) resetGame();
@@ -84,6 +96,9 @@ window.onload = function() {
 			paddle1X = mousePos.x;
 			paddle1Y = mousePos.y;
 			*/
+			//display mouse coords
+			//canvasContext.fillText("x: " + mousePos.x + ", y:" + mousePos.y, mousePos.x, mousePos.y);
+			
 		});
 }
 
@@ -106,12 +121,7 @@ function moveEverything() {
 		//return;
 	}
 
-	//computerMovement();
-
-	// disabling bc the mouse is going to hit the ball 
-	//Chris: bring back, and it'll work on the walls too. 
 	ballOne.move();
-
 	
 }
 
@@ -121,7 +131,7 @@ function checkForCollisions(){
 	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	// check for right goalie collision
-	ballOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOAL_POST_SIZE, GOAL_POST_SIZE);
+	//ballOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOAL_POST_SIZE, GOAL_POST_SIZE);
 }
 
 
@@ -180,6 +190,7 @@ function drawUI() {
 	canvasContext.fillText(scoreManager.scores[0], 100, 100, 300);
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-100, 100);
 
+	canvasContext.fillText('active player is: ' + activePlayer, 350, 450);
 	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
 	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);	
