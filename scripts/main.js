@@ -58,8 +58,8 @@ function handleMouseUp(evt){
 	if(shooting){
 		var shootEnd = calculateMousePos(evt);
 
-		ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10);
-		ballOne.velY = Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10);
+		ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x), 30), -30);
+		ballOne.velY = Math.max(Math.min((shootStart.y-shootEnd.y), 30), -30);
 
 		// for debugging: outputs vector to be applied to the puck
 		console.log('vector applied to puck: x:' + Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10) + ', y:' + Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10))
