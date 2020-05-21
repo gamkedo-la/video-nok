@@ -33,29 +33,17 @@ function handleMouseMove(evt) {
 
 function handleMouseUp(evt){
 	if(shooting){
-		let shootEnd = calculateMousePos(evt);
+		if(activePlayer == 1){
+			let shootEnd = calculateMousePos(evt);
 
-		let launchX = shootEnd.x - ballOne.x;
-		let launchY = shootEnd.y - ballOne.y;
-		//ballOne.velX = Math.max(Math.min((shootStart.x-shootEnd.x)/5, 10), -10);
-		//ballOne.velY = Math.max(Math.min((shootStart.y-shootEnd.y)/5, 10), -10);
-
-		//pretend this is an AI for right now. 
-
-		/*
-		var randomFloat = Math.random() * 30;
-		console.log(randomFloat);
-
-		if(activePlayer == 2){
-			ballOne.velX = Math.max(Math.min(randomFloat, 30), -30);
-			ballOne.velY = Math.max(Math.min(randomFloat, 30), -30);
+			let launchX = shootEnd.x - ballOne.x;
+			let launchY = shootEnd.y - ballOne.y;
+			
+			ballOne.hold({x: launchX, y: launchY});
+			ballOne.release();
+	
+			shooting = false;
 		}
-		*/
-
-		ballOne.hold({x: launchX, y: launchY});
-		ballOne.release();
-
-		shooting = false;
 	} // end check if shooting
 	if (scoreManager.winner) resetGame();
 
