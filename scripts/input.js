@@ -49,28 +49,11 @@ function handleMouseUp(evt){
 	if(activePlayer == 2){
 		if(shooting){
 			
-			var randomFloat = Math.random();
-			var randomFloat2 = Math.random();
-			var posNeg1;
-			var posNeg2;
+			var randomAngle = Math.random() * Math.PI * 2.0; //in radians //a full circle of range 
+			var randomSpeed = Math.random() * 80.0 + 40.0; //min and randomized range, at least 4, up to 12 
 
-			if(randomFloat > .5){
-				posNeg1 = 1
-			}
-			else {
-				posNeg1 = -1
-			}
-
-			if(randomFloat2 > .5){
-				posNeg2 = 1
-			}
-			else {
-				posNeg2 = -1
-			}
-
-
-			let launchX = randomFloat * 300 * posNeg1;
-			let launchY = randomFloat2 * 300 * posNeg2;
+			let launchX = Math.cos(randomAngle) * randomSpeed;
+			let launchY = Math.sin(randomAngle) * randomSpeed;
 			
 			ballOne.hold({x: launchX, y: launchY});
 			ballOne.release();
