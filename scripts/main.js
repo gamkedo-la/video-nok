@@ -58,6 +58,7 @@ function drawEverything() {
 	drawPaddles();
 	ballOne.draw();
 	drawUI();
+	touch.draw();
 }
 
 function drawBackground() {
