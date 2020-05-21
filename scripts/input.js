@@ -45,6 +45,40 @@ function handleMouseUp(evt){
 			shooting = false;
 		} // end check if shooting
 	}
+
+	if(activePlayer == 2){
+		if(shooting){
+			
+			var randomFloat = Math.random();
+			var randomFloat2 = Math.random();
+			var posNeg1;
+			var posNeg2;
+
+			if(randomFloat > .5){
+				posNeg1 = 1
+			}
+			else {
+				posNeg1 = -1
+			}
+
+			if(randomFloat2 > .5){
+				posNeg2 = 1
+			}
+			else {
+				posNeg2 = -1
+			}
+
+
+			let launchX = randomFloat * 300 * posNeg1;
+			let launchY = randomFloat2 * 300 * posNeg2;
+			
+			ballOne.hold({x: launchX, y: launchY});
+			ballOne.release();
+	
+			shooting = false;
+			console.log('vector: x:' + launchX + ' y:' + launchY);
+		} // end check if shooting
+	}
 	if (scoreManager.winner) resetGame();
 
 } // end handleMouseUp()

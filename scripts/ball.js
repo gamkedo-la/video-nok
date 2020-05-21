@@ -1,6 +1,6 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .90;
+const BALL_SPEED_DECAY_MULT = .96;
 const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
 
 
