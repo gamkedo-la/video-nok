@@ -29,9 +29,11 @@ function drawPaddles(){
 	//colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
 }
 
+/*
 function drawStick(position, origin){
 	this.canvasContext.save();
 	this.canvasContext.translate(position.x, position.y);
 	//attempt to use ColorRect
 	colorRect(paddle1X,paddle1Y,PADDLE_HEIGHT,PADDLE_THICKNESS,'white');
 }
+*/

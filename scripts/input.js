@@ -1,32 +1,31 @@
+var AIdebugPosShotToggle = false;
+var mouseX = 0;
+var mouseY = 0;
+
 function initInput() {
     canvas.addEventListener('mousedown', handleMouseDown);
 	canvas.addEventListener('mouseup', handleMouseUp);
-
 	canvas.addEventListener('mousemove', handleMouseMove);
 }
 
 function calculateMousePos(evt) {
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	var mouseY = evt.clientY - rect.top - root.scrollTop;
-	return {
-		x:mouseX,
-		y:mouseY
-	};
+	mouseX = evt.clientX - rect.left - root.scrollLeft;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
 }
 
 function handleMouseDown(evt) {
-	let shootStart = calculateMousePos(evt);
+	let shootStart = {x: mouseX, y: mouseY};
 	if (pointInCircle(shootStart, ballOne)) {
         shooting = true;
 	}
 }
 
 function handleMouseMove(evt) {
+	calculateMousePos(evt);
     if (shooting) {
-        let mouse = calculateMousePos(evt);
-        let aim = {x: mouse.x - ballOne.x, y: mouse.y - ballOne.y};
+        let aim = {x: mouseX - ballOne.x, y: mouseY - ballOne.y};
         ballOne.hold(aim);
     }
 }
@@ -34,10 +33,9 @@ function handleMouseMove(evt) {
 function handleMouseUp(evt){
 	if(activePlayer == 1){
 		if(shooting){
-			let shootEnd = calculateMousePos(evt);
 	
-			let launchX = shootEnd.x - ballOne.x;
-			let launchY = shootEnd.y - ballOne.y;
+			let launchX = mouseX - ballOne.x;
+			let launchY = mouseY - ballOne.y;
 			
 			ballOne.hold({x: launchX, y: launchY});
 			ballOne.release();
@@ -46,9 +44,8 @@ function handleMouseUp(evt){
 		} // end check if shooting
 	}
 
-	if(activePlayer == 2){
-		if(shooting){
-			
+	if(activePlayer == 2){			
+		if(AIdebugPosShotToggle){
 			var randomAngle = Math.random() * Math.PI * 2.0; //in radians //a full circle of range 
 			var randomSpeed = Math.random() * 80.0 + 40.0; //min and randomized range, at least 4, up to 12 
 
@@ -59,8 +56,14 @@ function handleMouseUp(evt){
 			ballOne.release();
 	
 			shooting = false;
-			console.log('vector: x:' + launchX + ' y:' + launchY);
-		} // end check if shooting
+			console.log('vector: x:' + launchX + ' y:' + launchY);	
+		} else {
+			ballOne.x = mouseX;
+			ballOne.y = mouseY;
+			ballOne.velX = ballOne.velY = 0;
+
+		}
+		AIdebugPosShotToggle = !AIdebugPosShotToggle;
 	}
 	if (scoreManager.winner) resetGame();
 

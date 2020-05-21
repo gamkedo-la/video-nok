@@ -158,7 +158,7 @@ function ballClass() {
     }
     
 	this.draw = function(){		
-        if (this.shotVector) {
+        if (this.shotVector && activePlayer == 1) {
             colorLine(this.x, this.y, this.x + this.shotVector.x, this.y + this.shotVector.y, 2, 'white');
         }
         colorCircle(this.x, this.y, this.radius, this.color);
