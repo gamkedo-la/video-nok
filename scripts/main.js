@@ -5,7 +5,7 @@ var shooting = false;
 let scoreManager = new ScoreManager();
 
 var ballOne = new ballClass();
-var activePlayer = 2;
+var activePlayer = 1;
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');

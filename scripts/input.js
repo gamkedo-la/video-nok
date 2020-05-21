@@ -32,10 +32,10 @@ function handleMouseMove(evt) {
 }
 
 function handleMouseUp(evt){
-	if(shooting){
-		if(activePlayer == 1){
+	if(activePlayer == 1){
+		if(shooting){
 			let shootEnd = calculateMousePos(evt);
-
+	
 			let launchX = shootEnd.x - ballOne.x;
 			let launchY = shootEnd.y - ballOne.y;
 			
@@ -43,8 +43,8 @@ function handleMouseUp(evt){
 			ballOne.release();
 	
 			shooting = false;
-		}
-	} // end check if shooting
+		} // end check if shooting
+	}
 	if (scoreManager.winner) resetGame();
 
 } // end handleMouseUp()
