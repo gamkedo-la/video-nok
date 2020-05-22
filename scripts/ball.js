@@ -14,7 +14,8 @@ function ballClass() {
 	this.color = blue;
 
     this.ballReset = function() {
-        this.velX = -this.velX;
+        this.velX = 0;
+        this.velY = 0;
         this.x = canvas.width / 2;
         this.y = canvas.height / 2;
     }
@@ -23,11 +24,34 @@ function ballClass() {
         this.x = this.x + this.velX;
         this.y = this.y + this.velY;
 
-        this.velX *= BALL_SPEED_DECAY_MULT;
-        this.velY *= BALL_SPEED_DECAY_MULT;
+        //if(this.velX > .05 || this.velX < -.05){
+            //console.log(this.velX);
+            //console.log(activePlayer);
+            this.velX *= BALL_SPEED_DECAY_MULT;
+            this.velY *= BALL_SPEED_DECAY_MULT;
+            /*
+            if(activePlayer == 1){
+                console.log(activePlayer);
+                activePlayer = 2;
+            }
+            if(activePlayer == 2){
+                activePlayer = 1;
+            }
+            */
+        //}
 
+
+        // I think this was your check for if the puck is stopped. 
+        //this.velX < Math.abs(1) && this.velY < Math.abs(1) //saving this line, you wanna check velX and velY likely
+        //going to just try VelX with a range rn
+
+        //if puckSpeed is > -(.005) and < .005 we can consider it not moving. bc checking for == 0 is just skipping over it. 
+        //this still isn't working, going to just flip it on a shot being taken,
+        //commenting this out for rn
+        
         /*
-        if(this.velX < Math.abs(1) && this.velY < Math.abs(1)){
+        console.log(this.velX);
+        if(this.velX < .05 || this.velX > -.05){
             if(activePlayer == 1){
                 activePlayer = 2;
             }
@@ -77,7 +101,7 @@ function ballClass() {
             this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width) {
             this.ballReset();
-            //activePlayer = 1;
+            activePlayer = 2;
             console.log(activePlayer);
             scoreManager.add(0, 1); //Player 1 scores
         }
@@ -109,7 +133,7 @@ function ballClass() {
             this.x < 0) {
 
             this.ballReset();
-            //activePlayer = 2;
+            activePlayer = 1;
             console.log(activePlayer);
             scoreManager.add(0, 1);
         }

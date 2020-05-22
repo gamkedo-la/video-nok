@@ -42,12 +42,13 @@ function handleMouseUp(evt){
 			
 			ballOne.hold({x: launchX, y: launchY});
 			ballOne.release();
+			console.log(activePlayer);
 	
 			shooting = false;
 		} // end check if shooting
 	}
 
-	if(activePlayer == 2){	
+	if(activePlayer == 2){	//&& vel != 0 
 		AIMove();
 		AIdebugPosShotToggle = !AIdebugPosShotToggle;
 	} // end check if activePlayer == 2
