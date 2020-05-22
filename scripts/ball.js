@@ -2,64 +2,35 @@ var blue = '#6dcff6';
 
 const BALL_SPEED_DECAY_MULT = .98;
 const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
+const BALL_FRICTION = 0.3;
 
+class Ball {
+    constructor() {
+        this.position = new Vector2(500, 333);
+        this.velocity = new Vector2(0, 0);
+        this.shotVector = null;
+        this.inPlay = false;
+        this.radius = 30;
+        this.color = blue;
+    }
 
-function ballClass() {
-    this.x = 500;
-    this.y = 333;
-    this.velX = 0;
-    this.velY = 0;
-    this.shotVector = null;
-	this.radius = 30;
-	this.color = blue;
-
-    this.ballReset = function() {
+    ballReset() {
         this.velX = 0;
         this.velY = 0;
         this.x = canvas.width / 2;
         this.y = canvas.height / 2;
     }
 
-    this.move = function() {
-        this.x = this.x + this.velX;
-        this.y = this.y + this.velY;
+    move() {
+        this.velocity.length -= BALL_FRICTION;
 
-        //if(this.velX > .05 || this.velX < -.05){
-            //console.log(this.velX);
-            //console.log(activePlayer);
-            this.velX *= BALL_SPEED_DECAY_MULT;
-            this.velY *= BALL_SPEED_DECAY_MULT;
-            /*
-            if(activePlayer == 1){
-                console.log(activePlayer);
-                activePlayer = 2;
-            }
-            if(activePlayer == 2){
-                activePlayer = 1;
-            }
-            */
-        //}
+        this.x += this.velX;
+        this.y += this.velY;
 
-
-        // I think this was your check for if the puck is stopped. 
-        //this.velX < Math.abs(1) && this.velY < Math.abs(1) //saving this line, you wanna check velX and velY likely
-        //going to just try VelX with a range rn
-
-        //if puckSpeed is > -(.005) and < .005 we can consider it not moving. bc checking for == 0 is just skipping over it. 
-        //this still isn't working, going to just flip it on a shot being taken,
-        //commenting this out for rn
-        
-        /*
-        console.log(this.velX);
-        if(this.velX < .05 || this.velX > -.05){
-            if(activePlayer == 1){
-                activePlayer = 2;
-            }
-            if(activePlayer == 2){
-                activePlayer = 1;
-            }
+        if (this.inPlay && this.velocity.length <= 0) {
+            activePlayer = activePlayer === 1 ? 2 : 1;
+            this.inPlay = false;
         }
-        */
 
         //check if ball is left of canvas boundary or paddle hit the ball
         if (this.x < 0) {
@@ -157,7 +128,7 @@ function ballClass() {
         }
     }
 	
-	this.checkForCollisions = function(objectX, objectY, objectHeight, objectWidth){
+	checkForCollisions(objectX, objectY, objectHeight, objectWidth){
 		if(	this.x > objectX && this.x < objectX + objectWidth &&
 			this.y > objectY && this.y < objectY + objectHeight){
 			
@@ -168,23 +139,55 @@ function ballClass() {
 		}
 	}
 
-    this.hold = function(vector) {
+    hold(vector) {
+        if (this.inPlay) return;
         let newShot = clampVector2(vector, 0, 200);
         this.shotVector = newShot;
     }
 
-    this.release = function() {
+    release() {
         if (!this.shotVector) return;
-        this.velX = this.shotVector.x / -10;
-        this.velY = this.shotVector.y / -10;
-
-        this.shotVector = null
+        this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
+        this.shotVector = null;
+        this.inPlay = true;
     }
     
-	this.draw = function(){		
+	draw(){		
         if (this.shotVector && activePlayer == 1) {
             colorLine(this.x, this.y, this.x + this.shotVector.x, this.y + this.shotVector.y, 2, 'white');
         }
         colorCircle(this.x, this.y, this.radius, this.color);
-	}
+    }
+    
+    get x() {
+        return this.position.x;
+    }
+
+    get y() {
+        return this.position.y;
+    }
+
+    get velX() {
+        return this.velocity.x;
+    }
+
+    get velY() {
+        return this.velocity.y;
+    }
+
+    set x(newX) {
+        this.position.x = newX;
+    }
+
+    set y(newY) {
+        this.position.y = newY;
+    }
+
+    set velX(vx) {
+        this.velocity.x = vx;
+    }
+
+    set velY(vy) {
+        this.velocity.y = vy;
+    }
 }

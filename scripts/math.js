@@ -74,3 +74,41 @@ function subtractAbsValPoints(point1, point2){
 		y: yDiff
 	}
 }
+
+class Vector2 {
+    constructor(x, y) {
+        this.x = x || 0;
+        this.y = y || 0;
+    }
+
+    clamp(min, max) {
+        let magnitude = this.length;
+        if (magnitude < min) {
+            //A negative value would flip the vector direction
+            this.length = min > 0 ? min : 0;
+        } else if (magnitude > max) {
+            this.length = max;
+        }
+    }
+
+    get length() {
+        if (this.x === 0 && this.y === 0) return 0;
+        return Math.hypot(this.x, this.y);
+    }
+
+    set length(scalar) {
+        if (scalar <= 0) {
+            this.x = 0;
+            this.y = 0;
+        } else {
+            let unit = this.normalize();
+            this.x = unit.x * scalar;
+            this.y = unit.y * scalar;
+        }
+    }
+
+    normalize() {
+        let magnitude = this.length;
+        return new Vector2(this.x / magnitude, this.y / magnitude);
+    }
+}
