@@ -25,15 +25,6 @@ function resetGame() {
 	ballOne.ballReset();
 }
 
-function computerMovement() {
-	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
-	if(paddle2YCenter < ballOne.x - 35) {
-		paddle2Y = paddle2Y + 6;
-	} else if(paddle2YCenter > ballOne.y + 35) {
-		paddle2Y = paddle2Y - 6;
-	}
-}
-
 function moveEverything() {
 	if(scoreManager.winner) {
 		//return;
