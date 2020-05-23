@@ -15,6 +15,7 @@ class Ball {
     }
 
     ballReset() {
+        this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
         this.x = canvas.width / 2;
@@ -105,7 +106,6 @@ class Ball {
 
             this.ballReset();
             activePlayer = 1;
-            console.log(activePlayer);
             scoreManager.add(1, 1);
         }
 

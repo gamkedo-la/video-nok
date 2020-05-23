@@ -97,10 +97,15 @@ function drawUI() {
 		return;
 	}
 
-	canvasContext.fillText(scoreManager.scores[0], 100, 100, 300);
-	canvasContext.fillText(scoreManager.scores[1], canvas.width-100, 100);
+	canvasContext.save()
+	canvasContext.font = '160px Arial';
+	canvasContext.textAlign = 'center';
+	canvasContext.fillStyle = activePlayer === 1 ? 'white' : blue;
+	canvasContext.fillText(scoreManager.scores[0], 120, 200, 300);
+	canvasContext.fillStyle = activePlayer === 2 ? 'white' : blue;
+	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
+	canvasContext.restore();
 
-	canvasContext.fillText('active player is: ' + activePlayer, 350, 450);
 	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
 	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);	
