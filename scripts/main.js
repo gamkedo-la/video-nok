@@ -90,7 +90,7 @@ function drawUI() {
 	if(scoreManager.winner) {
 		canvasContext.fillStyle = 'white';
 
-		let winName = scoreManager.winner === 0 ? 'Left Player' : 'Right Player';
+		let winName = scoreManager.winner === 1 ? 'Left Player' : 'Right Player';
 		canvasContext.fillText(winName + ' Won', 350, 200);
 
 		canvasContext.fillText("click to continue", 350, 500);

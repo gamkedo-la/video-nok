@@ -106,7 +106,7 @@ class Ball {
             this.ballReset();
             activePlayer = 1;
             console.log(activePlayer);
-            scoreManager.add(0, 1);
+            scoreManager.add(1, 1);
         }
 
         // puck bounces off top rail
