@@ -142,7 +142,7 @@ class Ball {
     hold(vector) {
         if (this.inPlay) return;
         let newShot = clampVector2(vector, 0, 200);
-        this.shotVector = newShot;
+        this.shotVector = new Vector2(newShot.x, newShot.y);
     }
 
     release() {
@@ -153,8 +153,20 @@ class Ball {
     }
     
 	draw(){		
-        if (this.shotVector && activePlayer == 1) {
-            colorLine(this.x, this.y, this.x + this.shotVector.x, this.y + this.shotVector.y, 2, 'white');
+        if (this.shotVector) {
+            let start = this.shotVector.rotate(Math.PI/2).normalize(),
+                weight = this.shotVector.length / 200,
+                width = lerp (0, this.radius, smoothStop(weight));
+            
+            let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
+            smoothShot.length = lerp(0, 200, smoothStart(weight));
+
+            canvasContext.fillStyle = 'white';
+            canvasContext.beginPath();
+            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+            canvasContext.fill();
         }
         colorCircle(this.x, this.y, this.radius, this.color);
     }

@@ -111,4 +111,23 @@ class Vector2 {
         let magnitude = this.length;
         return new Vector2(this.x / magnitude, this.y / magnitude);
     }
+
+    rotate(angle) {
+        let x = this.x * Math.cos(angle) - this.y * Math.sin(angle),
+            y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+             
+        return new Vector2(x, y);
+    }
+}
+
+function lerp (start, end, weight) {
+    return (1 - weight) * start + weight * end;
+}
+
+function smoothStart(weight) {
+    return weight * weight;
+}
+
+function smoothStop(weight) {
+    return 1 - (1-weight) * (1-weight);
 }
