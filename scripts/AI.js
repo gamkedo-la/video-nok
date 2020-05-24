@@ -1,7 +1,8 @@
-function AIMove(){	
-    if(AIdebugPosShotToggle){
+function aiControl() {
+    if (input.clicked()) {
         var aimAtX = 0;
         var aimAtY = -canvas.height/2 //negative world (-)
+
         if(Math.random() < 0.5){
             aimAtY = 1.5 * canvas.height;
         }
@@ -23,11 +24,11 @@ function AIMove(){
 
         shooting = false;
         console.log('vector: x:' + launchX + ' y:' + launchY);	
-    }  
-    else {
-        ballOne.x = mouseX;
-        ballOne.y = mouseY;
-        ballOne.velX = ballOne.velY = 0;
+    } 
 
+    if (input.mouse.mouseClicked(2)) {
+        ballOne.x = input.mouseX;
+        ballOne.y = input.mouseY;
+        ballOne.velX = ballOne.velY = 0;
     } 
 }

@@ -26,12 +26,12 @@ function resetGame() {
 }
 
 function moveEverything() {
-	if(scoreManager.winner) {
-		//return;
-	}
+	input.update()
+
+	if (activePlayer === 1) playerControl();
+	else if (activePlayer === 2) aiControl();
 
 	ballOne.move();
-	
 }
 
 function checkForCollisions(){
@@ -49,7 +49,7 @@ function drawEverything() {
 	drawPaddles();
 	ballOne.draw();
 	drawUI();
-	touch.draw();
+	input.touch.draw();
 }
 
 function drawBackground() {

@@ -1,65 +1,159 @@
-var AIdebugPosShotToggle = false;
-var mouseX = 0;
-var mouseY = 0;
-let touch;
+let input, touch;
 
 function initInput() {
-    canvas.addEventListener('mousedown', handleMouseDown);
-	canvas.addEventListener('mouseup', handleMouseUp);
-	canvas.addEventListener('mousemove', handleMouseMove);
-	touch = new TouchManager(canvas);
-	touch.init();
+	input = new Input(canvas);
+	input.init();
 }
 
-function calculateMousePos(evt) {
-	var rect = canvas.getBoundingClientRect();
-	var root = document.documentElement;
-	mouseX = evt.clientX - rect.left - root.scrollLeft;
-	mouseY = evt.clientY - rect.top - root.scrollTop;
-}
-
-function handleMouseDown(evt) {
-	let shootStart = {x: mouseX, y: mouseY};
-	if (pointInCircle(shootStart, ballOne)) {
-        shooting = true;
+function playerControl() {
+	if (!shooting && input.clicked() && pointInCircle(input.mouse.position, ballOne)) {
+		shooting = true;
 	}
-}
-
-function handleMouseMove(evt) {
-	calculateMousePos(evt);
-    if (shooting) {
-        let aim = {x: mouseX - ballOne.x, y: mouseY - ballOne.y};
-        ballOne.hold(aim);
-    }
-}
-
-function handleMouseUp(evt){
-	if(activePlayer == 1){
-		if(shooting){
 	
-			let launchX = mouseX - ballOne.x;
-			let launchY = mouseY - ballOne.y;
-			
-			ballOne.hold({x: launchX, y: launchY});
+	if (shooting) {
+		if (input.mouse.mouseHeld(0)) {
+			let aim = {x: input.mouseX - ballOne.x, y: input.mouseY - ballOne.y};
+			ballOne.hold(aim);
+		}
+		
+		if (input.released()) {
+			console.log('released');
 			ballOne.release();
-			console.log(activePlayer);
-	
 			shooting = false;
-		} // end check if shooting
+		}
+	}
+	
+	if (scoreManager.winner) resetGame();
+}
+
+class Input {
+	constructor (target) {
+		this.mouse = new Mouse(target);
+		this.touch = new TouchManager(target)
 	}
 
-	if(activePlayer == 2){	//&& vel != 0 
-		AIMove();
-		AIdebugPosShotToggle = !AIdebugPosShotToggle;
-	} // end check if activePlayer == 2
-	if (scoreManager.winner) resetGame();
+	init() {
+		this.mouse.init();
+		this.touch.init();
+	}
 
-} // end handleMouseUp()
+	update() {
+		this.mouse.update(1);
+	}
 
+	clicked() {
+		return this.mouse.mouseClicked(0);
+	}
+
+	released() {
+		return this.mouse.mouseReleased(0);
+	}
+
+	get mouseX () {
+		return this.mouse.position.x;
+	}
+
+	get mouseY() {
+		return this.mouse.position.y;
+	}
+}
+
+class Mouse {
+	constructor(target) {
+		this.sensitivity = 1;
+		this.transitionTime = 2;//Number of frames/ticks that will as clicked/released
+		this.target = target ? target : window;
+		this.moveBuffer = { x: 0, y: 0 };
+		this.position = { x: 0, y: 0 };
+		this.buttonStates = [0, 0, 0];
+	}
+
+	init(target) {
+		if (target) this.target = target;
+		this.target.addEventListener("contextmenu", this.contextMenu.bind(this), false);
+		this.target.addEventListener("mousemove", this.moveMouse.bind(this), false);
+		this.target.addEventListener("mousedown", this.mouseDown.bind(this), false);
+		this.target.addEventListener("mouseup", this.mouseUp.bind(this), false);
+	}
+
+	enablePointerLock() {
+		this.target.onclick = () => { this.target.requestPointerLock(); }
+	}
+
+	get locked() {
+		return document.pointerLockElement === this.target;
+	}
+
+	contextMenu(evt) {
+		evt.preventDefault();
+	}
+
+	moveMouse(evt) {
+		if (this.locked) {
+			this.clearBuffer();
+			this.moveBuffer.x += evt.movementX;
+			this.moveBuffer.y += evt.movementY;
+		} else {
+			this.position = this.calculateMousePos(evt);
+		}
+	}
+
+	mouseDown(evt) {
+		if (this.buttonStates[evt.button] < 1) this.buttonStates[evt.button] = 1;
+	}
+
+	mouseUp(evt) {
+		if (this.buttonStates[evt.button] > -1) this.buttonStates[evt.button] = -1;
+	}
+
+	update(dt) {
+		for (let m = 0; m < this.buttonStates.length; m++) {
+			if (this.buttonStates[m] > 0 && this.buttonStates[m] <= 1 + this.transitionTime) this.buttonStates[m] += dt;
+			if (this.buttonStates[m] < 0 && this.buttonStates[m] >= 1 + -this.transitionTime) this.buttonStates[m] -= dt;
+		}
+	}
+
+	calculateMousePos(evt) {
+		const rect = this.target.getBoundingClientRect(),
+			root = document.documentElement;
+
+		let mX = evt.clientX - rect.left - root.scrollLeft,
+			mY = evt.clientY - rect.top - root.scrollTop;
+
+		return {
+			x: mX,
+			y: mY
+		};
+	}
+
+	clearBuffer() {
+		this.moveBuffer = {
+			x: 0,
+			y: 0
+		};
+	}
+
+	reset() {
+		this.clearBuffer();
+		this.buttonStates.fill(-1);
+	}
+
+	mouseClicked(button) {
+		return (this.buttonStates[button] > 0 && this.buttonStates[button] < 1 + this.transitionTime);
+	}
+
+	mouseReleased(button) {
+		return (this.buttonStates[button] < 0 && this.buttonStates[button] > -1 - this.transitionTime);
+	}
+
+	mouseHeld(button) {
+		return this.buttonStates[button] > 0;
+	}
+}
 
 class TouchManager {
-	constructor(element) {
-		this.target = element ? element : window;
+	constructor(target) {
+		this.target = target ? target : window;
 		this.currentTouches = [];
 		this.changedTouches = [];
 		this.init();

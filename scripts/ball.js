@@ -156,10 +156,10 @@ class Ball {
         if (this.shotVector) {
             let start = this.shotVector.rotate(Math.PI/2).normalize(),
                 weight = this.shotVector.length / 200,
-                width = lerp (0, this.radius, smoothStop(weight));
+                width = this.radius;
             
             let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
-            smoothShot.length = lerp(0, 200, smoothStart(weight));
+            smoothShot.length = lerp(0, 100, weight);
 
             canvasContext.fillStyle = 'white';
             canvasContext.beginPath();
