@@ -6,18 +6,17 @@ function initInput() {
 }
 
 function playerControl() {
-	if (!shooting && input.clicked() && pointInCircle(input.mouse.position, ballOne)) {
+	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, ballOne)) {
 		shooting = true;
 	}
 	
 	if (shooting) {
-		if (input.mouse.mouseHeld(0)) {
-			let aim = {x: input.mouseX - ballOne.x, y: input.mouseY - ballOne.y};
+		if (input.held()) {
+			let aim = {x: input.pointer.x - ballOne.x, y: input.pointer.y - ballOne.y};
 			ballOne.hold(aim);
 		}
 		
 		if (input.released()) {
-			console.log('released');
 			ballOne.release();
 			shooting = false;
 		}
@@ -28,6 +27,7 @@ function playerControl() {
 
 class Input {
 	constructor (target) {
+		this.pointer = null;
 		this.mouse = new Mouse(target);
 		this.touch = new TouchManager(target)
 	}
@@ -39,14 +39,27 @@ class Input {
 
 	update() {
 		this.mouse.update(1);
+		this.touch.update(1);
 	}
 
 	clicked() {
-		return this.mouse.mouseClicked(0);
+		if (this.mouse.mouseClicked(0)) {
+			this.pointer = this.mouse;
+			return true;
+		} else if (this.touch.justTouched()) {
+			this.pointer = this.touch;
+			return true;
+		}
+
+		return false;
+	}
+
+	held() {
+		return this.mouse.mouseHeld(0) || this.touch.touchHeld();
 	}
 
 	released() {
-		return this.mouse.mouseReleased(0);
+		return this.mouse.mouseReleased(0) || this.touch.touchReleased();
 	}
 
 	get mouseX () {
@@ -82,6 +95,14 @@ class Mouse {
 
 	get locked() {
 		return document.pointerLockElement === this.target;
+	}
+
+	get x() {
+		return this.position.x;
+	}
+
+	get y() {
+		return this.position.y;
 	}
 
 	contextMenu(evt) {
@@ -152,10 +173,12 @@ class Mouse {
 }
 
 class TouchManager {
-	constructor(target) {
-		this.target = target ? target : window;
+	constructor(element) {
+		this.target = element ? element : window;
+		this.position = {x: 0, y: 0};
+		this.transitionTime = 2;
+		this.endedTouches = [];
 		this.currentTouches = [];
-		this.changedTouches = [];
 		this.init();
 	}
 
@@ -163,71 +186,97 @@ class TouchManager {
 		return this.currentTouches.length > 0;
 	}
 
+	get x() {
+		return this.position.x;
+	}
+
+	get y() {
+		return this.position.y;
+	}
+
 	init() {
-		this.target.addEventListener('touchstart', handleTouchStart.bind(this));
-		this.target.addEventListener('touchmove', handleTouchMove.bind(this));
-		this.target.addEventListener('touchend', handleTouchEnd.bind(this));
+		this.target.addEventListener('touchstart', this.handleTouchStart.bind(this));
+		this.target.addEventListener('touchmove', this.handleTouchMove.bind(this));
+		this.target.addEventListener('touchend', this.handleTouchEnd.bind(this));
+	}
+
+	update(dt) {
+		if (this.currentTouches.length > 0) {
+			for (let touch of this.currentTouches) {
+				if (touch.lifetime <= this.transitionTime) touch.lifetime += dt;
+			}
+		}
+		for (let i = this.endedTouches.length - 1; i >= 0; i--) {
+			let touch = this.endedTouches[i];
+			if (touch.lifetime <= this.transitionTime) touch.lifetime += dt;
+			else this.endedTouches.splice(i, 1);
+		}
 	}
 
 	draw() {
 		for (let touch of this.currentTouches) {
-			colorCircle(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 25, 'white');
+			colorCircle(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 5, 'dimgrey');
 		}
 	}
-}
 
-function handleTouchStart(evt) {
-	evt.preventDefault();
-	for (let touch of evt.touches) {
-		this.currentTouches.push(copyTouch(touch));
-
-		if (scoreManager.winner) {
-			resetGame();
-		} else if (pointInCircle(calculateTouchPos(touch), ballOne)) {
-			shooting = true;
+	justTouched() {
+		if (this.currentTouches.length > 0) {
+			if (this.currentTouches.find(e => e.lifetime <= this.transitionTime)) return true;	
 		}
+		return false;
 	}
-}
 
-function handleTouchMove(evt) {
-	evt.preventDefault();
-	for (let touch of evt.changedTouches) {
-		for (let i = 0; i < this.currentTouches.length; i++) {
-			let current = this.currentTouches[i];
-			if (touch.identifier === current.identifier) {
-				this.currentTouches[i] = copyTouch(touch);
-				if (shooting) {
-					let mouse = calculateTouchPos(touch);
-					let aim = {x: mouse.x - ballOne.x, y: mouse.y - ballOne.y};
-					ballOne.hold(aim);
+	touchHeld() {
+		if (this.currentTouches.length > 0) return true;
+		return false;
+	}
+
+	touchReleased() {
+		if (this.endedTouches.length > 0) return true;
+		return false;
+	}
+
+	handleTouchStart(evt) {
+		evt.preventDefault();
+		for (let touch of evt.changedTouches) {
+			if (!this.currentTouches.find(e => e.identifier === touch.identifier)) {
+				let newTouch = copyTouch(touch);
+				newTouch.lifetime = 0;
+				this.currentTouches.push(newTouch);
+			}
+		}
+		this.position = this.calculateTouchPos(this.currentTouches[0]);
+	}
+	
+	handleTouchMove(evt) {
+		evt.preventDefault();
+		for (let touch of evt.changedTouches) {
+			let current = this.currentTouches.find(e => e.identifier === touch.identifier);
+			if (current) {
+				current.pageX = touch.pageX;
+				current.pageY = touch.pageY;
+			}
+		}
+		this.position = this.calculateTouchPos(this.currentTouches[0]);
+	}
+	
+	handleTouchEnd(evt) {
+		evt.preventDefault();
+		for (let touch of evt.changedTouches) {
+			for (let i = this.currentTouches.length-1; i >= 0; i--) {
+				let current = this.currentTouches[i];
+				if (touch.identifier === current.identifier) {
+					this.endedTouches.push(touch);
+					this.currentTouches.splice(i, 1);
+					touch.lifetime = 0;
 				}
 			}
 		}
 	}
-}
-
-function handleTouchEnd(evt) {
-	evt.preventDefault();
-	for (let touch of evt.changedTouches) {
-		for (let i = this.currentTouches.length-1; i >= 0; i--) {
-			let current = this.currentTouches[i];
-			if (touch.identifier === current.identifier) {
-				this.currentTouches.splice(i, 1);
-
-				if (shooting) {
-					let mouse = calculateTouchPos(touch);
-					let aim = {x: mouse.x - ballOne.x, y: mouse.y - ballOne.y};
-					ballOne.hold(aim);
-					ballOne.release();
-					shooting = false;
-				}
-			}
-		}
+	
+	calculateTouchPos(touch) {
+		return {x: touch.pageX - this.target.offsetLeft, y: touch.pageY - this.target.offsetTop}
 	}
-}
-
-function calculateTouchPos(touch) {
-	return {x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop}
 }
 
 function copyTouch({ identifier, pageX, pageY }) {

@@ -1,4 +1,11 @@
 function aiControl() {
+    if (input.mouse.mouseClicked(2) || input.touch.currentTouches.length + input.touch.endedTouches.length > 1) {
+        ballOne.x = input.pointer.x;
+        ballOne.y = input.pointer.y;
+        ballOne.velX = ballOne.velY = 0;
+        return;
+    }
+    
     if (input.clicked()) {
         var aimAtX = 0;
         var aimAtY = -canvas.height/2 //negative world (-)
@@ -24,11 +31,5 @@ function aiControl() {
 
         shooting = false;
         console.log('vector: x:' + launchX + ' y:' + launchY);	
-    } 
-
-    if (input.mouse.mouseClicked(2)) {
-        ballOne.x = input.mouseX;
-        ballOne.y = input.mouseY;
-        ballOne.velX = ballOne.velY = 0;
-    } 
+    }
 }
