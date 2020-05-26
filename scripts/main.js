@@ -29,7 +29,15 @@ function moveEverything() {
 	input.update()
 
 	if (activePlayer === 1) playerControl();
-	else if (activePlayer === 2) aiControl();
+	else if (activePlayer === 2){
+		
+		//below is a hacky way of skipping the comp's turn, comment out for player v comp to work normally
+		ballOne.shotVector = null;
+        ballOne.inPlay = true;
+		shooting = false;
+		//uncomment to actually let the computer have its turn
+		//aiControl();
+	} 
 
 	ballOne.move();
 }
@@ -39,6 +47,8 @@ function checkForCollisions(){
 	paddle2X = canvas.width-PADDLE_THICKNESS
 	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	// check for left goalie collision
+	ballOne.checkForCollisions((railThickness*3), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
 	// check for right goalie collision
 	ballOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
 }
