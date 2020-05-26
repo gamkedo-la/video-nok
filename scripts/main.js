@@ -32,11 +32,13 @@ function moveEverything() {
 	else if (activePlayer === 2){
 		
 		//below is a hacky way of skipping the comp's turn, comment out for player v comp to work normally
+		/*
 		ballOne.shotVector = null;
         ballOne.inPlay = true;
 		shooting = false;
+		*/
 		//uncomment to actually let the computer have its turn
-		//aiControl();
+		aiControl();
 	} 
 
 	ballOne.move();

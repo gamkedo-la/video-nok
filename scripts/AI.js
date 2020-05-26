@@ -6,6 +6,7 @@ function aiControl() {
         return;
     }
     
+    //maybe try tweaking these numbers first, from various court positions
     if (input.clicked()) {
         var aimAtX = 0;
         var aimAtY = -canvas.height/2 //negative world (-)

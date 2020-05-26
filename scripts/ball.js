@@ -2,7 +2,7 @@ var blue = '#6dcff6';
 
 const BALL_SPEED_DECAY_MULT = .98;
 const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
-const BALL_FRICTION = 0.3;
+const BALL_FRICTION = 0.10;
 
 class Ball {
     constructor() {
