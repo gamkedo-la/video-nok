@@ -130,7 +130,7 @@ class Mouse {
 	update(dt) {
 		for (let m = 0; m < this.buttonStates.length; m++) {
 			if (this.buttonStates[m] > 0 && this.buttonStates[m] <= 1 + this.transitionTime) this.buttonStates[m] += dt;
-			if (this.buttonStates[m] < 0 && this.buttonStates[m] >= 1 + -this.transitionTime) this.buttonStates[m] -= dt;
+			if (this.buttonStates[m] < 0 && this.buttonStates[m] >= -1 - this.transitionTime) this.buttonStates[m] -= dt;
 		}
 	}
 
