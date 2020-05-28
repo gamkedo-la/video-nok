@@ -169,9 +169,38 @@ class Ball {
             canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
             canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
             canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-            canvasContext.fill();
         }
         colorCircle(this.x, this.y, this.radius, this.color);
+    
+        if(this.shotVector && shotPredictionCheat){
+            var tempX = this.x;
+            var tempY = this.y;
+            var tempVelocity = this.velocity;
+            var tempVelX = this.velX;
+            var tempVelY = this.velY;
+            this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
+            var steps = 300;
+            canvasContext.globalAlpha = 0.1;
+            for(var i = 0; i < steps; i++){
+                this.velocity.length -= BALL_FRICTION;
+                this.x += this.velX;
+                this.y += this.velY;
+                this.checkBoundariesAndInvertVelocity();
+                if(i % 2 == 0){
+                    canvasContext.globalAlpha = 1.0 - i/steps;
+                    //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
+                    colorCircle(this.x, this.y, this.radius * .80 , 'lime');
+                }
+
+            }
+            canvasContext.globalAlpha = 1.0;
+            this.x = tempX;
+            this.y = tempY;
+            this.velocity = tempVelocity;
+            this.velX = tempVelX;
+            this.velY = tempVelY;
+
+        }
     }
     
     get x() {

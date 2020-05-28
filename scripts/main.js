@@ -1,6 +1,8 @@
 var canvas;
 var canvasContext;
 
+var shotPredictionCheat = true;
+
 var shooting = false;
 let scoreManager = new ScoreManager();
 
