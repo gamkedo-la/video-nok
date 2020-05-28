@@ -47,85 +47,88 @@ class Ball {
                 scoreManager.add(1, 1);// Player 2 scores
             }
         }
-
+        
         //check if ball hits the right paddle
         if (this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
             this.x > canvas.width - railThickness) {
 
             this.velX = -this.velX;
-            /*
+            
             this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
             this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
-        }
-        //check if ball bounces off bottom right rail
-        if (this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x > canvas.width - railThickness) {
-
-            this.velX = -this.velX;
-            /*
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
-        }
+            
+        } 
+        
+        this.checkBoundariesAndInvertVelocity();
+        
         //puck enters right goal
-        if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x > canvas.width) {
+        if (this.isInRightGoal()) {
             this.ballReset();
             activePlayer = 2;
             console.log(activePlayer);
             scoreManager.add(0, 1); //Player 1 scores
         }
 
-        //puck bounces off top left rail
-        if (this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.x < railThickness) {
-
-            this.velX = -this.velX;
-            /*
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
-        }
-
-        //puck bounces off bottom right rail
-        if (this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x < railThickness) {
-
-            this.velX = -this.velX;
-            /*
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
-        }
         //puck enters left goal
-        if (this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x < 0) {
+        if (this.isInLeftGoal()) {
 
             this.ballReset();
             activePlayer = 1;
             scoreManager.add(1, 1);
         }
+    }
 
-        // puck bounces off top rail
-        if (this.y < railThickness + RAIL_COLLIDER) {
-            this.velY = -this.velY;
-            /*
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
+    checkBoundariesAndInvertVelocity() {
+        if (this.isIntersectedWithTopRightWall() || this.isIntersectedWithBottomRightWall()) {
+            this.velX = -this.velX;
         }
+        if  (this.isIntersectedWithTopLeftWall() || this.isIntersectedWithBottomLeftWall()) {          
+            this.velX = -this.velX;
+        }
+        
+        if (this.isIntersectedWithTopWall() || this.isIntersectedWithBottomWall()) {
+            this.velY = -this.velY;
+        }
+    }
 
-        // puck bounces off bottom rail
-        if (this.y > canvas.height - railThickness - RAIL_COLLIDER) {
-            this.velY = -this.velY;
-            /*
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            */
-        }
+    isInRightGoal() {
+        return this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
+            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
+            this.x > canvas.width;
+    }
+
+    isInLeftGoal() {
+        return this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
+            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
+            this.x < 0;
+    }
+
+    isIntersectedWithTopRightWall() {
+        return this.y > 0 && this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
+            this.x + this.radius > canvas.width - railThickness;
+    }
+
+    isIntersectedWithBottomRightWall() {
+        return this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
+            this.x + this.radius > canvas.width - railThickness;
+    }
+
+    isIntersectedWithTopLeftWall() {
+        return this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
+            this.x - this.radius < railThickness;
+    }
+
+    isIntersectedWithBottomLeftWall() {
+        return this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) && this.y > canvas.height / 2 &&
+            this.x - this.radius < railThickness;
+    }
+
+    isIntersectedWithTopWall() {
+        return this.y - this.radius < railThickness + RAIL_COLLIDER;
+    }
+
+    isIntersectedWithBottomWall() {
+        return this.y + this.radius > canvas.height - railThickness - RAIL_COLLIDER;
     }
 	
 	checkForCollisions(objectX, objectY, objectHeight, objectWidth){
