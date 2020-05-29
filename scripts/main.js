@@ -6,7 +6,7 @@ var shotPredictionCheat = true;
 var shooting = false;
 let scoreManager = new ScoreManager();
 
-var ballOne = new Ball();
+var ballOne = new Puck();
 var activePlayer = 1;
 
 window.onload = function() {

@@ -2,7 +2,7 @@ var blue = '#6dcff6';
 
 const BALL_FRICTION = 0.10;
 
-class Ball {
+class Puck {
     constructor() {
         this.position = new Vector2(500, 333);
         this.velocity = new Vector2(0, 0);
