@@ -1,6 +1,5 @@
 var blue = '#6dcff6';
 
-const BALL_SPEED_DECAY_MULT = .98;
 const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
 const BALL_FRICTION = 0.10;
 
@@ -157,6 +156,7 @@ class Ball {
     
 	draw(){		
         if (this.shotVector) {
+            console.log('tail is printing');
             let start = this.shotVector.rotate(Math.PI/2).normalize(),
                 weight = this.shotVector.length / 200,
                 width = this.radius;
@@ -167,11 +167,11 @@ class Ball {
             canvasContext.fillStyle = 'white';
             canvasContext.beginPath();
             canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y);
             canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
         }
         colorCircle(this.x, this.y, this.radius, this.color);
-    
+        /*
         if(this.shotVector && shotPredictionCheat){
             var tempX = this.x;
             var tempY = this.y;
@@ -201,6 +201,7 @@ class Ball {
             this.velY = tempVelY;
 
         }
+        */
     }
     
     get x() {
