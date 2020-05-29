@@ -30,21 +30,6 @@ class Puck {
             activePlayer = activePlayer === 1 ? 2 : 1;
             this.inPlay = false;
         }
-
-        //check if puck is left of canvas boundary or paddle hit the puck
-        if (this.x < 0) {
-            if (this.y > paddle1Y &&
-                this.y < paddle1Y + PADDLE_HEIGHT) {
-
-                var deltaY = this.y - (paddle1Y + PADDLE_HEIGHT / 2);
-                this.velX = -this.velX;
-
-                this.velY = deltaY * 0.35;
-            } else {
-                this.puckReset();
-                scoreManager.add(1, 1);// Player 2 scores
-            }
-        }
         
         this.checkBoundariesAndInvertVelocity();
         
