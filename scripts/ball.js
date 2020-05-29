@@ -189,7 +189,7 @@ class Ball {
                 if(i % 2 == 0){
                     canvasContext.globalAlpha = 1.0 - i/steps;
                     //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
-                    colorCircle(this.x, this.y, this.radius * .80 , 'lime');
+                    colorCircle(this.x, this.y, this.radius , 'lime');
                 }
 
             }

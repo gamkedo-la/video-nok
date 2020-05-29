@@ -7,10 +7,10 @@ function aiControl() {
     }
     
     var aimAtX = 0;
-    var aimAtY = -canvas.height/2 //negative world (-)
-
+    var aimAtY = (-canvas.height/2) + 145;  //aim at upper mirror
+    // for testing, aiming at a fixed, constant based point below center, and increasing the goal size
     if(Math.random() < 0.5){
-        aimAtY = 1.5 * canvas.height;
+        aimAtY = (1.5 * canvas.height) - 145 ; //aim at lower mirror world. 
     }
 
     //var randomAngle = Math.random() * Math.PI * 2.0; //in radians //a full circle of range 

@@ -1,7 +1,7 @@
 var canvas;
 var canvasContext;
 
-var shotPredictionCheat = true;
+var shotPredictionCheat = false;
 
 var shooting = false;
 let scoreManager = new ScoreManager();
@@ -47,10 +47,12 @@ function moveEverything() {
 }
 
 function checkForCollisions(){
+	/*
 	paddle1X = railThickness*3;
 	paddle2X = canvas.width-PADDLE_THICKNESS
 	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	*/
 	// check for left goalie collision
 	ballOne.checkForCollisions((railThickness*3), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
 	// check for right goalie collision
