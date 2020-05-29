@@ -1,3 +1,7 @@
+var bgColor = '#713784';
+var blue = '#6dcff6';
+var railColor = '#f5989d';
+
 function colorCircle(centerX, centerY, radius, drawColor) {
 	canvasContext.fillStyle = drawColor;
 	canvasContext.beginPath();

@@ -1,5 +1,3 @@
-var blue = '#6dcff6';
-
 const BALL_FRICTION = 0.10;
 
 class Puck {
@@ -37,7 +35,6 @@ class Puck {
         if (this.isInRightGoal()) {
             this.puckReset();
             activePlayer = 2;
-            console.log(activePlayer);
             scoreManager.add(0, 1); //Player 1 scores
         }
 
@@ -61,7 +58,7 @@ class Puck {
         if (this.isIntersectedWithTopWall() || this.isIntersectedWithBottomWall()) {
             this.velY = -this.velY;
         }
-    }
+    } //checks collision against rails and inverts velX and velY
 
     isInRightGoal() {
         return this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
@@ -112,7 +109,7 @@ class Puck {
 
 			this.velY = deltaY * 0.35;
 		}
-	}
+	} //checks for collisions against free floating objects
 
     hold(vector) {
         if (this.inPlay) return;
@@ -125,6 +122,35 @@ class Puck {
         this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
         this.shotVector = null;
         this.inPlay = true;
+    }
+
+    drawShotPrediction(){
+        var tempX = this.x;
+        var tempY = this.y;
+        var tempVelocity = this.velocity;
+        var tempVelX = this.velX;
+        var tempVelY = this.velY;
+        this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
+        var steps = 300;
+        canvasContext.globalAlpha = 0.1;
+        for(var i = 0; i < steps; i++){
+            this.velocity.length -= BALL_FRICTION;
+            this.x += this.velX;
+            this.y += this.velY;
+            this.checkBoundariesAndInvertVelocity();
+            if(i % 2 == 0){
+                canvasContext.globalAlpha = 1.0 - i/steps;
+                //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
+                colorCircle(this.x, this.y, this.radius , 'lime');
+            }
+
+        }
+        canvasContext.globalAlpha = 1.0;
+        this.x = tempX;
+        this.y = tempY;
+        this.velocity = tempVelocity;
+        this.velX = tempVelX;
+        this.velY = tempVelY;
     }
     
 	draw(){		
@@ -146,33 +172,7 @@ class Puck {
         colorCircle(this.x, this.y, this.radius, this.color);
         
         if(this.shotVector && shotPredictionCheat){
-            var tempX = this.x;
-            var tempY = this.y;
-            var tempVelocity = this.velocity;
-            var tempVelX = this.velX;
-            var tempVelY = this.velY;
-            this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
-            var steps = 300;
-            canvasContext.globalAlpha = 0.1;
-            for(var i = 0; i < steps; i++){
-                this.velocity.length -= BALL_FRICTION;
-                this.x += this.velX;
-                this.y += this.velY;
-                this.checkBoundariesAndInvertVelocity();
-                if(i % 2 == 0){
-                    canvasContext.globalAlpha = 1.0 - i/steps;
-                    //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
-                    colorCircle(this.x, this.y, this.radius , 'lime');
-                }
-
-            }
-            canvasContext.globalAlpha = 1.0;
-            this.x = tempX;
-            this.y = tempY;
-            this.velocity = tempVelocity;
-            this.velX = tempVelX;
-            this.velY = tempVelY;
-
+            this.drawShotPrediction();
         }
         
     }
