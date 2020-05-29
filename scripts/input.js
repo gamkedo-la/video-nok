@@ -6,18 +6,18 @@ function initInput() {
 }
 
 function playerControl() {
-	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, ballOne)) {
+	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
 	}
 	
 	if (shooting) {
 		if (input.held()) {
-			let aim = {x: input.pointer.x - ballOne.x, y: input.pointer.y - ballOne.y};
-			ballOne.hold(aim);
+			let aim = {x: input.pointer.x - puckOne.x, y: input.pointer.y - puckOne.y};
+			puckOne.hold(aim);
 		}
 		
 		if (input.released()) {
-			ballOne.release();
+			puckOne.release();
 			shooting = false;
 		}
 	}

@@ -12,7 +12,7 @@ class Puck {
         this.color = blue;
     }
 
-    ballReset() {
+    puckReset() {
         this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
@@ -31,7 +31,7 @@ class Puck {
             this.inPlay = false;
         }
 
-        //check if ball is left of canvas boundary or paddle hit the ball
+        //check if puck is left of canvas boundary or paddle hit the puck
         if (this.x < 0) {
             if (this.y > paddle1Y &&
                 this.y < paddle1Y + PADDLE_HEIGHT) {
@@ -41,7 +41,7 @@ class Puck {
 
                 this.velY = deltaY * 0.35;
             } else {
-                this.ballReset();
+                this.puckReset();
                 scoreManager.add(1, 1);// Player 2 scores
             }
         }
@@ -50,7 +50,7 @@ class Puck {
         
         //puck enters right goal
         if (this.isInRightGoal()) {
-            this.ballReset();
+            this.puckReset();
             activePlayer = 2;
             console.log(activePlayer);
             scoreManager.add(0, 1); //Player 1 scores
@@ -59,7 +59,7 @@ class Puck {
         //puck enters left goal
         if (this.isInLeftGoal()) {
 
-            this.ballReset();
+            this.puckReset();
             activePlayer = 1;
             scoreManager.add(1, 1);
         }

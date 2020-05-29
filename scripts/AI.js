@@ -1,8 +1,8 @@
 function aiControl() {
     if (input.mouse.mouseClicked(2) || input.touch.currentTouches.length + input.touch.endedTouches.length > 1) {
-        ballOne.x = input.pointer.x;
-        ballOne.y = input.pointer.y;
-        ballOne.velX = ballOne.velY = 0;
+        puckOne.x = input.pointer.x;
+        puckOne.y = input.pointer.y;
+        puckOne.velX = puckOne.velY = 0;
         return;
     }
     
@@ -16,7 +16,7 @@ function aiControl() {
     //var randomAngle = Math.random() * Math.PI * 2.0; //in radians //a full circle of range 
     var randomSpeed = Math.random() * 40.0 + 500.0; //min and randomized range, at least 4, up to 12 
 
-    var aimAngle = Math.atan2(ballOne.y - aimAtY, ballOne.x - aimAtX); 
+    var aimAngle = Math.atan2(puckOne.y - aimAtY, puckOne.x - aimAtX); 
 
     // check if I can get straight to goal from here (is goalie block in the way) SKIP FOR RN
     // if yes, then shoot at aimAngle
@@ -25,11 +25,11 @@ function aiControl() {
     let launchX = Math.cos(aimAngle) * randomSpeed;
     let launchY = Math.sin(aimAngle) * randomSpeed;
 
-    ballOne.hold({x: launchX, y: launchY});
+    puckOne.hold({x: launchX, y: launchY});
  
     //maybe try tweaking these numbers first, from various court positions
     if (input.clicked()) {
-        ballOne.release();
+        puckOne.release();
 
         shooting = false;
         console.log('vector: x:' + launchX + ' y:' + launchY);	

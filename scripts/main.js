@@ -6,7 +6,7 @@ var shotPredictionCheat = true;
 var shooting = false;
 let scoreManager = new ScoreManager();
 
-var ballOne = new Puck();
+var puckOne = new Puck();
 var activePlayer = 1;
 
 window.onload = function() {
@@ -24,7 +24,7 @@ window.onload = function() {
 
 function resetGame() {
 	scoreManager.reset();
-	ballOne.ballReset();
+	puckOne.puckReset();
 }
 
 function moveEverything() {
@@ -35,35 +35,35 @@ function moveEverything() {
 		
 		//below is a hacky way of skipping the comp's turn, comment out for player v comp to work normally
 		/*
-		ballOne.shotVector = null;
-        ballOne.inPlay = true;
+		puckOne.shotVector = null;
+        puckOne.inPlay = true;
 		shooting = false;
 		*/
 		//uncomment to actually let the computer have its turn
 		aiControl();
 	} 
 
-	ballOne.move();
+	puckOne.move();
 }
 
 function checkForCollisions(){
 	/*
 	paddle1X = railThickness*3;
 	paddle2X = canvas.width-PADDLE_THICKNESS
-	ballOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
-	ballOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	puckOne.checkForCollisions(paddle1X, paddle1Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
+	puckOne.checkForCollisions(paddle2X, paddle2Y, PADDLE_HEIGHT, PADDLE_THICKNESS);
 	*/
 	// check for left goalie collision
-	ballOne.checkForCollisions((railThickness*3), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
+	puckOne.checkForCollisions((railThickness*3), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
 	// check for right goalie collision
-	ballOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
+	puckOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
 }
 
 
 function drawEverything() {
 	drawBackground();
 	drawPaddles();
-	ballOne.draw();
+	puckOne.draw();
 	drawUI();
 	input.touch.draw();
 }
@@ -122,7 +122,7 @@ function drawUI() {
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
 	canvasContext.restore();
 
-	canvasContext.fillText("first attempt at moving the ball(puck) based on striking", 350, 480);
+	canvasContext.fillText("first attempt at moving the puck(puck) based on striking", 350, 480);
 	canvasContext.fillText("try holding the left mouse button down, dragging the mouse then releasing!", 350, 500);
-	canvasContext.fillText("does not account for collision with ball, works literally anywhere on screen", 350, 520);	
+	canvasContext.fillText("does not account for collision with puck, works literally anywhere on screen", 350, 520);	
 }
