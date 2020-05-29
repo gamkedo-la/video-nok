@@ -1,4 +1,14 @@
 function aiControl() {
+    var closeToGoal = false;
+
+    if(puckOne.x < canvas.width/4 &&
+        (puckOne.y > 0 && puckOne.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2))||
+        puckOne.x < canvas.width/4 &&
+        (puckOne.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2))){
+            console.log('im on the left and away from the goalie');
+            closeToGoal = true;
+    } //is puck in a position to score by directly shooting at the goal
+
     if (input.mouse.mouseClicked(2) || input.touch.currentTouches.length + input.touch.endedTouches.length > 1) {
         puckOne.x = input.pointer.x;
         puckOne.y = input.pointer.y;
@@ -11,6 +21,10 @@ function aiControl() {
     // for testing, aiming at a fixed, constant based point below center, and increasing the goal size
     if(Math.random() < 0.5){
         aimAtY = (1.5 * canvas.height); - 145 ; //aim at lower mirror world. 
+    }
+    if(closeToGoal){
+        aimAtY = canvas.height/2;
+        console.log(aimAtY);
     }
 
     //var randomAngle = Math.random() * Math.PI * 2.0; //in radians //a full circle of range 

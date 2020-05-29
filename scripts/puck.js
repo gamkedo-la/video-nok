@@ -19,6 +19,7 @@ class Puck {
     }
 
     move() {
+
         this.velocity.length -= BALL_FRICTION;
 
         this.x += this.velX;
@@ -152,31 +153,7 @@ class Puck {
         this.velX = tempVelX;
         this.velY = tempVelY;
     }
-    /*
-	draw(){		
-        if (this.shotVector) {
-            console.log('tail is printing');
-            let start = this.shotVector.rotate(Math.PI/2).normalize(),
-                weight = this.shotVector.length / 200,
-                width = this.radius;
-            
-            let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
-            smoothShot.length = lerp(0, 100, weight);
 
-            canvasContext.fillStyle = 'white';
-            canvasContext.beginPath();
-            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y);
-            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-        }
-        colorCircle(this.x, this.y, this.radius, this.color);
-        
-        if(this.shotVector && shotPredictionCheat){
-            this.drawShotPrediction();
-        }
-        
-    } //end draw
-    */
    draw(){		
     if (this.shotVector) {
         let start = this.shotVector.rotate(Math.PI/2).normalize(),
