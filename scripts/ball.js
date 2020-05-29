@@ -1,6 +1,5 @@
 var blue = '#6dcff6';
 
-const PUCK_SPEED_DECAY_MULT_BOUNCE = .90;
 const BALL_FRICTION = 0.10;
 
 class Ball {
@@ -46,17 +45,6 @@ class Ball {
                 scoreManager.add(1, 1);// Player 2 scores
             }
         }
-        
-        //check if ball hits the right paddle
-        if (this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.x > canvas.width - railThickness) {
-
-            this.velX = -this.velX;
-            
-            this.velX *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            this.velY *= PUCK_SPEED_DECAY_MULT_BOUNCE;
-            
-        } 
         
         this.checkBoundariesAndInvertVelocity();
         
@@ -171,7 +159,7 @@ class Ball {
             canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
         }
         colorCircle(this.x, this.y, this.radius, this.color);
-        /*
+        
         if(this.shotVector && shotPredictionCheat){
             var tempX = this.x;
             var tempY = this.y;
@@ -201,7 +189,7 @@ class Ball {
             this.velY = tempVelY;
 
         }
-        */
+        
     }
     
     get x() {

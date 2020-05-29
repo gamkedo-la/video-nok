@@ -1,7 +1,7 @@
 var canvas;
 var canvasContext;
 
-var shotPredictionCheat = false;
+var shotPredictionCheat = true;
 
 var shooting = false;
 let scoreManager = new ScoreManager();
