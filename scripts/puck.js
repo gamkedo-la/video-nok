@@ -47,18 +47,15 @@ class Puck {
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
             if (collision) {
-                let dir = vectorDirection(collision);//This is hacky and doesn't play nice with corners.
-                if (dir === 'Up' || dir === 'Down')  {
-                    let penetration = this.radius - Math.abs(collision.y);
+                let dir = vectorDirection(collision);
+                let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
+                if (dir.y != 0)  {;
                     this.velY *= -1;
-                    this.y += collision.y < 0 ? penetration : -penetration;
-                }
-                else if(dir === 'Left' || dir === 'Right') {
-                    let penetration = this.radius - Math.abs(collision.x);
+                    this.y += penetration.y * -dir.y;
+                } else {
                     this.velX *= -1;
-                    this.x += collision.x < 0 ? penetration : -penetration;
+                    this.x += penetration.x * -dir.x;
                 }
-                break;
             }
         }
     }

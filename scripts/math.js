@@ -57,16 +57,20 @@ function subtractAbsValPoints(point1, point2){
 
 function circleRectCollision(circle, rect) {
     //Rect center point
-    let rx = rect.x + rect.width/2;
-    let ry = rect.y + rect.height/2;
+    let rWidth = rect.width/2;
+    let rHeight = rect.height/2;
+    let rx = rect.x + rWidth;
+    let ry = rect.y + rHeight;
 
     //Difference between rect and circle positions
     let deltaX = circle.x - rx;
     let deltaY = circle.y - ry;
 
+    if (deltaX > rWidth + circle.radius || deltaY > rHeight + circle.radius) return false;
+
     //Determine the closest edge of the rectangle
-    let clampX = clamp(deltaX, -rect.width/2, rect.width/2);
-    let clampY = clamp(deltaY, -rect.height/2, rect.height/2);
+    let clampX = clamp(deltaX, -rWidth, rWidth);
+    let clampY = clamp(deltaY, -rHeight, rHeight);
 
     clampX += rx - circle.x;
     clampY += ry - circle.y;
@@ -83,8 +87,6 @@ function vectorDirection(vector) {
         new Vector2(0, 1),
     ];
 
-    const sides = ['Right', 'Left', 'Up', 'Down'];
-
     let max = 0;
     let match = 0;
     for (let i = 0; i < compass.length; i++) {
@@ -94,7 +96,7 @@ function vectorDirection(vector) {
             match = i;
         }
     }
-    return sides[match];
+    return compass[match];
 }
 
 class Vector2 {
