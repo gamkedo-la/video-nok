@@ -1,23 +1,3 @@
-function circleRectOverlap(circle, rect) {
-    //Assuming rect position in center
-    //circle = {x, y, radius}
-    //rect = {x, y, width, height}
-    
-    let x = 0, y = 0;
-    let xOverlap = rect.x - circle.x;
-    let yOverlap = rect.y - circle.y;
-
-    let width = rect.width/2 + circle.radius;
-    let height = rect.height/2 + circle.radius;
-    
-    if (Math.abs(xOverlap) > width)
-        x = x > 0 ? x - width : x + width;
-    if (Math.abs(yOverlap) > height)
-        y = y > 0 ? y - height : y + height;
-
-    return {x: x, y: y};
-}
-
 function clamp(value, min, max) {
     if (value < min) return min;
     if (value > max) return max;
@@ -75,6 +55,48 @@ function subtractAbsValPoints(point1, point2){
 	}
 }
 
+function circleRectCollision(circle, rect) {
+    //Rect center point
+    let rx = rect.x + rect.width/2;
+    let ry = rect.y + rect.height/2;
+
+    //Difference between rect and circle positions
+    let deltaX = circle.x - rx;
+    let deltaY = circle.y - ry;
+
+    //Determine the closest edge of the rectangle
+    let clampX = clamp(deltaX, -rect.width/2, rect.width/2);
+    let clampY = clamp(deltaY, -rect.height/2, rect.height/2);
+
+    clampX += rx - circle.x;
+    clampY += ry - circle.y;
+
+    if (Math.hypot(clampX, clampY) <= circle.radius) return new Vector2(clampX, clampY);
+    return false;
+}
+
+function vectorDirection(vector) {
+    const compass = [
+        new Vector2(1, 0),
+        new Vector2(-1, 0),
+        new Vector2(0, -1),
+        new Vector2(0, 1),
+    ];
+
+    const sides = ['Right', 'Left', 'Up', 'Down'];
+
+    let max = 0;
+    let match = 0;
+    for (let i = 0; i < compass.length; i++) {
+        let dp = compass[i].dotProduct(vector);
+        if (dp > max) {
+            max = dp;
+            match = i;
+        }
+    }
+    return sides[match];
+}
+
 class Vector2 {
     constructor(x, y) {
         this.x = x || 0;
@@ -105,6 +127,13 @@ class Vector2 {
             this.x = unit.x * scalar;
             this.y = unit.y * scalar;
         }
+    }
+
+    dotProduct(vector) {
+        let unit = this.normalize();
+        let vu = vector.normalize();
+
+        return unit.x * vu.x + unit.y * vu.y;
     }
 
     normalize() {

@@ -75,7 +75,7 @@ class Mouse {
 	constructor(target) {
 		this.sensitivity = 1;
 		this.transitionTime = 2;//Number of frames/ticks that will as clicked/released
-		this.target = target ? target : window;
+		this.target = target ? target : document.documentElement;
 		this.moveBuffer = { x: 0, y: 0 };
 		this.position = { x: 0, y: 0 };
 		this.buttonStates = [0, 0, 0];
@@ -83,10 +83,10 @@ class Mouse {
 
 	init(target) {
 		if (target) this.target = target;
-		this.target.addEventListener("contextmenu", this.contextMenu.bind(this), false);
-		this.target.addEventListener("mousemove", this.moveMouse.bind(this), false);
-		this.target.addEventListener("mousedown", this.mouseDown.bind(this), false);
-		this.target.addEventListener("mouseup", this.mouseUp.bind(this), false);
+		document.addEventListener("contextmenu", this.contextMenu.bind(this), false);
+		document.addEventListener("mousemove", this.moveMouse.bind(this), false);
+		document.addEventListener("mousedown", this.mouseDown.bind(this), false);
+		document.addEventListener("mouseup", this.mouseUp.bind(this), false);
 	}
 
 	enablePointerLock() {

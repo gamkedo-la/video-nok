@@ -10,7 +10,7 @@ class Puck {
         this.color = blue;
     }
 
-    puckReset() {
+    reset() {
         this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
@@ -19,7 +19,6 @@ class Puck {
     }
 
     move() {
-
         this.velocity.length -= BALL_FRICTION;
 
         this.x += this.velX;
@@ -29,88 +28,48 @@ class Puck {
             activePlayer = activePlayer === 1 ? 2 : 1;
             this.inPlay = false;
         }
+
+        this.checkForCollisions();
         
-        this.checkBoundariesAndInvertVelocity();
-        
-        //puck enters right goal
         if (this.isInRightGoal()) {
-            this.puckReset();
+            this.reset();
             activePlayer = 2;
             scoreManager.add(0, 1); //Player 1 scores
-        }
-
-        //puck enters left goal
-        if (this.isInLeftGoal()) {
-
-            this.puckReset();
+        } else if (this.isInLeftGoal()) {
+            this.reset();
             activePlayer = 1;
             scoreManager.add(1, 1);
         }
     }
 
-    checkBoundariesAndInvertVelocity() {
-        if (this.isIntersectedWithTopRightWall() || this.isIntersectedWithBottomRightWall()) {
-            this.velX = -this.velX;
+    checkForCollisions(){
+        if (this.velocity.length === 0) return;
+        for (let i of obstacles) {
+            let collision = circleRectCollision(this, i);
+            if (collision) {
+                let dir = vectorDirection(collision);//This is hacky and doesn't play nice with corners.
+                if (dir === 'Up' || dir === 'Down')  {
+                    let penetration = this.radius - Math.abs(collision.y);
+                    this.velY *= -1;
+                    this.y += collision.y < 0 ? penetration : -penetration;
+                }
+                else if(dir === 'Left' || dir === 'Right') {
+                    let penetration = this.radius - Math.abs(collision.x);
+                    this.velX *= -1;
+                    this.x += collision.x < 0 ? penetration : -penetration;
+                }
+                break;
+            }
         }
-        if  (this.isIntersectedWithTopLeftWall() || this.isIntersectedWithBottomLeftWall()) {          
-            this.velX = -this.velX;
-        }
-        
-        if (this.isIntersectedWithTopWall() || this.isIntersectedWithBottomWall()) {
-            this.velY = -this.velY;
-        }
-    } //checks collision against rails and inverts velX and velY
+    }
 
     isInRightGoal() {
-        return this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x > canvas.width;
+        return this.x > canvas.width;
     }
 
     isInLeftGoal() {
-        return this.y > (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.y < (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x < 0;
+        return this.x < 0;
     }
-
-    isIntersectedWithTopRightWall() {
-        return this.y > 0 && this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.x + this.radius > canvas.width - railThickness;
-    }
-
-    isIntersectedWithBottomRightWall() {
-        return this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) &&
-            this.x + this.radius > canvas.width - railThickness;
-    }
-
-    isIntersectedWithTopLeftWall() {
-        return this.y < (canvas.height / 2) - (GOAL_POST_SIZE / 2) &&
-            this.x - this.radius < railThickness;
-    }
-
-    isIntersectedWithBottomLeftWall() {
-        return this.y > (canvas.height / 2) + (GOAL_POST_SIZE / 2) && this.y > canvas.height / 2 &&
-            this.x - this.radius < railThickness;
-    }
-
-    isIntersectedWithTopWall() {
-        return this.y - this.radius < railThickness + RAIL_COLLIDER;
-    }
-
-    isIntersectedWithBottomWall() {
-        return this.y + this.radius > canvas.height - railThickness - RAIL_COLLIDER;
-    }
-	
-	checkForCollisions(objectX, objectY, objectHeight, objectWidth){
-		if(	this.x > objectX && this.x < objectX + objectWidth &&
-			this.y > objectY && this.y < objectY + objectHeight){
-			
-			var deltaY = this.y - (objectY + objectHeight / 2);
-            this.velX = -this.velX;
-
-			this.velY = deltaY * 0.35;
-		}
-	} //checks for collisions against free floating objects
 
     hold(vector) {
         if (this.inPlay) return;
@@ -138,7 +97,7 @@ class Puck {
             this.velocity.length -= BALL_FRICTION;
             this.x += this.velX;
             this.y += this.velY;
-            this.checkBoundariesAndInvertVelocity();
+            this.checkForCollisions();
             if(i % 2 == 0){
                 canvasContext.globalAlpha = 1.0 - i/steps;
                 //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));

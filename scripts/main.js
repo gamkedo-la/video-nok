@@ -6,7 +6,7 @@ var railThickness = 30;
 const RAIL_COLLIDER = 15;
 
 
-var shotPredictionCheat = true;
+var shotPredictionCheat = false;
 
 var shooting = false;
 let scoreManager = new ScoreManager();
@@ -18,11 +18,11 @@ window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 	initInput();
+	initBoard();
 
 	var framesPerSecond = 30;
 	setInterval(function() {
 			moveEverything();
-			checkForCollisions();
 			drawEverything();	
 		}, 1000/framesPerSecond);
 }
@@ -37,31 +37,15 @@ function moveEverything() {
 
 	if (activePlayer === 1) playerControl();
 	else if (activePlayer === 2){
-		
-		//below is a hacky way of skipping the comp's turn, comment out for player v comp to work normally
-		/*
-		puckOne.shotVector = null;
-        puckOne.inPlay = true;
-		shooting = false;
-		*/
-		//uncomment to actually let the computer have its turn
+		//playerControl();
 		aiControl();
 	} 
 
 	puckOne.move();
 }
 
-function checkForCollisions(){
-	// check for left goalie collision
-	puckOne.checkForCollisions((railThickness*3), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
-	// check for right goalie collision
-	puckOne.checkForCollisions(canvas.width-(railThickness*5), canvas.height/2-(GOALIE_SIZE/2), GOALIE_SIZE, GOALIE_SIZE);
-}
-
-
 function drawEverything() {
 	drawBackground();
-	drawGoalies();
 	puckOne.draw();
 	drawUI();
 	input.touch.draw();
@@ -74,20 +58,7 @@ function drawBackground() {
 
 	drawNet();
 	
-	//top rail
-	colorRect(0, 0, canvas.width, railThickness, railColor);
-	//bottom rail
-	colorRect(0, canvas.height - railThickness, canvas.width, railThickness, railColor);
-	//left rail
-	colorRect(0, 0, railThickness, canvas.height, railColor);
-	//right rail
-	colorRect(canvas.width-railThickness, 0, railThickness, canvas.height, railColor);
-
-	//goal posts
-	//left
-	colorRect(0, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
-	//right
-	colorRect(canvas.width-railThickness, canvas.height/2-(GOAL_POST_SIZE/2), railThickness, GOAL_POST_SIZE, bgColor);
+	drawBoard();
 }
 
 function drawNet() {
