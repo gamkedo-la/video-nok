@@ -1,8 +1,18 @@
+const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
+
 let input, touch;
 
 function initInput() {
 	input = new Input(canvas);
 	input.init();
+
+  	document.addEventListener("keydown", keyPressed);
+}
+
+function keyPressed(evt){
+	if (evt.keyCode == KEY_Debug) {
+		toggleDebugMode();
+	}
 }
 
 function playerControl() {
@@ -140,6 +150,14 @@ class Mouse {
 
 		let mX = evt.clientX - rect.left - root.scrollLeft,
 			mY = evt.clientY - rect.top - root.scrollTop;
+
+		if (debugMode){
+			puckOne.reset();
+			drawBackground();
+			puckOne.x = mX;
+			puckOne.y = mY;
+			puckOne.draw();
+		}	
 
 		return {
 			x: mX,

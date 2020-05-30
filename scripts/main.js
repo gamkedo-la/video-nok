@@ -1,5 +1,7 @@
 var canvas;
 var canvasContext;
+var debugMode = false;
+var gameRunning;
 
 //not a great place for railThickness + Collider, we just don't have a file for them yet. 
 var railThickness = 30;
@@ -21,10 +23,26 @@ window.onload = function() {
 	initBoard();
 
 	var framesPerSecond = 30;
-	setInterval(function() {
+	gameRunning = setInterval(function() {
+		moveEverything();
+		drawEverything();	
+	}, 1000/framesPerSecond);
+}
+
+function toggleDebugMode(){
+  var framesPerSecond = 30;
+	if (!debugMode) {
+	    gameRunning = clearInterval(gameRunning); 
+		debugMode = true;
+		console.log("Testing!");
+	} else if (debugMode) {
+	    gameRunning = setInterval(function () {
 			moveEverything();
 			drawEverything();	
-		}, 1000/framesPerSecond);
+	    }, 1000 / framesPerSecond);
+		debugMode = false;
+		console.log("Turning off Debug mode!");
+	}
 }
 
 function resetGame() {
