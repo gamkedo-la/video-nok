@@ -17,10 +17,10 @@ function aiControl() {
     }
     
     var aimAtX = 0;
-    var aimAtY = (-canvas.height/2) + 145;  //aim at upper mirror
+    var aimAtY = (-canvas.height/2) + 140;  //aim at upper mirror, past numbers: 145, 80 (actually half of the goal)
     // for testing, aiming at a fixed, constant based point below center, and increasing the goal size
     if(Math.random() < 0.5){
-        aimAtY = (1.5 * canvas.height); - 145 ; //aim at lower mirror world. 
+        //aimAtY = (1.5 * canvas.height); - 145 ; //aim at lower mirror world. 
     }
     if(closeToGoal){
         aimAtY = canvas.height/2;

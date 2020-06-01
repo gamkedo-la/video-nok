@@ -9,7 +9,7 @@ var railThickness = 30;
 const RAIL_COLLIDER = 15;
 
 
-var shotPredictionCheat = false;
+var shotPredictionCheat = true;
 
 var shooting = false;
 let scoreManager = new ScoreManager();
