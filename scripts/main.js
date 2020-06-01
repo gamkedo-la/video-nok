@@ -2,6 +2,7 @@ var canvas;
 var canvasContext;
 var debugMode = false;
 var gameRunning;
+var debugRunning;
 
 //not a great place for railThickness + Collider, we just don't have a file for them yet. 
 var railThickness = 30;
@@ -31,17 +32,26 @@ window.onload = function() {
 
 function toggleDebugMode(){
   var framesPerSecond = 30;
+
 	if (!debugMode) {
-	    gameRunning = clearInterval(gameRunning); 
 		debugMode = true;
-		console.log("Testing!");
+		console.log("Entering Debug Mode! Press D again to resume.");
+	    gameRunning = clearInterval(gameRunning); 
+		debugRunning = setInterval(function () {
+			puckOne.reset();
+			drawBackground();
+			puckOne.x = input.mouse.x;
+			puckOne.y = input.mouse.y;
+			puckOne.draw();
+	    }, 1000 / framesPerSecond);
 	} else if (debugMode) {
+		debugMode = false;
+		console.log("Turning off Debug mode!");
+	    debugRunning = clearInterval(debugRunning); 
 	    gameRunning = setInterval(function () {
 			moveEverything();
 			drawEverything();	
 	    }, 1000 / framesPerSecond);
-		debugMode = false;
-		console.log("Turning off Debug mode!");
 	}
 }
 

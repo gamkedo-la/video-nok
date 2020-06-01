@@ -150,15 +150,7 @@ class Mouse {
 
 		let mX = evt.clientX - rect.left - root.scrollLeft,
 			mY = evt.clientY - rect.top - root.scrollTop;
-
-		if (debugMode){
-			puckOne.reset();
-			drawBackground();
-			puckOne.x = mX;
-			puckOne.y = mY;
-			puckOne.draw();
-		}	
-
+			
 		return {
 			x: mX,
 			y: mY
