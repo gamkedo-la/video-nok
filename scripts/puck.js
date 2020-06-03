@@ -1,4 +1,5 @@
 const BALL_FRICTION = 0.10;
+const MAX_SHOT_VELOCITY = 200;
 
 class Puck {
     constructor() {
@@ -70,8 +71,8 @@ class Puck {
 
     hold(vector) {
         if (this.inPlay) return;
-        let newShot = clampVector2(vector, 0, 200);
-        this.shotVector = new Vector2(newShot.x, newShot.y);
+        this.shotVector = vector;
+        this.shotVector.clamp(0, MAX_SHOT_VELOCITY);
     }
 
     release() {
@@ -119,13 +120,13 @@ class Puck {
         let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
         smoothShot.length = lerp(0, 100, weight);
 
-        if(activePlayer == 1){
-        canvasContext.fillStyle = 'white';
-        canvasContext.beginPath();
-        canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-        canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-        canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-        canvasContext.fill();
+        if (shooting) {
+            canvasContext.fillStyle = 'white';
+            canvasContext.beginPath();
+            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+            canvasContext.fill();
         }
     }
 

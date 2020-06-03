@@ -22,13 +22,14 @@ function playerControl() {
 	
 	if (shooting) {
 		if (input.held()) {
-			let aim = {x: input.pointer.x - puckOne.x, y: input.pointer.y - puckOne.y};
+			let aim = new Vector2(input.pointer.x - puckOne.x, input.pointer.y - puckOne.y);
 			puckOne.hold(aim);
 		}
 		
 		if (input.released()) {
-			puckOne.release();
-			shooting = false;
+			let launchVector = new Vector2(input.pointer.x - puckOne.x, input.pointer.y - puckOne.y);
+			launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
+			puckRelease(launchVector);
 		}
 	}
 	

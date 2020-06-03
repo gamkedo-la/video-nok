@@ -32,13 +32,15 @@ function aiControl() {
     let launchX = Math.cos(aimAngle) * randomSpeed;
     let launchY = Math.sin(aimAngle) * randomSpeed;
 
-    puckOne.hold({x: launchX, y: launchY});
+    puckOne.hold(new Vector2(launchX, launchY));
  
     //maybe try tweaking these numbers first, from various court positions
-    if (input.clicked()) {
-        puckOne.release();
-
-        shooting = false;
-        console.log('vector: x:' + launchX + ' y:' + launchY);	
+    if (input.clicked() && !shooting) {
+        shooting = true;
+        let launchVector = new Vector2(launchX, launchY);
+        launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
+        puckWindup(launchVector);
+        
+        console.log('vector: x:' + launchVector.x + ' y:' + launchVector.y);	
     }
 }

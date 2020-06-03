@@ -39,6 +39,12 @@ function debug() {
 	}
 	
 	if (puckOne.shotVector) puckOne.drawShotPrediction();
+
+	//some guidelines for AI testing, will remove
+	colorRect(0, 200, canvas.width, 1, 'white');
+	colorRect(200, 0, 1, canvas.width, 'white');
+	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
+	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 }
 
 function resetGame() {
@@ -47,12 +53,11 @@ function resetGame() {
 }
 
 function moveEverything() {
-	if (activePlayer === 1) playerControl();
-	else if (activePlayer === 2){
-		//playerControl();
-		aiControl();
-	} 
-
+	if (puckOne.inPlay);
+	else if (activePlayer === 1) playerControl();
+	else if (activePlayer === 2) aiControl(); 
+	
+	updateAnimations();
 	puckOne.move();
 }
 
@@ -61,15 +66,10 @@ function drawEverything() {
 	puckOne.draw();
 	drawUI();
 	input.touch.draw();
-	//some guidelines for AI testing, will remove
-	colorRect(0, 200, canvas.width, 1, 'white');
-	colorRect(200, 0, 1, canvas.width, 'white');
-	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
-	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 }
 
 function drawBackground() {
-	canvasContext.globalAlpha = 0.10;
+	//canvasContext.globalAlpha = 0.10;
 	colorRect(0,0,canvas.width,canvas.height,bgColor);
 	canvasContext.globalAlpha = 1.0;
 
