@@ -61,6 +61,11 @@ function drawEverything() {
 	puckOne.draw();
 	drawUI();
 	input.touch.draw();
+	//some guidelines for AI testing, will remove
+	colorRect(0, 200, canvas.width, 1, 'white');
+	colorRect(200, 0, 1, canvas.width, 'white');
+	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
+	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 }
 
 function drawBackground() {
