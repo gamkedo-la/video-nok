@@ -129,10 +129,6 @@ class Puck {
         }
     }
 
-    if(this.shotVector && shotPredictionCheat){
-        this.drawShotPrediction();
-    }
-
     colorCircle(this.x, this.y, this.radius, this.color);
 }
     

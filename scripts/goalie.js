@@ -1,5 +1,6 @@
-const GOAL_POST_SIZE = 160; //it's 115 in the mock, making it larger to test for collision
+const GOAL_POST_SIZE = 160;
 const GOALIE_SIZE = 55;
+const railThickness = 30;
 
 let obstacles = [];
 

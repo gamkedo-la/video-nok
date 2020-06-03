@@ -8,13 +8,6 @@ function aiControl() {
             console.log('im on the left and away from the goalie');
             closeToGoal = true;
     } //is puck in a position to score by directly shooting at the goal
-
-    if (input.mouse.mouseClicked(2) || input.touch.currentTouches.length + input.touch.endedTouches.length > 1) {
-        puckOne.x = input.pointer.x;
-        puckOne.y = input.pointer.y;
-        puckOne.velX = puckOne.velY = 0;
-        return;
-    }
     
     var aimAtX = 0;
     var aimAtY = (-canvas.height/2) + 140;  //aim at upper mirror, past numbers: 145, 80 (actually half of the goal)
