@@ -1,17 +1,3 @@
-function atPositionX(puckX) {
-	if(puckX < 500) { // only known for 300-500, under 300 is extrapolating
-		return proportion(300,500, puckX, 90, 110);
-	} else { // only known for 500-800, over 800 is extrapolating
-		return proportion(500,800, puckX, 110, 130);
-	}
-}
-function proportion(leftX,rightX,actual,bottomTarget,topTarget) {
-	var rangeX = (rightX-leftX); // span of these numbers
-	var perc = (actual-leftX) / rangeX; // 25%? 80%?
-	var targetRange = topTarget - bottomTarget;
-	return bottomTarget+perc*targetRange; // from % into coordinate
-}
-
 function aiControl() {
  
     var shotSpeed = 540; 
