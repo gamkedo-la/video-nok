@@ -1,9 +1,10 @@
 function aiControl() {
+    console.log(scoreManager.scores[1]);
     AIFail  = false;
     coinFlip = Math.random();
-    if(coinFlip > 0.5){
+    if(scoreManager.scores[1] == 2 && coinFlip > 0.5){
         AIFail = true;
-    }
+    } // if AI score == 2, it'll start messing up, bc it's a cocky dum dum
  
     var shotSpeed = 540; 
     var aimAngle = 0; 
