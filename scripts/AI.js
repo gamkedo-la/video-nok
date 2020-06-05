@@ -1,4 +1,9 @@
 function aiControl() {
+    AIFail  = false;
+    coinFlip = Math.random();
+    if(coinFlip > 0.5){
+        AIFail = true;
+    }
  
     var shotSpeed = 540; 
     var aimAngle = 0; 
@@ -17,8 +22,14 @@ function aiControl() {
     //maybe try tweaking these numbers first, from various court positions
     if (input.clicked() && !shooting) {
         shooting = true;
-        let launchVector = new Vector2(testVect.x, testVect.y);
+        //slightly alter the launch Vector to make Ai fail on a coin flip
+        if(AIFail){
+            testVect.x += 100;
+        }
+        let launchVector = new Vector2(testVect.x, testVect.y);  
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
+        //launces puck
         puckWindup(launchVector);
     }
+    
 }
