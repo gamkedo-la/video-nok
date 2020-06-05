@@ -82,7 +82,7 @@ class Puck {
         this.inPlay = true;
     }
 
-    drawShotPrediction(skipDraw, testLeftSide){
+    shotPrediction(skipDraw, testLeftSide){
         var gotPastGoalLeft = false;
         var gotPastGoalRight = false;
 
@@ -107,7 +107,7 @@ class Puck {
                 break;
             }
             this.checkForCollisions();
-            if(i % 2 == 0){
+            if(i % 2 == 0 && skipDraw == false){
                 canvasContext.globalAlpha = 1.0 - i/steps;
                 //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
                 colorCircle(this.x, this.y, this.radius , 'lime');
@@ -120,7 +120,12 @@ class Puck {
         this.velocity = tempVelocity;
         this.velX = tempVelX;
         this.velY = tempVelY;
-    }
+        if(testLeftSide){
+            return gotPastGoalLeft;
+        } else {
+            return gotPastGoalRight;
+        }
+    } //end of shotPrediction
 
    draw(){		
     if (this.shotVector) {

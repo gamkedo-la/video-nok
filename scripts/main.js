@@ -38,7 +38,9 @@ function debug() {
         return;
 	}
 	
-	if (puckOne.shotVector) puckOne.drawShotPrediction();
+	if (puckOne.shotVector) {
+		puckOne.shotPrediction(false, false);
+	}
 
 	//some guidelines for AI testing, will remove
 	colorRect(0, 200, canvas.width, 1, 'white');
