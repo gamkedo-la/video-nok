@@ -61,6 +61,7 @@ function moveEverything() {
 	
 	updateAnimations();
 	puckOne.move();
+	//console.log(puckOne.velocity);
 }
 
 function drawEverything() {

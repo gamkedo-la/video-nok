@@ -48,6 +48,13 @@ class Puck {
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
             if (collision) {
+                //hacky way of demonstrating a consequence for overpowering the shot
+                /*
+                if(Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12){
+                    //console.log('im outta here, im off the board');
+                    this.reset();
+                }
+                */
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
                 if (dir.y != 0)  {;
