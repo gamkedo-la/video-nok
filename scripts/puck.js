@@ -51,10 +51,19 @@ class Puck {
                 //hacky way of demonstrating a consequence for overpowering the shot
                 /*
                 if(Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12){
-                    //console.log('im outta here, im off the board');
-                    this.reset();
+                    this.reset(); //breaks the AI
+                    if(activePlayer == 2){
+                        console.log('active player switched to 1');
+                        activePlayer = 1;
+                    }
+                    if(activePlayer == 1){
+                        console.log('active player switched to 2');
+                        activePlayer = 2;
+                    }
+                    
                 }
                 */
+                
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
                 if (dir.y != 0)  {;
