@@ -82,7 +82,10 @@ class Puck {
         this.inPlay = true;
     }
 
-    drawShotPrediction(){
+    drawShotPrediction(skipDraw, testLeftSide){
+        var gotPastGoalLeft = false;
+        var gotPastGoalRight = false;
+
         var tempX = this.x;
         var tempY = this.y;
         var tempVelocity = this.velocity;
@@ -95,6 +98,14 @@ class Puck {
             this.velocity.length -= BALL_FRICTION;
             this.x += this.velX;
             this.y += this.velY;
+            if(this.x < 0){
+                gotPastGoalLeft = true;
+                break;
+            }
+            if(this.x > canvas.width){
+                gotPastGoalRight = true;
+                break;
+            }
             this.checkForCollisions();
             if(i % 2 == 0){
                 canvasContext.globalAlpha = 1.0 - i/steps;
