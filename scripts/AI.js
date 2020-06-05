@@ -1,10 +1,17 @@
 function aiControl() {
     console.log(scoreManager.scores[1]);
+    // AI failure rates
     AIFail  = false;
-    coinFlip = Math.random();
-    if(scoreManager.scores[1] == 2 && coinFlip > 0.5){
+    AIFailPerc = Math.random();
+    if(scoreManager.scores[1] > scoreManager.scores[0] && AIFailPerc > 0.2){
         AIFail = true;
-    } // if AI score == 2, it'll start messing up, bc it's a cocky dum dum
+    } // if AI is doing better than player, there's a good chance it'll miss
+    if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.8){
+        AIFail = true;
+    } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 10 
+    if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.6){
+        AIFail = true;
+    } //if AI is even with player, it performs adequately. fail rate 40
  
     var shotSpeed = 540; 
     var aimAngle = 0; 
@@ -25,7 +32,7 @@ function aiControl() {
         shooting = true;
         //slightly alter the launch Vector to make Ai fail on a coin flip
         if(AIFail){
-            testVect.x += 100;
+            testVect.x += 50;
         }
         let launchVector = new Vector2(testVect.x, testVect.y);  
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
