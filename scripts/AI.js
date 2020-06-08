@@ -8,7 +8,7 @@ function aiControl() {
     } // if AI is doing better than player, there's a good chance it'll miss
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.8){
         AIFail = true;
-    } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 10 
+    } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.6){
         AIFail = true;
     } //if AI is even with player, it performs adequately. fail rate 40
