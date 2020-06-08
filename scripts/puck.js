@@ -47,23 +47,7 @@ class Puck {
         if (this.velocity.length === 0) return;
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
-            if (collision) {
-                //hacky way of demonstrating a consequence for overpowering the shot
-                /*
-                if(Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12){
-                    this.reset(); //breaks the AI
-                    if(activePlayer == 2){
-                        console.log('active player switched to 1');
-                        activePlayer = 1;
-                    }
-                    if(activePlayer == 1){
-                        console.log('active player switched to 2');
-                        activePlayer = 2;
-                    }
-                    
-                }
-                */
-                
+            if (collision) {                
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
                 if (dir.y != 0)  {;
@@ -73,7 +57,22 @@ class Puck {
                     this.velX *= -1;
                     this.x += penetration.x * -dir.x;
                 }
-            }
+                //hacky way resting the puck if it hits the wall too hard
+                if(this.inPlay && (Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
+                    this.reset(); //breaks the AI
+                    //right now, using this conditional to call puck.reset, will lock control onto AI, 
+                    //bc it keeps hitting the ball too hard, which calls this block again. 
+                    
+                    if(activePlayer == 2){
+                        activePlayer = 1;
+                        //console.log(activePlayer); // -> 1
+                    } else if(activePlayer == 1){
+                        //console.log('active player switched to 2');
+                        activePlayer = 2;
+                    }
+                    //console.log(this.velocity.x);                    
+                }
+            } // end if collision
         }
     }
 

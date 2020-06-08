@@ -56,8 +56,13 @@ function resetGame() {
 
 function moveEverything() {
 	if (puckOne.inPlay);
-	else if (activePlayer === 1) playerControl();
-	else if (activePlayer === 2) aiControl(); 
+	else if (activePlayer === 1) {
+		//console.log('player control conditional is being called');
+		playerControl();
+	}
+	else if (activePlayer === 2) {
+		aiControl(); 
+	}
 	
 	updateAnimations();
 	puckOne.move();

@@ -1,5 +1,4 @@
 function aiControl() {
-    console.log(scoreManager.scores[1]);
     // AI failure rates
     AIFail  = false;
     AIFailPerc = Math.random();
@@ -9,9 +8,11 @@ function aiControl() {
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.8){
         AIFail = true;
     } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
+    /* //commenting this line out for rn to test over powered shots, need AI to play flawlessly. 
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.6){
         AIFail = true;
     } //if AI is even with player, it performs adequately. fail rate 40
+    */
  
     var shotSpeed = 540; 
     var aimAngle = 0; 
