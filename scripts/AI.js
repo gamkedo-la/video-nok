@@ -19,8 +19,8 @@ function aiControl() {
     //var aimAngle = 0; //don't think this it actually used
 
     var testVect = new Vector2(0,0);
-    for(var aim = 0; aim < Math.PI*2; aim += 0.04){
-        for(var shotSpeed = 0; shotSpeed < shotSpeedRange; shotSpeed += 2){
+    for(var aim = 0; aim < Math.PI*2; aim += 0.04){ //aim+/ .04
+        for(var shotSpeed = 0; shotSpeed < shotSpeedRange; shotSpeed += 2){ //shotSpeed +=
             testVect.x = Math.cos(aim) * shotSpeed;
             testVect.y = Math.sin(aim) * shotSpeed; 
             //console.log(testVect.x);
@@ -29,7 +29,7 @@ function aiControl() {
         if(puckOne.shotPrediction(true, true)){ //notes for ash! I guess this conditional statement calls and runs that entire function, with its side effects, it's not just checking against the return value
             //aimAngle = aim; //I don't think aimAngle is actually used
             break;
-        }
+        } //if shotPrediction() has found a working shot, break, and pass in testVect to .hold()
         
     }
  

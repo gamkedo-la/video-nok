@@ -59,7 +59,7 @@ class Puck {
                     this.x += penetration.x * -dir.x;
                 }
                 //hacky way resting the puck if it hits the wall too hard
-                
+                /*
                 if(this.inPlay && (Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
                     badShot = true;
                     this.reset(); //breaks the AI
@@ -75,6 +75,7 @@ class Puck {
                     }
                     //console.log(this.velocity.x);                    
                 }
+                */
                 
             } // end if collision
         }
@@ -139,11 +140,14 @@ class Puck {
         this.velocity = tempVelocity;
         this.velX = tempVelX;
         this.velY = tempVelY;
-        if(testLeftSide && !badShot){
+        if(testLeftSide /*&& !badShot*/){
+            //console.log(badShot);
             return gotPastGoalLeft;
         } else {
             return gotPastGoalRight;
+            //return false;
         }
+        badShot = false;
     } //end of shotPrediction
 
    draw(){		
