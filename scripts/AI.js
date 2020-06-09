@@ -14,18 +14,23 @@ function aiControl() {
     } //if AI is even with player, it performs adequately. fail rate 40
     */
  
-    var shotSpeed = 540; 
-    var aimAngle = 0; 
+    //var shotSpeed = 540;
+    var shotSpeedRange = 540; 
+    //var aimAngle = 0; //don't think this it actually used
 
     var testVect = new Vector2(0,0);
     for(var aim = 0; aim < Math.PI*2; aim += 0.04){
-        testVect.x = Math.cos(aim) * shotSpeed;
-        testVect.y = Math.sin(aim) * shotSpeed;
+        for(var shotSpeed = 0; shotSpeed < shotSpeedRange; shotSpeed += 2){
+            testVect.x = Math.cos(aim) * shotSpeed;
+            testVect.y = Math.sin(aim) * shotSpeed; 
+            //console.log(testVect.x);
+        }
         puckOne.hold(testVect);        
-        if(puckOne.shotPrediction(true, true)){
-            aimAngle = aim;
+        if(puckOne.shotPrediction(true, true)){ //notes for ash! I guess this conditional statement calls and runs that entire function, with its side effects, it's not just checking against the return value
+            //aimAngle = aim; //I don't think aimAngle is actually used
             break;
         }
+        
     }
  
     //maybe try tweaking these numbers first, from various court positions

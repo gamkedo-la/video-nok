@@ -1,5 +1,6 @@
 const BALL_FRICTION = 0.10;
 const MAX_SHOT_VELOCITY = 200;
+var badShot = false; 
 
 class Puck {
     constructor() {
@@ -58,7 +59,9 @@ class Puck {
                     this.x += penetration.x * -dir.x;
                 }
                 //hacky way resting the puck if it hits the wall too hard
+                
                 if(this.inPlay && (Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
+                    badShot = true;
                     this.reset(); //breaks the AI
                     //right now, using this conditional to call puck.reset, will lock control onto AI, 
                     //bc it keeps hitting the ball too hard, which calls this block again. 
@@ -72,6 +75,7 @@ class Puck {
                     }
                     //console.log(this.velocity.x);                    
                 }
+                
             } // end if collision
         }
     }
@@ -135,7 +139,7 @@ class Puck {
         this.velocity = tempVelocity;
         this.velX = tempVelX;
         this.velY = tempVelY;
-        if(testLeftSide){
+        if(testLeftSide && !badShot){
             return gotPastGoalLeft;
         } else {
             return gotPastGoalRight;
