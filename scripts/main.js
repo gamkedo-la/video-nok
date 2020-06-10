@@ -8,6 +8,8 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
+var faceOff = false;
+
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -75,6 +77,7 @@ function drawEverything() {
 	drawUI();
 	input.touch.draw();
 	//horizontal lines
+	/*
 	colorRect(0, 200, canvas.width, 1, 'white');
 	colorRect(0, 100, canvas.width, 1, 'white');
 	colorRect(0, canvas.height-100, canvas.width, 1, 'white');
@@ -83,6 +86,13 @@ function drawEverything() {
 	colorRect(300, 0, 1, canvas.width, 'white');
 	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
+	*/
+	if(faceOff){
+		canvasContext.fillStyle = 'white';
+		canvasContext.font = '160px Arial';
+		canvasContext.textAlign = 'center';
+		canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
+	}
 }
 
 function drawBackground() {

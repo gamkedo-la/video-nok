@@ -7,6 +7,7 @@ class Puck {
         this.position = new Vector2(500, 333);
         this.velocity = new Vector2(0, 0);
         this.shotVector = null;
+        this.aiFaceOffThreatVector = null;
         this.inPlay = false;
         this.radius = 30;
         this.color = blue;
@@ -85,6 +86,12 @@ class Puck {
         this.shotVector.clamp(0, MAX_SHOT_VELOCITY);
     }
 
+    faceOffThreat(vector) {
+        if (this.inPlay) return;
+        this.aiFaceOffThreatVector = vector;
+        this.aiFaceOffThreatVector.clamp(0, MAX_SHOT_VELOCITY);
+    }
+
     release() {
         if (!this.shotVector) return;
         this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
@@ -157,6 +164,25 @@ class Puck {
             canvasContext.fill();
         }
     }
+
+    if(faceOff && this.aiFaceOffThreatVector && this.inPlay == false){
+        let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
+        weight = this.aiFaceOffThreatVector.length / 200,
+        width = this.radius;
+        
+
+        let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
+        smoothShot.length = lerp(0, 100, weight);
+
+        //if (shooting) {
+            canvasContext.fillStyle = 'red';
+            canvasContext.beginPath();
+            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+            canvasContext.fill();
+        //}
+    } //AI threatening player, can wrap into a function if we keep this
 
     colorCircle(this.x, this.y, this.radius, this.color);
 }

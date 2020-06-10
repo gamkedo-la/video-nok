@@ -19,7 +19,7 @@ function aiControl() {
     //var aimAngle = 0; //don't think this it actually used
 
     var testVect = new Vector2(0,0);
-    var breakDoubleFor = false;
+    var aiShotFoundToScore = false;
     for(var aim = 0; aim < Math.PI*2; aim += 0.04){ //aim+/ .04
         for(var shotSpeed = 0; shotSpeed < shotSpeedRange; shotSpeed += 50){ //shotSpeed +=
             testVect.x = Math.cos(aim) * shotSpeed;
@@ -27,13 +27,17 @@ function aiControl() {
             puckOne.hold(testVect);        
             if(puckOne.shotPrediction(true, true)){ //notes for ash! I guess this conditional statement calls and runs that entire function, with its side effects, it's not just checking against the return value
                 //aimAngle = aim; //I don't think aimAngle is actually used
-                breakDoubleFor = true;
+                aiShotFoundToScore = true;
                 break;
             } //if shotPrediction() has found a working shot, break, and pass in testVect to .hold()
         }
-        if(breakDoubleFor){
+        if(aiShotFoundToScore){
             break;
         }
+    }
+
+    if(faceOff && aiShotFoundToScore){
+        puckOne.faceOffThreat(testVect);
     }
  
     //maybe try tweaking these numbers first, from various court positions
