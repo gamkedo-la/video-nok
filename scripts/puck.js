@@ -58,24 +58,14 @@ class Puck {
                     this.velX *= -1;
                     this.x += penetration.x * -dir.x;
                 }
-                //hacky way resting the puck if it hits the wall too hard
-                /*
+                //hacky way to reset the puck if it hits the wall too hard
+                
+                
                 if(this.inPlay && (Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
                     badShot = true;
-                    this.reset(); //breaks the AI
-                    //right now, using this conditional to call puck.reset, will lock control onto AI, 
-                    //bc it keeps hitting the ball too hard, which calls this block again. 
-                    
-                    if(activePlayer == 2){
-                        activePlayer = 1;
-                        //console.log(activePlayer); // -> 1
-                    } else if(activePlayer == 1){
-                        //console.log('active player switched to 2');
-                        activePlayer = 2;
-                    }
-                    //console.log(this.velocity.x);                    
+                    this.reset();
+                    this.inPlay = true; //keeps puck in play, so velocity check will end turn
                 }
-                */
                 
             } // end if collision
         }
@@ -140,8 +130,7 @@ class Puck {
         this.velocity = tempVelocity;
         this.velX = tempVelX;
         this.velY = tempVelY;
-        if(testLeftSide /*&& !badShot*/){
-            //console.log(badShot);
+        if(testLeftSide){
             return gotPastGoalLeft;
         } else {
             return gotPastGoalRight;
