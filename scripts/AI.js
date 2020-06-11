@@ -1,22 +1,25 @@
 function aiControl() {
     // AI failure rates
-    AIFail  = false;
+    var correctShotSpeed = 0;
+    AIAimFail  = false;
+    AIPowerFail = false;
+    
     AIFailPerc = Math.random();
+    
     if(scoreManager.scores[1] > scoreManager.scores[0] && AIFailPerc > 0.2){
-        AIFail = true;
+        AIPowerFail = true;
     } // if AI is doing better than player, there's a good chance it'll miss
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.8){
-        AIFail = true;
+        AIAimFail = true;
     } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
-    /* //commenting this line out for rn to test over powered shots, need AI to play flawlessly. 
+    //commenting this line out for rn to test over powered shots, need AI to play flawlessly. 
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.6){
-        AIFail = true;
+        AIAimFail = true;
     } //if AI is even with player, it performs adequately. fail rate 40
-    */
+    
+    
  
-    //var shotSpeed = 540;
     var shotSpeedRange = 540; 
-    //var aimAngle = 0; //don't think this it actually used
 
     var testVect = new Vector2(0,0);
     var aiShotFoundToScore = false;
@@ -28,6 +31,7 @@ function aiControl() {
             if(puckOne.shotPrediction(true, true)){ //notes for ash! I guess this conditional statement calls and runs that entire function, with its side effects, it's not just checking against the return value
                 //aimAngle = aim; //I don't think aimAngle is actually used
                 aiShotFoundToScore = true;
+                correctShotSpeed = shotSpeed;
                 break;
             } //if shotPrediction() has found a working shot, break, and pass in testVect to .hold()
         }
@@ -43,9 +47,17 @@ function aiControl() {
     //maybe try tweaking these numbers first, from various court positions
     if (input.clicked() && !shooting) {
         shooting = true;
-        //slightly alter the launch Vector to make Ai fail on a coin flip
-        if(AIFail){
-            testVect.x += 50;
+
+        if(AIPowerFail){
+            console.log(AIPowerFail);
+            var testVectXTemp = testVect.x/correctShotSpeed;
+            var testVectYTemp = testVect.y/correctShotSpeed;
+            var failureShotSpeed = correctShotSpeed - 30; //AI will underpower shot
+            testVect.x = testVectXTemp * failureShotSpeed;
+            testVect.y = testVectYTemp * failureShotSpeed;
+        }
+        if(AIAimFail){
+            //testVect.x += 50; //AI will skew shot. 
         }
         let launchVector = new Vector2(testVect.x, testVect.y);  
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
