@@ -10,6 +10,13 @@ var activePlayer = 1;
 
 var faceOff = false;
 
+const state = {
+	game: 0,
+	gameover: 1
+};
+
+let gameState = state.game;
+
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -57,6 +64,10 @@ function resetGame() {
 }
 
 function moveEverything() {
+	if ( scoreManager.winner ) {
+		gameState = state.gameover;
+	}
+
 	if (puckOne.inPlay);
 	else if (activePlayer === 1) {
 		//console.log('player control conditional is being called');
@@ -72,26 +83,33 @@ function moveEverything() {
 }
 
 function drawEverything() {
-	drawBackground();
-	puckOne.draw();
-	drawUI();
-	input.touch.draw();
-	//horizontal lines
-	/*
-	colorRect(0, 200, canvas.width, 1, 'white');
-	colorRect(0, 100, canvas.width, 1, 'white');
-	colorRect(0, canvas.height-100, canvas.width, 1, 'white');
 	
-	colorRect(0, canvas.height - 200, canvas.width, 1, 'white');
-	colorRect(300, 0, 1, canvas.width, 'white');
-	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
-	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
-	*/
-	if(faceOff){
-		canvasContext.fillStyle = 'white';
-		canvasContext.font = '160px Arial';
-		canvasContext.textAlign = 'center';
-		canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
+	if ( gameState == state.gameover ) {
+		drawGameOver();
+	}
+	if ( gameState == state.game ) {
+		
+		drawBackground();
+		puckOne.draw();
+		drawUI();
+		input.touch.draw();
+		//horizontal lines
+		/*
+		colorRect(0, 200, canvas.width, 1, 'white');
+		colorRect(0, 100, canvas.width, 1, 'white');
+		colorRect(0, canvas.height-100, canvas.width, 1, 'white');
+		
+		colorRect(0, canvas.height - 200, canvas.width, 1, 'white');
+		colorRect(300, 0, 1, canvas.width, 'white');
+		colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
+		colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
+		*/
+		if(faceOff){
+			canvasContext.fillStyle = 'white';
+			canvasContext.font = '160px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
+		}
 	}
 }
 
@@ -103,6 +121,15 @@ function drawBackground() {
 	drawNet();
 	
 	drawBoard();
+}
+
+function drawGameOver() {
+	colorRect(0,0, canvas.width, canvas.height, 'Black');
+	canvasContext.fillStyle = 'white';
+	const winName = scoreManager.winner === 1 ? 'Left Player' : 'Right Player';
+	canvasContext.fillText(winName + ' Won', 350, 200);
+
+	canvasContext.fillText("click to continue", 350, 500);
 }
 
 function drawNet() {
@@ -117,16 +144,6 @@ function drawNet() {
 }
 
 function drawUI() {
-	if(scoreManager.winner) {
-		canvasContext.fillStyle = 'white';
-
-		let winName = scoreManager.winner === 1 ? 'Left Player' : 'Right Player';
-		canvasContext.fillText(winName + ' Won', 350, 200);
-
-		canvasContext.fillText("click to continue", 350, 500);
-		return;
-	}
-
 	canvasContext.save()
 	canvasContext.font = '160px Arial';
 	canvasContext.textAlign = 'center';
