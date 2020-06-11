@@ -1,5 +1,4 @@
-var canvas;
-var canvasContext;
+var canvas, canvasContext;
 var debugMode = false;
 
 var shooting = false;
@@ -11,11 +10,12 @@ var activePlayer = 1;
 var faceOff = false;
 
 const state = {
-	game: 0,
-	gameover: 1
+	menu: 0,
+	game: 1,
+	gameover: 2,
 };
 
-let gameState = state.game;
+let gameState = state.menu;
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -59,37 +59,38 @@ function debug() {
 }
 
 function resetGame() {
+	gameState = state.game;
 	scoreManager.reset();
 	puckOne.reset();
 }
 
 function moveEverything() {
-	if ( scoreManager.winner ) {
-		gameState = state.gameover;
+	if (gameState === state.menu) {
+		ui.control();
+	} else if (gameState === state.game) {
+		if (puckOne.inPlay);
+		else if (activePlayer === 1) {
+			playerControl();
+		}
+		else if (activePlayer === 2) {
+			aiControl(); 
+		}
+		
+		updateAnimations();
+		puckOne.move();
+		if (scoreManager.winner) {
+			gameState = state.gameover;
+		}
+	} else if (gameState === state.gameover && input.clicked()) {
+		resetGame();
 	}
-
-	if (puckOne.inPlay);
-	else if (activePlayer === 1) {
-		//console.log('player control conditional is being called');
-		playerControl();
-	}
-	else if (activePlayer === 2) {
-		aiControl(); 
-	}
-	
-	updateAnimations();
-	puckOne.move();
-	//console.log(puckOne.velocity);
 }
 
 function drawEverything() {
-	
-	if ( gameState == state.gameover ) {
-		drawGameOver();
-	}
-	if ( gameState == state.game ) {
-		
-		drawBackground();
+	drawBackground();
+	if (gameState === state.menu) {
+		ui.draw();
+	} else if (gameState === state.game) {
 		puckOne.draw();
 		drawUI();
 		input.touch.draw();
@@ -110,6 +111,8 @@ function drawEverything() {
 			canvasContext.textAlign = 'center';
 			canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
 		}
+	}else if ( gameState == state.gameover ) {
+		drawGameOver();
 	}
 }
 
@@ -117,10 +120,10 @@ function drawBackground() {
 	//canvasContext.globalAlpha = 0.10;
 	colorRect(0,0,canvas.width,canvas.height,bgColor);
 	canvasContext.globalAlpha = 1.0;
-
-	drawNet();
-	
 	drawBoard();
+	
+	if (gameState === state.menu) return;
+	drawNet();
 }
 
 function drawGameOver() {

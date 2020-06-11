@@ -1,6 +1,6 @@
 const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
 
-let input, touch;
+let input;
 
 function initInput() {
 	input = new Input(canvas);
@@ -32,15 +32,13 @@ function playerControl() {
 			puckRelease(launchVector);
 		}
 	}
-	
-	if (scoreManager.winner) resetGame();
 }
 
 class Input {
 	constructor (target) {
-		this.pointer = null;
 		this.mouse = new Mouse(target);
-		this.touch = new TouchManager(target)
+		this.touch = new TouchManager(target);
+		this.pointer = this.mouse;
 	}
 
 	init() {

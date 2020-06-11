@@ -34,25 +34,14 @@ function pointInCircle(point, circle) {
     return distance <= circle.radius;
 }
 
-function subtractAbsValPoints(point1, point2){
-	point1XAbs = Math.abs(point1.x);
-	point2XAbs = Math.abs(point2.x);
-	largerXVal = Math.max(point1XAbs, point2XAbs);
-	smallerXVal = Math.min(point1XAbs, point2XAbs);
-
-	point1YAbs = Math.abs(point1.y);
-	point2YAbs = Math.abs(point2.y);
-	largerYVal = Math.max(point1YAbs, point2YAbs);
-	smallerYVal = Math.min(point1YAbs, point2YAbs);
-
-
-	xDiff = largerXVal - smallerXVal;
-	yDiff = largerYVal - smallerYVal;
-
-	return {
-		x: xDiff,
-		y: yDiff
-	}
+function pointInRect(point, rect) {
+    if (point.x < rect.x ||
+        point.x > rect.x + rect.width ||
+        point.y < rect.y ||
+        point.y > rect.y + rect.height) {
+            return false;
+        }
+    return true;
 }
 
 function circleRectCollision(circle, rect) {
