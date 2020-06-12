@@ -155,7 +155,7 @@ class Puck {
         let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
         smoothShot.length = lerp(0, 100, weight);
 
-        if (shooting) {
+        if (this.shotVector) {
             canvasContext.fillStyle = 'white';
             canvasContext.beginPath();
             canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);

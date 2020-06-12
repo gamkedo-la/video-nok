@@ -13,9 +13,8 @@ InterfaceProperties = {
 
 function controlMenu() {
 	for (let element of this.elements) {
-		if (input.pointer && pointInRect(input.pointer, element)) {
+		if (pointInRect(input.pointer, element)) {
 			element.hover = true;
-
 			if (input.clicked()) element.onPress();
 			else if (input.held()) continue;
 			else if (input.released()) element.onRelease();
@@ -163,27 +162,38 @@ let menu_elements = [
 		font: '80px Arial',
 		label: 'VIDEO-NOK',
 	}),
+
+	new InterfaceButton({
+		parent: canvas,
+		alignment: {x: 'center', y: 'center'},
+		position: new Vector2(-37.5, -60),
+		dimensions: new Vector2(75, 30),
+		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
+		font: '12Px Arial',
+		label: '0 Players',
+		callback: () => {newGame(0)},
+	}),
 	
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-25, -15),
+		position: new Vector2(-37.5, -15),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
-		label: '1 Player',
-		callback: () => {gameState = state.game;},
+		label: '1 Players',
+		callback: () => {newGame(1)},
 	}),
 
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-25, 30),
+		position: new Vector2(-37.5, 30),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
-		label: '2 Player',
-		callback: () => {gameState = state.game;},
+		label: '2 Players',
+		callback: () => {newGame(2)},
 	})
 ];
 

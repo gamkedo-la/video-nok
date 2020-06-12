@@ -16,6 +16,7 @@ const state = {
 };
 
 let gameState = state.menu;
+let playerControllers = [aiControl, aiControl];
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -58,6 +59,16 @@ function debug() {
 	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 }
 
+function newGame(playerCount) {
+	let controllers = playerControllers.length;
+	for (let i = 0; i < controllers; i++) {
+		if (i + 1<= playerCount) {
+			playerControllers[i] = playerControl;
+		} else playerControllers[i] = aiControl;
+	}
+	resetGame();
+}
+
 function resetGame() {
 	gameState = state.game;
 	scoreManager.reset();
@@ -69,20 +80,14 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		if (puckOne.inPlay);
-		else if (activePlayer === 1) {
-			playerControl();
-		}
-		else if (activePlayer === 2) {
-			aiControl(); 
-		}
-		
+		else playerControllers[activePlayer - 1]();
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
 			gameState = state.gameover;
 		}
 	} else if (gameState === state.gameover && input.clicked()) {
-		resetGame();
+		gameState = state.menu;
 	}
 }
 
@@ -93,7 +98,6 @@ function drawEverything() {
 	} else if (gameState === state.game) {
 		puckOne.draw();
 		drawUI();
-		input.touch.draw();
 		//horizontal lines
 		/*
 		colorRect(0, 200, canvas.width, 1, 'white');
@@ -114,16 +118,15 @@ function drawEverything() {
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();
 	}
+	input.touch.draw();
 }
 
 function drawBackground() {
 	//canvasContext.globalAlpha = 0.10;
 	colorRect(0,0,canvas.width,canvas.height,bgColor);
 	canvasContext.globalAlpha = 1.0;
-	drawBoard();
-	
-	if (gameState === state.menu) return;
 	drawNet();
+	drawBoard();	
 }
 
 function drawGameOver() {

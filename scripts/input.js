@@ -5,8 +5,7 @@ let input;
 function initInput() {
 	input = new Input(canvas);
 	input.init();
-
-  	document.addEventListener("keydown", keyPressed);
+	document.addEventListener("keydown", keyPressed);
 }
 
 function keyPressed(evt){
@@ -30,6 +29,7 @@ function playerControl() {
 			let launchVector = new Vector2(input.pointer.x - puckOne.x, input.pointer.y - puckOne.y);
 			launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
 			puckRelease(launchVector);
+			shooting = false;
 		}
 	}
 }
@@ -49,14 +49,14 @@ class Input {
 	update() {
 		this.mouse.update(1);
 		this.touch.update(1);
+		if (this.touch.active) this.pointer = this.touch;
+		else this.pointer = this.mouse;
 	}
 
 	clicked() {
 		if (this.mouse.mouseClicked(0)) {
-			this.pointer = this.mouse;
 			return true;
 		} else if (this.touch.justTouched()) {
-			this.pointer = this.touch;
 			return true;
 		}
 
@@ -192,7 +192,7 @@ class TouchManager {
 	}
 
 	get active() {
-		return this.currentTouches.length > 0;
+		return (this.currentTouches.length + this.endedTouches.length) > 0;
 	}
 
 	get x() {

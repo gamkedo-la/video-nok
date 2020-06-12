@@ -1,7 +1,7 @@
 let animations = [];
 
 function updateAnimations() {
-    for (let i=animations.length - 1; i >= 0; i--) {
+    for (let i = animations.length - 1; i >= 0; i--) {
         if (animations[i].complete) animations.splice(i, 1);
     }
 
@@ -11,40 +11,40 @@ function updateAnimations() {
 }
 
 class LerpAnimation {
-	constructor(lifetime, curve, animation, callback, args) {
+    constructor(lifetime, curve, animation, callback, args) {
         this.lifetime = lifetime;
-		this.curve = curve;//A function that takes a value between 0 and 1 and returns a value between 0 and 1
-		this.animate = animation;//A function updates an animation from start (0) to end (1);
-		this.callback = callback;//Called when the animation completes
+        this.curve = curve;//A function that takes a value between 0 and 1 and returns a value between 0 and 1
+        this.animate = animation;//A function updates an animation from start (0) to end (1);
+        this.callback = callback;//Called when the animation completes
         this.args = args;//arguments object passed to animate
         this.timer = 0;
         this.complete = false;
-	}
+    }
 
-	update() {
+    update() {
         if (this.complete) return;
         if (this.timer < this.lifetime) {
-		    let t = this.curve(this.timer / this.lifetime);
+            let t = this.curve(this.timer / this.lifetime);
             this.animate(t, this.args);
             this.timer++;
         } else {
             this.callback();
             this.complete = true;
         }
-	}
+    }
 }
 
 function puckWindup(vector) {
-    let windup = new LerpAnimation(24, smoothStop, windupAnimation, 
-                () => {puckRelease(vector)}, 
-                {length: vector.length});
+    let windup = new LerpAnimation(24, smoothStop, windupAnimation,
+        () => { puckRelease(vector) },
+        { length: vector.length });
     animations.push(windup);
 }
 
 function puckRelease(vector) {
-    let release = new LerpAnimation(5, smoothStart, releaseAnimation, 
-                () => {puckOne.hold(vector); puckOne.release(); shooting = false;},
-                {length: vector.length});
+    let release = new LerpAnimation(5, smoothStart, releaseAnimation,
+        () => { puckOne.hold(vector); puckOne.release(); shooting = false; },
+        { length: vector.length });
     animations.push(release);
 }
 

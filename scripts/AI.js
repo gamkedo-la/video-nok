@@ -1,4 +1,5 @@
 function aiControl() {
+    if (puckOne.inPlay || shooting) return;
     // AI failure rates
     var correctShotSpeed = 0;
     AIAimFail  = false;
@@ -17,7 +18,7 @@ function aiControl() {
         AIAimFail = true;
     } //if AI is even with player, it performs adequately. fail rate 40
     
-    
+
  
     var shotSpeedRange = 540; 
 
@@ -63,6 +64,6 @@ function aiControl() {
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
         //launces puck
         puckWindup(launchVector);
-    }
+    } else puckOne.shotVector = null;
     
 }
