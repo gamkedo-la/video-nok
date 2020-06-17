@@ -15,6 +15,9 @@ function keyPressed(evt){
 }
 
 function playerControl() {
+	if(player1lostFaceOff){
+		return;
+	}
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
 	}

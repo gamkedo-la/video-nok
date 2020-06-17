@@ -7,7 +7,9 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
-var faceOff = false;
+var faceOffActive = false;
+var AIFaceOffCountDown = 100;
+var player1lostFaceOff = false;
 
 const state = {
 	menu: 0,
@@ -26,6 +28,10 @@ window.onload = function() {
 
 	var framesPerSecond = 30;
 	setInterval(main, 1000/framesPerSecond);
+}
+
+function faceOff(){
+
 }
 
 function main() {
@@ -80,7 +86,19 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		if (puckOne.inPlay);
-		else playerControllers[activePlayer - 1]();
+		if(faceOffActive){
+			faceOff();
+			//start writing the function body here if that's easier
+			if(AIFaceOffCountDown > 0) {
+				AIFaceOffCountDown--
+				playerControllers[0](); //calls playerControl before AI takes its shot
+			} else {
+				//activePlayer = 2;
+				player1lostFaceOff = true;
+				console.log('ai ready to move');
+			}			
+		}
+		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
@@ -109,7 +127,7 @@ function drawEverything() {
 		colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
 		colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
 		*/
-		if(faceOff){
+		if(faceOffActive){
 			canvasContext.fillStyle = 'white';
 			canvasContext.font = '160px Arial';
 			canvasContext.textAlign = 'center';
