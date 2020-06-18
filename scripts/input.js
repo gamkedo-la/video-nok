@@ -19,9 +19,9 @@ function keyPressed(evt){
 }
 
 function replicateGameScenario(){
-	activePlayer = 2;
-	puckOne.x = 700;
-	puckOne.y = 200;
+	activePlayer = 2; //is this more complicated that just changing a flag, i.e a function
+	puckOne.x = 748.01171875;
+	puckOne.y = 511.01171875;
 	faceOffActive = false;
 }
 

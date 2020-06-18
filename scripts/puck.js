@@ -21,6 +21,10 @@ class Puck {
         this.y = canvas.height / 2;
     }
 
+    switchPlayer(){
+        activePlayer = activePlayer === 1 ? 2 : 1;
+    }
+
     move() {
         this.velocity.length -= BALL_FRICTION;
 
@@ -28,7 +32,7 @@ class Puck {
         this.y += this.velY;
 
         if (this.inPlay && this.velocity.length <= 0) {
-            activePlayer = activePlayer === 1 ? 2 : 1;
+            this.switchPlayer();
             this.inPlay = false;
         }
 
@@ -62,11 +66,14 @@ class Puck {
                 //hacky way to reset the puck if it hits the wall too hard
                 
                 
-                if(this.inPlay && (Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
-                    badShot = true;
-                    this.reset();
-                    this.inPlay = true; //keeps puck in play, so velocity check will end turn
-                }
+                if((Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
+                    if(this.inPlay){ //if actually firing
+                        this.reset(); 
+                        this.switchPlayer();
+                    } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
+                        this.velX = this.velY = 0;
+                    }
+                }  
                 
             } // end if collision
         }
@@ -123,7 +130,7 @@ class Puck {
                 gotPastGoalRight = true;
                 break;
             }
-            this.checkForCollisions();
+            this.checkForCollisions(); //if puck winds out outta bounds, velocity gets 0'd out to ruin this test
             if(i % 2 == 0 && skipDraw == false){
                 canvasContext.globalAlpha = 1.0 - i/steps;
                 //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
@@ -143,7 +150,6 @@ class Puck {
             return gotPastGoalRight;
             //return false;
         }
-        badShot = false;
     } //end of shotPrediction
 
    draw(){		

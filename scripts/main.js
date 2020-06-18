@@ -7,7 +7,7 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
-var faceOffActive = true; //defaults to true because that's how the game would normally start. 
+var faceOffActive = false; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 100;
 var player1lostFaceOff = false;
 
@@ -97,7 +97,7 @@ function moveEverything() {
 	} else if (gameState === state.game) {
 		if (puckOne.inPlay);
 		if(faceOffActive){
-			faceOff();				
+			//faceOff();				
 		}
 		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
 		updateAnimations();
