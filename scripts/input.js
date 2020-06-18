@@ -1,4 +1,5 @@
 const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
+const KEY_Replicate_game_scenario = 69 //press 'E' to replicate a game scenario, set puck position and active plaer to specfic values
 
 let input;
 
@@ -12,10 +13,22 @@ function keyPressed(evt){
 	if (evt.keyCode == KEY_Debug) {
 		toggleDebugMode();
 	}
+	if (evt.keyCode == KEY_Replicate_game_scenario && debugMode) {
+		replicateGameScenario();
+	}
+}
+
+function replicateGameScenario(){
+	activePlayer = 2;
+	puckOne.x = 700;
+	puckOne.y = 200;
+	faceOffActive = false;
 }
 
 function playerControl() {
+	//put a 'tick' for ctrl reaching the function body of player control
 	if(player1lostFaceOff){
+		player1lostFaceOff = false;
 		return;
 	}
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
@@ -23,6 +36,7 @@ function playerControl() {
 	}
 	
 	if (shooting) {
+		console.log('ctrl has made it to playerControl: if(shooting)');
 		if (input.held()) {
 			let aim = new Vector2(input.pointer.x - puckOne.x, input.pointer.y - puckOne.y);
 			puckOne.hold(aim);

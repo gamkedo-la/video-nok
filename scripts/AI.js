@@ -50,12 +50,14 @@ function aiControl() {
         shooting = true;
 
         if(AIPowerFail){
+            /*
             console.log(AIPowerFail);
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
             var failureShotSpeed = correctShotSpeed - 30; //AI will underpower shot
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
+            */
         }
         if(AIAimFail){
             //testVect.x += 50; //AI will skew shot. 
@@ -64,6 +66,25 @@ function aiControl() {
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
         //launces puck
         puckWindup(launchVector);
-    } else puckOne.shotVector = null;
-    
+        faceOffActive = false; 
+        //player1lostFaceOff = false;
+    } else { 
+        //console.log('control has made it to the last else statement in ai.js');
+        if(!faceOffActive){
+            puckOne.shotVector = null;
+            //player1lostFaceOff = false;
+        } //prevents error from being thrown if Ai takes a shot during Face Off
+        
+    } 
 }
+
+/*
+    } else { 
+        //console.log('control has made it to the last else statement in ai.js');
+        if(!faceOffActive){
+            puckOne.shotVector = null;
+            //player1lostFaceOff = false;
+        } //prevents error from being thrown if Ai takes a shot during Face Off
+        
+    } 
+    */
