@@ -166,7 +166,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, -60),
+		position: new Vector2(-37.5, -90),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -177,7 +177,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, -15),
+		position: new Vector2(-37.5, -45),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -188,12 +188,23 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, 30),
+		position: new Vector2(-37.5, 0),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
 		label: '2 Players',
 		callback: () => {newGame(2)},
+	}),
+
+	new InterfaceButton({
+		parent: canvas,
+		alignment: {x: 'center', y: 'center'},
+		position: new Vector2(-37.5, 45),
+		dimensions: new Vector2(75, 30),
+		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
+		font: '12Px Arial',
+		label: 'Credits',
+		callback: () => { gameState = state.credits },
 	})
 ];
 

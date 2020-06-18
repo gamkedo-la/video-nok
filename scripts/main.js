@@ -15,6 +15,7 @@ const state = {
 	menu: 0,
 	game: 1,
 	gameover: 2,
+	credits: 3
 };
 
 let gameState = state.menu;
@@ -106,6 +107,8 @@ function moveEverything() {
 		}
 	} else if (gameState === state.gameover && input.clicked()) {
 		gameState = state.menu;
+	} else if (gameState === state.credits && input.clicked()) {
+		gameState = state.menu;
 	}
 }
 
@@ -135,6 +138,8 @@ function drawEverything() {
 		}
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();
+	} else if ( gameState == state.credits ) {
+		drawCredits();
 	}
 	input.touch.draw();
 }
@@ -176,4 +181,9 @@ function drawUI() {
 	canvasContext.fillStyle = activePlayer === 2 ? 'white' : blue;
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
 	canvasContext.restore();
+}
+
+function drawCredits() {
+	colorRect(0,0, canvas.width, canvas.height, 'Black');
+	canvasContext.fillText("Credits", 350, 500);
 }
