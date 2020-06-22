@@ -11,6 +11,10 @@ var faceOffActive = false; //defaults to true because that's how the game would 
 var AIFaceOffCountDown = 100;
 var player1lostFaceOff = false;
 
+var outOfBoundsTimer = 0;
+var outOfBoundsPuckXPos;
+var outOfBoundsPuckYPos;
+
 const state = {
 	menu: 0,
 	game: 1,
@@ -114,36 +118,41 @@ function moveEverything() {
 
 function drawEverything() {
 	drawBackground();
+	if(outOfBoundsTimer > 0){
+		outOfBoundsTimer--
+		colorRect(outOfBoundsPuckXPos, outOfBoundsPuckYPos, 100, 100, 'white');
+		canvasContext.font = '30px Arial';
+		canvasContext.textAlign = 'left';
+		canvasContext.fillStyle = 'red';
+		canvasContext.fillText("OB!", outOfBoundsPuckXPos, outOfBoundsPuckYPos);	
+	}
 	if (gameState === state.menu) {
 		ui.draw();
 	} else if (gameState === state.game) {
-		puckOne.draw();
-		drawUI();
-		//horizontal lines
-		/*
-		colorRect(0, 200, canvas.width, 1, 'white');
-		colorRect(0, 100, canvas.width, 1, 'white');
-		colorRect(0, canvas.height-100, canvas.width, 1, 'white');
-		
-		colorRect(0, canvas.height - 200, canvas.width, 1, 'white');
-		colorRect(300, 0, 1, canvas.width, 'white');
-		colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
-		colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
-		*/
-		if(faceOffActive){
+
+		if(debugMode){
 			var debugX = 200;
 			var debugY = canvas.height/2 + 200;
 			var debugSkipY = 15;
-			canvasContext.fillStyle = 'white';
-			canvasContext.font = '160px Arial';
-			canvasContext.textAlign = 'center';
-			canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
 			canvasContext.font = '10px Arial';
 			canvasContext.textAlign = 'left';
 			debugY += debugSkipY;
 			canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
-			//bool flags too ^_^
-			//visualize 
+		}
+		/*
+		canvasContext.font = '30px Arial';
+		canvasContext.fillText("outOfBoundsTimer: " + outOfBoundsTimer, 100, canvas.height-100);
+		//moving this outOfBounds flag printing out of debug mode, bc debug mode uses shotPred, which flips outOfBounds if the puck is going to be shot OB, but not if it actually is.
+		*/
+		
+		puckOne.draw();
+		drawUI();
+
+		if(faceOffActive){
+			canvasContext.fillStyle = 'white';
+			canvasContext.font = '160px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
 		}
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();

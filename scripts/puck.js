@@ -14,6 +14,7 @@ class Puck {
     }
 
     reset() {
+        //outOfBounds = false;
         this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
@@ -65,11 +66,14 @@ class Puck {
                 }
                 //hacky way to reset the puck if it hits the wall too hard
                 
-                
                 if((Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
                     if(this.inPlay){ //if actually firing
+                        outOfBoundsTimer = 10;
+                        outOfBoundsPuckXPos = this.x;
+                        outOfBoundsPuckYPos = this.y;
                         this.reset(); 
                         this.switchPlayer();
+                        //outOfBounds = false;
                     } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
                         this.velX = this.velY = 0;
                     }

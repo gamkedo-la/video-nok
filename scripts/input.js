@@ -36,7 +36,6 @@ function playerControl() {
 	}
 	
 	if (shooting) {
-		console.log('ctrl has made it to playerControl: if(shooting)');
 		if (input.held()) {
 			let aim = new Vector2(input.pointer.x - puckOne.x, input.pointer.y - puckOne.y);
 			puckOne.hold(aim);
