@@ -116,15 +116,21 @@ function moveEverything() {
 	}
 }
 
+function drawOutOfBoundsIndicator(){
+	colorRect(outOfBoundsPuckXPos, outOfBoundsPuckYPos, 75, 75, blue, 20);
+	colorRect(outOfBoundsPuckXPos, outOfBoundsPuckYPos, 75, 75, yellow, 60);
+	canvasContext.font = '30px Arial';
+	canvasContext.textAlign = 'left';
+	canvasContext.fillStyle = orange;
+	canvasContext.fillText("OB!", outOfBoundsPuckXPos + 15, outOfBoundsPuckYPos + 50);
+}
+
 function drawEverything() {
 	drawBackground();
+	
 	if(outOfBoundsTimer > 0){
 		outOfBoundsTimer--
-		colorRect(outOfBoundsPuckXPos, outOfBoundsPuckYPos, 100, 100, 'white');
-		canvasContext.font = '30px Arial';
-		canvasContext.textAlign = 'left';
-		canvasContext.fillStyle = 'red';
-		canvasContext.fillText("OB!", outOfBoundsPuckXPos, outOfBoundsPuckYPos);	
+		drawOutOfBoundsIndicator();
 	}
 	if (gameState === state.menu) {
 		ui.draw();

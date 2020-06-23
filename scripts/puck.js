@@ -68,7 +68,7 @@ class Puck {
                 
                 if((Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
                     if(this.inPlay){ //if actually firing
-                        outOfBoundsTimer = 10;
+                        outOfBoundsTimer = 5;
                         outOfBoundsPuckXPos = this.x;
                         outOfBoundsPuckYPos = this.y;
                         this.reset(); 

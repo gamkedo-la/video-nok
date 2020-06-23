@@ -1,6 +1,8 @@
 var bgColor = '#713784';
 var blue = '#6dcff6';
-var railColor = '#f5989d';
+var yellow = '#fff799';
+var orange = '#f5989d';
+var railColor = orange;
 
 function colorCircle(centerX, centerY, radius, drawColor) {
 	canvasContext.fillStyle = drawColor;
@@ -18,11 +20,13 @@ function strokeCircle(centerX, centerY, radius, drawColor) {
 	canvasContext.stroke();
 }
 
-function colorRect(leftX,topY, width,height, drawColor, rotation=0) {
+function colorRect(leftX,topY, width,height, drawColor, rotation) {
 	canvasContext.save();
+	canvasContext.translate(leftX + (width /2), topY + (height/2));
+	canvasContext.rotate(rotation); 
+	canvasContext.translate(-(leftX + (width /2)), -(topY + (height/2)));
 	canvasContext.fillStyle = drawColor;
 	canvasContext.fillRect(leftX,topY, width,height);
-	canvasContext.rotate(45);
 	canvasContext.restore();
 }
 
