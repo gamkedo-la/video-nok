@@ -11,7 +11,10 @@ class Puck {
         this.inPlay = false;
         this.radius = 30;
         this.color = blue;
+        this.lastPredictedBounce = 0;
+        this.lastPredictedLength = 0;
     }
+
 
     reset() {
         //outOfBounds = false;
@@ -55,6 +58,7 @@ class Puck {
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
             if (collision) {                
+                this.lastPredictedBounce++;
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
                 if (dir.y != 0)  {;
@@ -64,6 +68,7 @@ class Puck {
                     this.velX *= -1;
                     this.x += penetration.x * -dir.x;
                 }
+
                 //hacky way to reset the puck if it hits the wall too hard
                 
                 if((Math.abs(this.velocity.x) > 12 || Math.abs(this.velocity.y) > 12)){
@@ -111,6 +116,9 @@ class Puck {
     }
 
     shotPrediction(skipDraw, testLeftSide){
+        this.lastPredictedBounce = 0;
+        this.lastPredictedLength = 0;
+
         var gotPastGoalLeft = false;
         var gotPastGoalRight = false;
 
@@ -126,6 +134,7 @@ class Puck {
             this.velocity.length -= BALL_FRICTION;
             this.x += this.velX;
             this.y += this.velY;
+            this.lastPredictedLength += this.velocity.length;
             if(this.x < 0){
                 gotPastGoalLeft = true;
                 break;
