@@ -15,6 +15,8 @@ var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
 var outOfBoundsPuckYPos;
 
+const credits = new Credits(350, 500, text.credits);
+
 const state = {
 	menu: 0,
 	game: 1,
@@ -26,14 +28,22 @@ let gameState = state.menu;
 let playerControllers = [aiControl, aiControl];
 
 window.onload = function() {
+	initGame();
+
+	const framesPerSecond = 30;
+	setInterval(main, 1000/framesPerSecond);
+}
+
+function initCanvas() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
+}
+
+function initGame() {
+	initCanvas();
 	initAudio();
 	initInput();
 	initBoard();
-
-	var framesPerSecond = 30;
-	setInterval(main, 1000/framesPerSecond);
 }
 
 function faceOff(){
@@ -113,6 +123,8 @@ function moveEverything() {
 		gameState = state.menu;
 	} else if (gameState === state.credits && input.clicked()) {
 		gameState = state.menu;
+	} else if (gameState === state.credits) {
+		credits.update();
 	}
 }
 
@@ -163,7 +175,7 @@ function drawEverything() {
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();
 	} else if ( gameState == state.credits ) {
-		drawCredits();
+		credits.draw();
 	}
 	input.touch.draw();
 }
