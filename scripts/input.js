@@ -46,6 +46,7 @@ function playerControl() {
 			launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
 			puckRelease(launchVector);
 			shooting = false;
+			faceOffActive = false;
 		}
 	}
 }

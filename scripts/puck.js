@@ -43,10 +43,14 @@ class Puck {
         this.checkForCollisions();
         
         if (this.isInRightGoal()) {
+            faceOffActive = true;
+            AIFaceOffCountDown  = 100;
             this.reset();
             activePlayer = 2;
             scoreManager.add(0, 1); //Player 1 scores
         } else if (this.isInLeftGoal()) {
+            AIFaceOffCountDown  = 100;
+            faceOffActive = true;
             this.reset();
             activePlayer = 1;
             scoreManager.add(1, 1);

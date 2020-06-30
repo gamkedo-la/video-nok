@@ -7,7 +7,7 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
-var faceOffActive = false; //defaults to true because that's how the game would normally start. 
+var faceOffActive = true; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 100;
 var player1lostFaceOff = false;
 
@@ -55,6 +55,7 @@ function faceOff(){
 		player1lostFaceOff = true;
 		shooting = false; //causes shotVector to be set to null, which throws an error in animation.js
 		aiControl();
+		//AIFaceOffCountDown = 0;
 	}
 }
 
@@ -111,7 +112,7 @@ function moveEverything() {
 	} else if (gameState === state.game) {
 		if (puckOne.inPlay);
 		if(faceOffActive){
-			//faceOff();				
+			faceOff();				
 		}
 		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
 		updateAnimations();
@@ -147,8 +148,19 @@ function drawEverything() {
 	if (gameState === state.menu) {
 		ui.draw();
 	} else if (gameState === state.game) {
-
+		var debugX = 200;
+		var debugY = canvas.height/2 + 200;
+		var debugSkipY = 15;
+		canvasContext.font = '10px Arial';
+		canvasContext.textAlign = 'left';
+		debugY += debugSkipY;
+		canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
+		debugY += debugSkipY;
+		canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
+		debugY += debugSkipY;
+		canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
 		if(debugMode){
+			/*
 			var debugX = 200;
 			var debugY = canvas.height/2 + 200;
 			var debugSkipY = 15;
@@ -156,6 +168,11 @@ function drawEverything() {
 			canvasContext.textAlign = 'left';
 			debugY += debugSkipY;
 			canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
+			debugY += debugSkipY;
+			canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
+			debugY += debugSkipY;
+			canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
+			*/
 		}
 		/*
 		canvasContext.font = '30px Arial';

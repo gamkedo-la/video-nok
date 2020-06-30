@@ -11,11 +11,10 @@ function aiControl() {
     
     if(scoreManager.scores[1] > scoreManager.scores[0] && AIFailPerc > 0.2){
         AIPowerFail = true;
-    } // if AI is doing better than player, there's a good chance it'll miss
+    } // if AI is doing better than player, there's an 80% chance it'll underpower the shot
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.8){
         AIAimFail = true;
     } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
-    //commenting this line out for rn to test over powered shots, need AI to play flawlessly. 
     if(scoreManager.scores[1] < scoreManager.scores[0] && AIFailPerc > 0.6){
         AIAimFail = true;
     } //if AI is even with player, it performs adequately. fail rate 40
@@ -70,17 +69,15 @@ function aiControl() {
         shooting = true;
 
         if(AIPowerFail){
-            /*
             console.log(AIPowerFail);
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
             var failureShotSpeed = correctShotSpeed - 30; //AI will underpower shot
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
-            */
         }
         if(AIAimFail){
-            //testVect.x += 50; //AI will skew shot. 
+            testVect.x += 50; //AI will skew shot. 
         }
         let launchVector = new Vector2(testVect.x, testVect.y);  
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
