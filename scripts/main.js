@@ -10,8 +10,11 @@ var activePlayer = 1;
 var faceOffActive = true; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 100;
 var player1lostFaceOff = false;
+<<<<<<< HEAD
 
 //var outOfBounds = false;
+=======
+>>>>>>> parent of 7401cf9... Made faceOff play nicer with 0 and 2 player modes.
 
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
