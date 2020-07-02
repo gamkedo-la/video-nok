@@ -46,9 +46,13 @@ function initGame() {
 }
 
 function faceOff() {
+	puckOne.reset();
 	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
 		if (AIFaceOffCountDown > 0)  {
-			if (playerControllers[0] != aiControl) playerControl(); //Determine if 0 or 1 player mode
+			if (playerControllers[0] != aiControl) { //Determine if 0 or 1 player mode
+				activePlayer = 1;
+				playerControl(); 
+			}
 			AIFaceOffCountDown--;
 		} else {
 			activePlayer = 2; //TO DO: randomly select active player in 0 Player mode
