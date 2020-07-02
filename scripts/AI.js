@@ -83,13 +83,11 @@ function aiControl() {
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
         //launces puck
         puckWindup(launchVector);
-        faceOffActive = false; 
-        //player1lostFaceOff = false;
+        faceOffActive = false;
     } else { 
         //console.log('control has made it to the last else statement in ai.js');
         if(!faceOffActive){
             puckOne.shotVector = null;
-            //player1lostFaceOff = false;
         } //prevents error from being thrown if Ai takes a shot during Face Off
         
     } 
@@ -100,7 +98,6 @@ function aiControl() {
         //console.log('control has made it to the last else statement in ai.js');
         if(!faceOffActive){
             puckOne.shotVector = null;
-            //player1lostFaceOff = false;
         } //prevents error from being thrown if Ai takes a shot during Face Off
         
     } 
