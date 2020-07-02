@@ -9,7 +9,6 @@ var activePlayer = 1;
 
 var faceOffActive = true; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 100;
-var player1lostFaceOff = false;
 
 //var outOfBounds = false;
 
@@ -48,19 +47,19 @@ function initGame() {
 	initBoard();
 }
 
-function faceOff(){
-	puckOne.reset();
-	outOfBounds = false;
-	activePlayer = 1; //makes sure that single player mode works, will probably break 0 or 2p mode
-	//start writing the function body here if that's easier
-	if(AIFaceOffCountDown > 0) {
-		AIFaceOffCountDown-- //fillText it!
-		playerControllers[0](); //calls playerControl before AI takes its shot
-	} else {
-		player1lostFaceOff = true;
-		shooting = false; //causes shotVector to be set to null, which throws an error in animation.js
-		aiControl();
-		//AIFaceOffCountDown = 0;
+function faceOff() {
+	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
+		if (AIFaceOffCountDown > 0)  {
+			if (playerControllers[0] != aiControl) playerControl(); //Determine if 0 or 1 player mode
+			AIFaceOffCountDown--;
+		} else {
+			activePlayer = 2; //TO DO: randomly select active player in 0 Player mode
+			faceOffActive = false;
+			shooting = false;
+			aiControl(); //AI still assumes it is player 2
+		}
+	} else { //2 Player mode
+		playerControl();
 	}
 }
 
@@ -116,7 +115,7 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		if (puckOne.inPlay);
-		if(faceOffActive){
+		else if(faceOffActive){
 			faceOff();				
 		}
 		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
