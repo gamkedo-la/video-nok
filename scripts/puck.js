@@ -98,6 +98,7 @@ class Puck {
     }
 
     hold(vector) {
+        if (this.inPlay) return;
         this.shotVector = vector;
         this.shotVector.clamp(0, MAX_SHOT_VELOCITY);
     }
@@ -184,7 +185,7 @@ class Puck {
         }
     }
 
-    if(faceOffActive && this.aiFaceOffThreatVector && !this.inPlay){
+    if(faceOff && this.aiFaceOffThreatVector && this.inPlay == false){
         let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
         weight = this.aiFaceOffThreatVector.length / 200,
         width = this.radius;
