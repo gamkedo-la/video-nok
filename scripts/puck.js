@@ -17,7 +17,6 @@ class Puck {
 
 
     reset() {
-        //outOfBounds = false;
         this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
@@ -45,14 +44,10 @@ class Puck {
         if (this.isInRightGoal()) {
             faceOffActive = true;
             AIFaceOffCountDown  = 100;
-            this.reset();
-            activePlayer = 2;
             scoreManager.add(0, 1); //Player 1 scores
         } else if (this.isInLeftGoal()) {
             AIFaceOffCountDown  = 100;
             faceOffActive = true;
-            this.reset();
-            activePlayer = 1;
             scoreManager.add(1, 1);
         }
     }
@@ -77,12 +72,14 @@ class Puck {
                 
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
+                        AIFaceOffCountDown = 100; //set to 100, bc a face off is about to start
+                        faceOffActive = true; //if OB, start a faceoff
+
+                        //below is for the OB starburst
                         outOfBoundsTimer = 5;
                         outOfBoundsPuckXPos = this.x;
                         outOfBoundsPuckYPos = this.y;
-                        this.reset(); 
-                        this.switchPlayer();
-                        //outOfBounds = false;
+                        
                     } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
                         this.velX = this.velY = 0;
                     }

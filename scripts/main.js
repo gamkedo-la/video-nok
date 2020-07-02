@@ -11,6 +11,8 @@ var faceOffActive = true; //defaults to true because that's how the game would n
 var AIFaceOffCountDown = 100;
 var player1lostFaceOff = false;
 
+//var outOfBounds = false;
+
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
 var outOfBoundsPuckYPos;
@@ -47,6 +49,9 @@ function initGame() {
 }
 
 function faceOff(){
+	puckOne.reset();
+	outOfBounds = false;
+	activePlayer = 1; //makes sure that single player mode works, will probably break 0 or 2p mode
 	//start writing the function body here if that's easier
 	if(AIFaceOffCountDown > 0) {
 		AIFaceOffCountDown-- //fillText it!
