@@ -27,10 +27,6 @@ function replicateGameScenario(){
 
 function playerControl() {
 	//put a 'tick' for ctrl reaching the function body of player control
-	if(player1lostFaceOff){
-		player1lostFaceOff = false;
-		return;
-	}
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
 	}
