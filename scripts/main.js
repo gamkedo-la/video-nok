@@ -7,12 +7,16 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
-var faceOffActive = true; //defaults to true because that's how the game would normally start. 
+var preFaceOff = true
+var faceOffActive = false;
 var AIFaceOffCountDown = 100;
 
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
 var outOfBoundsPuckYPos;
+
+//debug vars
+var crtlReachedP1Ctrl = false;
 
 const credits = new Credits(350, 500, text.credits);
 
@@ -118,11 +122,20 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
-		if(faceOffActive){
-			console.log('ctrl has reached faceOffActive in moveEverything');
-			faceOff();				
+		if(preFaceOff){
+			/*
+			if(input.clicked()){
+				faceOffActive = true;
+				preFaceOff = false;
+			}
+			*/
 		}
-		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
+		if(faceOffActive){
+			faceOff();	
+		}
+		else {
+			playerControllers[activePlayer - 1]();
+		}
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
@@ -146,9 +159,28 @@ function drawOutOfBoundsIndicator(){
 	canvasContext.fillText("OB!", outOfBoundsPuckXPos + 15, outOfBoundsPuckYPos + 50);
 }
 
+function drawDebugText(){
+	var debugX = 200;
+	var debugY = canvas.height/2 + 200;
+	var debugSkipY = 15;
+	canvasContext.font = '10px Arial';
+	canvasContext.textAlign = 'left';
+	debugY += debugSkipY;
+	canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("preFaceOff: " + preFaceOff, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("player 1 score: " + player1Score, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("player 2 score: " + player2Score, debugX, debugY);
+}
+
 function drawEverything() {
 	drawBackground();
-	
 	if(outOfBoundsTimer > 0){
 		outOfBoundsTimer--
 		drawOutOfBoundsIndicator();
@@ -156,40 +188,18 @@ function drawEverything() {
 	if (gameState === state.menu) {
 		ui.draw();
 	} else if (gameState === state.game) {
-		var debugX = 200;
-		var debugY = canvas.height/2 + 200;
-		var debugSkipY = 15;
-		canvasContext.font = '10px Arial';
-		canvasContext.textAlign = 'left';
-		debugY += debugSkipY;
-		canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
-		debugY += debugSkipY;
-		canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
-		debugY += debugSkipY;
-		canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
-		if(debugMode){
-			/*
-			var debugX = 200;
-			var debugY = canvas.height/2 + 200;
-			var debugSkipY = 15;
-			canvasContext.font = '10px Arial';
-			canvasContext.textAlign = 'left';
-			debugY += debugSkipY;
-			canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
-			debugY += debugSkipY;
-			canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
-			debugY += debugSkipY;
-			canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
-			*/
-		}
-		/*
-		canvasContext.font = '30px Arial';
-		canvasContext.fillText("outOfBoundsTimer: " + outOfBoundsTimer, 100, canvas.height-100);
-		//moving this outOfBounds flag printing out of debug mode, bc debug mode uses shotPred, which flips outOfBounds if the puck is going to be shot OB, but not if it actually is.
-		*/
 		
 		puckOne.draw();
 		drawUI();
+		if(preFaceOff){
+			canvasContext.fillStyle = 'white';
+			canvasContext.font = '100px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("TAKE YOUR SHOT", canvas.width/2, canvas.height/2 + 200);	
+			canvasContext.font = '30px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("press E KEY to continue", canvas.width/2, canvas.height/2 + 230);	
+		}
 
 		if(faceOffActive){
 			canvasContext.fillStyle = 'white';
@@ -203,6 +213,7 @@ function drawEverything() {
 		credits.draw();
 	}
 	input.touch.draw();
+	drawDebugText();
 }
 
 function drawBackground() {

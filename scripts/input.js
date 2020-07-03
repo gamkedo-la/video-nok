@@ -14,7 +14,9 @@ function keyPressed(evt){
 		toggleDebugMode();
 	}
 	if (evt.keyCode == KEY_Replicate_game_scenario && debugMode) {
-		replicateGameScenario();
+		//replicateGameScenario();
+		preFaceOff = false;
+		faceOffActive = true;
 	}
 }
 
@@ -26,6 +28,7 @@ function replicateGameScenario(){
 }
 
 function playerControl() {
+	crtlReachedP1Ctrl = true;
 	//put a 'tick' for ctrl reaching the function body of player control
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
