@@ -44,14 +44,14 @@ class Puck {
         this.checkForCollisions();
         
         if (this.isInRightGoal()) {
-            preFaceOff = true;
+            faceOffActive = true;
             AIFaceOffCountDown  = 100;
             //this.reset();
             //activePlayer = 2;
             scoreManager.add(0, 1); //Player 1 scores
         } else if (this.isInLeftGoal()) {
             AIFaceOffCountDown  = 100;
-            preFaceOff = true;
+            faceOffActive = true;
             //this.reset();
             //activePlayer = 1;
             scoreManager.add(1, 1);
@@ -78,7 +78,7 @@ class Puck {
                 
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
-                        preFaceOff = true; //if this flag is true, faceOff() will be called in moveEverthing
+                        faceOffActive = true; //if this flag is true, faceOff() will be called in moveEverthing
                         AIFaceOffCountDown  = 100;
                         outOfBoundsTimer = 5;
                         outOfBoundsPuckXPos = this.x;
