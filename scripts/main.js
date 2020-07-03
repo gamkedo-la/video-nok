@@ -7,7 +7,8 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 1;
 
-var faceOffActive = true; //defaults to true because that's how the game would normally start. 
+var preFaceOff = true
+var faceOffActive = false; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 100;
 
 var outOfBoundsTimer = 0;
