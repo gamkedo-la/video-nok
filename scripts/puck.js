@@ -44,17 +44,17 @@ class Puck {
         this.checkForCollisions();
         
         if (this.isInRightGoal()) {
-            faceOffActive = true;
+            preFaceOff = true;
+            this.reset();
             AIFaceOffCountDown  = 100;
-            //this.reset();
-            //activePlayer = 2;
             scoreManager.add(0, 1); //Player 1 scores
+            console.log('adding score to player');
         } else if (this.isInLeftGoal()) {
             AIFaceOffCountDown  = 100;
-            faceOffActive = true;
-            //this.reset();
-            //activePlayer = 1;
+            preFaceOff = true;
+            this.reset();
             scoreManager.add(1, 1);
+            console.log('adding score to comp');
         }
     }
 

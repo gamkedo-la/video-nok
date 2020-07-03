@@ -14,6 +14,12 @@ var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
 var outOfBoundsPuckYPos;
 
+//debug vars
+var crtlReachedP1Ctrl = false;
+var ctrlAtUIControl = false;
+var ctrlAtplayerControl = false;
+var ctrlAIControl = false;
+
 const credits = new Credits(350, 500, text.credits);
 
 const state = {
@@ -118,6 +124,7 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
+		if(preFaceOff){}
 		if(faceOffActive){
 			console.log('ctrl has reached faceOffActive in moveEverything');
 			faceOff();				
@@ -144,6 +151,37 @@ function drawOutOfBoundsIndicator(){
 	canvasContext.textAlign = 'left';
 	canvasContext.fillStyle = orange;
 	canvasContext.fillText("OB!", outOfBoundsPuckXPos + 15, outOfBoundsPuckYPos + 50);
+}
+
+function drawDebugText(){
+	var debugX = 200;
+	var debugY = 100;
+	var debugSkipY = 15;
+	canvasContext.fillStyle = 'white';
+	canvasContext.font = '10px Arial';
+	canvasContext.textAlign = 'left';
+	debugY += debugSkipY;
+	canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("preFaceOff: " + preFaceOff, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("player 1 score: " + scoreManager.scores[0], debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("player 2 score: " + scoreManager.scores[1], debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("scoreManager.scores " + scoreManager.scores, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("scoreManager.winner " + scoreManager.winner, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("ctrlAtUIControl " + ctrlAtUIControl, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("ctrlAtplayerControl " + ctrlAtplayerControl, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("ctrlAIControl " + ctrlAIControl, debugX, debugY);
 }
 
 function drawEverything() {
@@ -190,6 +228,15 @@ function drawEverything() {
 		
 		puckOne.draw();
 		drawUI();
+		if(preFaceOff){
+			canvasContext.fillStyle = 'white';
+			canvasContext.font = '100px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("TAKE YOUR SHOT", canvas.width/2, canvas.height/2 + 200);	
+			canvasContext.font = '30px Arial';
+			canvasContext.textAlign = 'center';
+			canvasContext.fillText("press SPACE to continue", canvas.width/2, canvas.height/2 + 230);	
+		}
 
 		if(faceOffActive){
 			canvasContext.fillStyle = 'white';

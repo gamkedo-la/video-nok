@@ -1,5 +1,6 @@
 const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
 const KEY_Replicate_game_scenario = 69 //press 'E' to replicate a game scenario, set puck position and active plaer to specfic values
+const KEY_pre_face_off  = 32;
 
 let input;
 
@@ -16,6 +17,11 @@ function keyPressed(evt){
 	if (evt.keyCode == KEY_Replicate_game_scenario && debugMode) {
 		replicateGameScenario();
 	}
+
+	if(evt.keyCode = KEY_pre_face_off){
+		preFaceOff = false;
+		faceOffActive = true;
+	}
 }
 
 function replicateGameScenario(){
@@ -26,6 +32,9 @@ function replicateGameScenario(){
 }
 
 function playerControl() {
+	ctrlAtUIControl = false;
+	ctrlAtplayerControl = true;
+	ctrlAIControl = false;
 	//put a 'tick' for ctrl reaching the function body of player control
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
