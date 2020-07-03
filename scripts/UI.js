@@ -12,6 +12,9 @@ InterfaceProperties = {
 */
 
 function controlMenu() {
+	ctrlAtUIControl = true;
+	ctrlAtplayerControl = false;
+	ctrlAIControl = false;
 	for (let element of this.elements) {
 		if (pointInRect(input.pointer, element)) {
 			element.hover = true;

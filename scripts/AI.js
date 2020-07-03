@@ -1,4 +1,7 @@
 function aiControl() {
+    ctrlAtUIControl = false;
+	ctrlAtplayerControl = false;
+	ctrlAIControl = true;
     var possibleShots = [];
 
     if (puckOne.inPlay || shooting) return;
