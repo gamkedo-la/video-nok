@@ -18,6 +18,7 @@ class Puck {
 
     reset() {
         //outOfBounds = false;
+        //console.log('ctrl has reached reset');
         this.inPlay = false;
         this.velX = 0;
         this.velY = 0;
@@ -77,13 +78,16 @@ class Puck {
                 
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
-                        //faceOffActive = true; uncomment when OB can trigger a faceoff
+                        faceOffActive = true; //if this flag is true, faceOff() will be called in moveEverthing
+                        AIFaceOffCountDown  = 100;
                         outOfBoundsTimer = 5;
                         outOfBoundsPuckXPos = this.x;
                         outOfBoundsPuckYPos = this.y;
                         //remove the two lines below when OB can trigger a faceOFF
+                        /*
                         this.reset(); 
                         this.switchPlayer();
+                        */
                     } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
                         this.velX = this.velY = 0;
                     }

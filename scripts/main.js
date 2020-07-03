@@ -46,6 +46,7 @@ function initGame() {
 }
 
 function faceOff() {
+	//console.log('ctrl has reached face off');
 	puckOne.reset();
 	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
 		if (AIFaceOffCountDown > 0)  {
@@ -116,8 +117,9 @@ function moveEverything() {
 	if (gameState === state.menu) {
 		ui.control();
 	} else if (gameState === state.game) {
-		if (puckOne.inPlay);
-		else if(faceOffActive){
+		//if (puckOne.inPlay);
+		if(faceOffActive){
+			console.log('ctrl has reached faceOffActive in moveEverything');
 			faceOff();				
 		}
 		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
