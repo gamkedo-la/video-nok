@@ -195,38 +195,6 @@ function drawEverything() {
 	if (gameState === state.menu) {
 		ui.draw();
 	} else if (gameState === state.game) {
-		var debugX = 200;
-		var debugY = canvas.height/2 + 200;
-		var debugSkipY = 15;
-		canvasContext.font = '10px Arial';
-		canvasContext.textAlign = 'left';
-		debugY += debugSkipY;
-		canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
-		debugY += debugSkipY;
-		canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
-		debugY += debugSkipY;
-		canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
-		if(debugMode){
-			/*
-			var debugX = 200;
-			var debugY = canvas.height/2 + 200;
-			var debugSkipY = 15;
-			canvasContext.font = '10px Arial';
-			canvasContext.textAlign = 'left';
-			debugY += debugSkipY;
-			canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
-			debugY += debugSkipY;
-			canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
-			debugY += debugSkipY;
-			canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
-			*/
-		}
-		/*
-		canvasContext.font = '30px Arial';
-		canvasContext.fillText("outOfBoundsTimer: " + outOfBoundsTimer, 100, canvas.height-100);
-		//moving this outOfBounds flag printing out of debug mode, bc debug mode uses shotPred, which flips outOfBounds if the puck is going to be shot OB, but not if it actually is.
-		*/
-		
 		puckOne.draw();
 		drawUI();
 		if(preFaceOff){
@@ -251,6 +219,7 @@ function drawEverything() {
 		credits.draw();
 	}
 	input.touch.draw();
+	drawDebugText();
 }
 
 function drawBackground() {
