@@ -170,10 +170,27 @@ class Puck {
         }
     } //end of shotPrediction
 
+   drawfaceOffThreat(){
+    let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
+    weight = this.aiFaceOffThreatVector.length / 200,
+    width = this.radius;
+
+
+    let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
+    smoothShot.length = lerp(0, 100, weight);
+
+    canvasContext.fillStyle = 'red';
+    canvasContext.beginPath();
+    canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+    canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+    canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+    canvasContext.fill();
+   }
+
    draw(){		
     if (this.shotVector) {
         let start = this.shotVector.rotate(Math.PI/2).normalize(),
-            weight = this.shotVector.length / 200,
+            weight = this.shotVector.length / 200, //length is set in animations
             width = this.radius;
         
         let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
@@ -186,27 +203,12 @@ class Puck {
             canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
             canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
             canvasContext.fill();
-        }
+        } //I think this draws the shot Triangle, and it's shared between the two players. 
     }
 
     if(faceOffActive && this.aiFaceOffThreatVector && !this.inPlay){
-        let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
-        weight = this.aiFaceOffThreatVector.length / 200,
-        width = this.radius;
-        
-
-        let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
-        smoothShot.length = lerp(0, 100, weight);
-
-        //if (shooting) {
-            canvasContext.fillStyle = 'red';
-            canvasContext.beginPath();
-            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-            canvasContext.fill();
-        //}
-    } //AI threatening player, can wrap into a function if we keep this
+        //this.drawfaceOffThreat();
+    } //AI threatening to take a shot
 
     colorCircle(this.x, this.y, this.radius, this.color);
 }

@@ -53,13 +53,16 @@ function initGame() {
 }
 
 function faceOff() {
-	//console.log('ctrl has reached face off');
 	puckOne.reset();
 	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
 		if (AIFaceOffCountDown > 0)  {
 			if (playerControllers[0] != aiControl) { //Determine if 0 or 1 player mode
 				activePlayer = 1;
-				playerControl(); 
+				playerControl();
+				//var threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
+				//puckOne.faceOffThreat(threatVector);
+				//threatVector.length = clamp(threatVector.length, 0, MAX_SHOT_VELOCITY);
+				//puckWindupJustAni(threatVector);
 			}
 			AIFaceOffCountDown--;
 		} else {
@@ -126,7 +129,6 @@ function moveEverything() {
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
 		if(faceOffActive){
-			console.log('ctrl has reached faceOffActive in moveEverything');
 			faceOff();				
 		}
 		else if(!preFaceOff){
