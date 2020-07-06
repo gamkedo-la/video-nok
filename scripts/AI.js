@@ -87,6 +87,7 @@ function aiControl() {
         //launces puck
         puckWindup(launchVector);
         faceOffActive = false;
+        console.log(launchVector);
     } else { 
         //console.log('control has made it to the last else statement in ai.js');
         if(!faceOffActive){

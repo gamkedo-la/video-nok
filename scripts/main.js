@@ -125,12 +125,13 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
-		if(preFaceOff){}
 		if(faceOffActive){
 			console.log('ctrl has reached faceOffActive in moveEverything');
 			faceOff();				
 		}
-		else playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
+		else if(!preFaceOff){
+			playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
+		}
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
