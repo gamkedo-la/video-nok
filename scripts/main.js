@@ -59,8 +59,8 @@ function faceOff() {
 			if (playerControllers[0] != aiControl) { //Determine if 0 or 1 player mode
 				activePlayer = 1;
 				playerControl();
-				//var threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
-				//puckOne.faceOffThreat(threatVector);
+				var threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
+				puckOne.faceOffThreat(threatVector);
 				//threatVector.length = clamp(threatVector.length, 0, MAX_SHOT_VELOCITY);
 				//puckWindupJustAni(threatVector);
 			}
@@ -186,6 +186,10 @@ function drawDebugText(){
 	canvasContext.fillText("ctrlAtplayerControl " + ctrlAtplayerControl, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("ctrlAIControl " + ctrlAIControl, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("faceOffThreatTimer " + faceOffThreatTimer, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("faceOffThreatCooldown " + faceOffThreatCooldown, debugX, debugY);
 }
 
 function drawEverything() {

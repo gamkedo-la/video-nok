@@ -1,13 +1,21 @@
 const BALL_FRICTION = 0.10;
 const MAX_SHOT_VELOCITY = 200;
 var badShot = false; 
+var faceOffThreatTimer = 5;
+var faceOffThreatCooldown = 5;
+
+//I'm a baaaaad programmer
+
+var threatenTop = false;
+var threatVectors = [new Vector2(133.49, 148.93), new Vector2(5, 5)]; //(133.49, -148.93)
+
 
 class Puck {
     constructor() {
         this.position = new Vector2(500, 333);
         this.velocity = new Vector2(0, 0);
         this.shotVector = null;
-        this.aiFaceOffThreatVector = null;
+        this.aiFaceOffThreatVector = threatVectors[1];
         this.inPlay = false;
         this.radius = 30;
         this.color = blue;
@@ -171,24 +179,46 @@ class Puck {
     } //end of shotPrediction
 
    drawfaceOffThreat(){
-    let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
-    weight = this.aiFaceOffThreatVector.length / 200,
-    width = this.radius;
-
-
-    let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
-    smoothShot.length = lerp(0, 100, weight);
-
+    console.log(this.aiFaceOffThreatVector);
     canvasContext.fillStyle = 'red';
-    canvasContext.beginPath();
-    canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-    canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-    canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-    canvasContext.fill();
-   }
+    if(faceOffThreatTimer >= 0){
+        //console.log(this.aiFaceOffThreatVector);
+        let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
+        weight = this.aiFaceOffThreatVector.length / 200,
+        width = this.radius;
+        let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
+        smoothShot.length = lerp(0, 100, weight);
+
+        canvasContext.beginPath();
+        canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+        canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+        canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+        canvasContext.fill();
+        //console.log(this.aiFaceOffThreatVector); //always positive
+        //console.log(threatenTop);
+        faceOffThreatTimer--;
+    } else if(faceOffThreatTimer <= 0){
+        faceOffThreatCooldown --;        
+        if(faceOffThreatCooldown == 0){
+            if(threatenTop){
+                this.aiFaceOffThreatVector = threatVectors[0]
+            }
+            else {
+                //console.log('vect flipped to negative');
+                this.aiFaceOffThreatVector = threatVectors[1]
+            }
+            threatenTop = !threatenTop;
+            //console.log(threatenTop);
+            //console.log(this.aiFaceOffThreatVector);
+            faceOffThreatTimer = 5;
+            faceOffThreatCooldown = 5;
+        } //vect can go negative
+    } //vect can go negative
+   } // vect can go negative
 
    draw(){		
     if (this.shotVector) {
+        //console.log(this.shotVector);
         let start = this.shotVector.rotate(Math.PI/2).normalize(),
             weight = this.shotVector.length / 200, //length is set in animations
             width = this.radius;
@@ -207,7 +237,7 @@ class Puck {
     }
 
     if(faceOffActive && this.aiFaceOffThreatVector && !this.inPlay){
-        //this.drawfaceOffThreat();
+        this.drawfaceOffThreat();
     } //AI threatening to take a shot
 
     colorCircle(this.x, this.y, this.radius, this.color);
