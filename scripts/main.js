@@ -9,7 +9,7 @@ var activePlayer = 1;
 
 var preFaceOff = true
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
-var AIFaceOffCountDown = 100;
+var AIFaceOffCountDown = 50;
 
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;

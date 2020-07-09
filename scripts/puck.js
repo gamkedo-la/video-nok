@@ -7,7 +7,7 @@ var faceOffThreatCooldown = 5;
 //I'm a baaaaad programmer
 
 var threatenTop = false;
-var threatVectors = [new Vector2(133.49, 148.93), new Vector2(5, 5)]; //(133.49, -148.93)
+var threatVectors = [new Vector2(133.49, 148.93), new Vector2(133.49, -148.93)]; //(133.49, -148.93)
 
 
 class Puck {
@@ -117,7 +117,7 @@ class Puck {
 
     faceOffThreat(vector) {
         if (this.inPlay) return;
-        this.aiFaceOffThreatVector = vector;
+        //this.aiFaceOffThreatVector = vector;
         this.aiFaceOffThreatVector.clamp(0, MAX_SHOT_VELOCITY);
     }
 
@@ -179,10 +179,8 @@ class Puck {
     } //end of shotPrediction
 
    drawfaceOffThreat(){
-    console.log(this.aiFaceOffThreatVector);
     canvasContext.fillStyle = 'red';
-    if(faceOffThreatTimer >= 0){
-        //console.log(this.aiFaceOffThreatVector);
+    if(faceOffThreatTimer > 0){
         let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
         weight = this.aiFaceOffThreatVector.length / 200,
         width = this.radius;
@@ -194,27 +192,22 @@ class Puck {
         canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
         canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
         canvasContext.fill();
-        //console.log(this.aiFaceOffThreatVector); //always positive
-        //console.log(threatenTop);
         faceOffThreatTimer--;
-    } else if(faceOffThreatTimer <= 0){
+    } else {
         faceOffThreatCooldown --;        
-        if(faceOffThreatCooldown == 0){
-            if(threatenTop){
+        if(faceOffThreatCooldown <= 0){
+            if(threatenTop == false){
                 this.aiFaceOffThreatVector = threatVectors[0]
             }
             else {
-                //console.log('vect flipped to negative');
                 this.aiFaceOffThreatVector = threatVectors[1]
             }
             threatenTop = !threatenTop;
-            //console.log(threatenTop);
-            //console.log(this.aiFaceOffThreatVector);
             faceOffThreatTimer = 5;
             faceOffThreatCooldown = 5;
-        } //vect can go negative
-    } //vect can go negative
-   } // vect can go negative
+        } 
+    } 
+   } 
 
    draw(){		
     if (this.shotVector) {
