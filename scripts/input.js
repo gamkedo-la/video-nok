@@ -2,6 +2,12 @@ const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
 const KEY_Replicate_game_scenario = 69 //press 'E' to replicate a game scenario, set puck position and active plaer to specfic values
 const KEY_pre_face_off  = 32;
 
+const gameWindow = {
+	scale: 1,
+	left: 0,
+	top: 0,
+}
+
 let input;
 
 function initInput() {
@@ -166,15 +172,15 @@ class Mouse {
 	}
 
 	calculateMousePos(evt) {
-		const rect = this.target.getBoundingClientRect(),
-			root = document.documentElement;
+		const 	rect = this.target.getBoundingClientRect(),
+				root = document.documentElement;
 
 		let mX = evt.clientX - rect.left - root.scrollLeft,
 			mY = evt.clientY - rect.top - root.scrollTop;
 			
 		return {
-			x: mX,
-			y: mY
+			x: mX / gameWindow.scale,
+			y: mY / gameWindow.scale
 		};
 	}
 
@@ -246,7 +252,8 @@ class TouchManager {
 
 	draw() {
 		for (let touch of this.currentTouches) {
-			colorCircle(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 5, 'dimgrey');
+			let pos = this.calculateTouchPos(touch);
+			colorCircle(pos.x, pos.y, 5, 'dimgrey');
 		}
 	}
 
@@ -306,7 +313,10 @@ class TouchManager {
 	}
 	
 	calculateTouchPos(touch) {
-		return {x: touch.pageX - this.target.offsetLeft, y: touch.pageY - this.target.offsetTop}
+		let x = touch.pageX - this.target.offsetLeft;
+		let y = touch.pageY - this.target.offsetTop;
+		
+		return {x: x / gameWindow.scale, y: y / gameWindow.scale};
 	}
 }
 

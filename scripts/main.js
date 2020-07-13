@@ -52,6 +52,29 @@ function initGame() {
 	audio.createEvent('railBounce', './assets/rail-bounce', 1);
 	initInput();
 	initBoard();
+	scaleScreen();
+	window.addEventListener('resize', scaleScreen);
+	window.addEventListener('orientationchange', scaleScreen);
+}
+
+function scaleScreen() {
+	let availH = window.innerHeight; //document.documentElement.clientHeight;
+	let availW = window.innerWidth; //document.documentElement.clientWidth;
+
+	if (availW > availH) {
+		screenScale = availH / canvas.height;
+	} else {
+		screenScale = availW / canvas.width;
+	}
+
+	gameWindow.scale = screenScale;
+	canvas.style.width = canvas.width * screenScale + 'px';
+	canvas.style.height = canvas.height * screenScale + 'px';
+
+	gameWindow.left = (availW - parseInt(canvas.style.width)) / 2;
+	gameWindow.top = (availH - parseInt(canvas.style.height)) / 2;
+	canvas.style.marginLeft = gameWindow.left;
+	canvas.style.marginTop = gameWindow.top;
 }
 
 function faceOff() {

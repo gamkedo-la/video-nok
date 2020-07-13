@@ -1,18 +1,38 @@
 <html>
 
-<canvas id="gameCanvas" width="1000" height="667"></canvas>
-<script src="scripts/graphicsCommon.js"></script>
-<script src="scripts/text.js"></script>
-<script src="scripts/credits.js"></script>
-<script src="scripts/input.js"></script>
-<script src="scripts/audio.js"></script>
-<script src='scripts/math.js'></script><!--moving this up to do something hacky in puck.js-->
-<script src='scripts/goalie.js'></script>
-<script src='scripts/puck.js'></script>
-<script src='scripts/score.js'></script>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-<script src="scripts/AI.js"></script>
-<script src="scripts/animation.js"></script>
-<script src="scripts/main.js"></script>
-<script src="scripts/UI.js"></script>
+        body {
+            background-color: #713784;
+        }
+
+        #gameCanvas {
+            box-shadow: 0 0 8px black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="gameCanvas" width="1000" height="667"></canvas>
+    <script src="scripts/graphicsCommon.js"></script>
+    <script src="scripts/text.js"></script>
+    <script src="scripts/credits.js"></script>
+    <script src="scripts/input.js"></script>
+    <script src="scripts/audio.js"></script>
+    <script src='scripts/math.js'></script><!--moving this up to do something hacky in puck.js-->
+    <script src='scripts/goalie.js'></script>
+    <script src='scripts/puck.js'></script>
+    <script src='scripts/score.js'></script>
+    <script src="scripts/AI.js"></script>
+    <script src="scripts/animation.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/UI.js"></script>
+</body>
+
 </html>
