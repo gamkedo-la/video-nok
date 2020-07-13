@@ -48,6 +48,8 @@ function initCanvas() {
 function initGame() {
 	initCanvas();
 	initAudio();
+	//I don't think I wanna create this event here, but I have to bc audio is initialized here. 
+	audio.createEvent('railBounce', './assets/rail-bounce', 1);
 	initInput();
 	initBoard();
 }

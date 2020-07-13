@@ -70,7 +70,9 @@ class Puck {
         if (this.velocity.length === 0) return;
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
-            if (collision) {                
+            if (collision) {   
+                //audio.playEvent('railBounce');          
+                //console.log('collision code being called');
                 this.lastPredictedBounce++;
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
@@ -98,7 +100,7 @@ class Puck {
                     }
                 }  
                 
-            } // end if collision
+            } // end if collision 
         }
     }
 

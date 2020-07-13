@@ -51,9 +51,11 @@ class AudioEventManager {
 
     getFormat() {
         let test = new Audio();
+        /*
         if (test.canPlayType("audio/ogg")) {
             return ".ogg";
         }
+        */
 
         return ".mp3";
     }
