@@ -56,13 +56,21 @@ class Puck {
             this.reset();
             AIFaceOffCountDown  = 100;
             scoreManager.add(0, 1); //Player 1 scores
+            audio.playEvent('goal');
+                            /*
+                audio.playEvent('goal');
+                if(this.inPlay){
+                    console.log('comp scored, and puck is in play');
+                    
+                }
+                */
             console.log('adding score to player');
         } else if (this.isInLeftGoal()) {
             AIFaceOffCountDown  = 100;
             preFaceOff = true;
             this.reset();
             scoreManager.add(1, 1);
-            console.log('adding score to comp');
+            audio.playEvent('goal');
         }
     }
 
@@ -129,6 +137,7 @@ class Puck {
         this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
         this.shotVector = null;
         this.inPlay = true;
+        audio.playEvent('strike');
     }
 
     shotPrediction(skipDraw, testLeftSide){

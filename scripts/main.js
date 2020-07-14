@@ -50,6 +50,8 @@ function initGame() {
 	initAudio();
 	//I don't think I wanna create this event here, but I have to bc audio is initialized here. 
 	audio.createEvent('railBounce', './assets/rail-bounce', 1);
+	audio.createEvent('strike', './assets/strike', 1);
+	audio.createEvent('goal', './assets/goal', 1);
 	initInput();
 	initBoard();
 	scaleScreen();
@@ -215,6 +217,8 @@ function drawDebugText(){
 	canvasContext.fillText("faceOffThreatTimer " + faceOffThreatTimer, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("faceOffThreatCooldown " + faceOffThreatCooldown, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("puckOne.x " + puckOne.x, debugX, debugY);
 }
 
 function drawEverything() {
