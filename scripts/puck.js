@@ -71,8 +71,9 @@ class Puck {
         for (let i of obstacles) {
             let collision = circleRectCollision(this, i);
             if (collision) {   
-                //audio.playEvent('railBounce');          
-                //console.log('collision code being called');
+                if(this.inPlay){
+                    audio.playEvent('railBounce');
+                }
                 this.lastPredictedBounce++;
                 let dir = vectorDirection(collision);
                 let penetration = new Vector2(this.radius - Math.abs(collision.x), this.radius - Math.abs(collision.y));
