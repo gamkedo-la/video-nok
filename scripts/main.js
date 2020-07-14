@@ -50,8 +50,6 @@ function initGame() {
 	initAudio();
 	//I don't think I wanna create this event here, but I have to bc audio is initialized here. 
 	audio.createEvent('railBounce', './assets/rail-bounce', 1);
-	audio.createEvent('strike', './assets/strike', 1);
-	audio.createEvent('goal', './assets/goal', 1);
 	initInput();
 	initBoard();
 	scaleScreen();
@@ -122,6 +120,10 @@ function debug() {
         puckOne.velX = puckOne.velY = 0;
         return;
 	}
+
+	if (input.keyboard.keyPressed(KEY_Replicate_game_scenario)) {
+		replicateGameScenario();
+	}
 	
 	if (puckOne.shotVector) {
 		puckOne.shotPrediction(false, false);
@@ -132,6 +134,8 @@ function debug() {
 	colorRect(200, 0, 1, canvas.width, 'white');
 	colorRect(canvas.width - 200, 0, 1, canvas.width, 'white');
 	colorRect(canvas.width/2, 0, 1, canvas.width, 'white');
+
+	drawDebugText();
 }
 
 function newGame(playerCount) {
@@ -151,14 +155,23 @@ function resetGame() {
 }
 
 function moveEverything() {
+	if (input.keyboard.keyPressed(KEY_Debug)) {
+		toggleDebugMode();
+	}
+
 	if (gameState === state.menu) {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
 		if(faceOffActive){
 			faceOff();				
+		} else if (preFaceOff) {
+			if(input.keyboard.keyPressed(KEY_pre_face_off)){
+				preFaceOff = false;
+				faceOffActive = true;
+			}	
 		}
-		else if(!preFaceOff){
+		else {
 			playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
 		}
 		updateAnimations();
@@ -255,7 +268,6 @@ function drawEverything() {
 		credits.draw();
 	}
 	input.touch.draw();
-	drawDebugText();
 }
 
 function drawBackground() {
@@ -300,4 +312,11 @@ function drawUI() {
 function drawCredits() {
 	colorRect(0,0, canvas.width, canvas.height, 'Black');
 	canvasContext.fillText("Credits", 350, 500);
+}
+
+function replicateGameScenario(){
+	activePlayer = 2; //is this more complicated that just changing a flag, i.e a function
+	puckOne.x = 748.01171875;
+	puckOne.y = 511.01171875;
+	faceOffActive = false;
 }

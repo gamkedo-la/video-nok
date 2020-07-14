@@ -2,6 +2,9 @@ let audio;
 
 function initAudio() {
     audio = new AudioEventManager();
+    audio.createEvent('railBounce', './assets/rail-bounce', 1);
+	audio.createEvent('strike', './assets/strike', 1);
+	audio.createEvent('goal', './assets/goal', 1);
 }
 
 class AudioEventManager {

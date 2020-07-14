@@ -13,34 +13,13 @@ let input;
 function initInput() {
 	input = new Input(canvas);
 	input.init();
-	document.addEventListener("keydown", keyPressed);
-}
-
-function keyPressed(evt){
-	if (evt.keyCode == KEY_Debug) {
-		toggleDebugMode();
-	}
-	if (evt.keyCode == KEY_Replicate_game_scenario && debugMode) {
-		replicateGameScenario();
-	}
-
-	if(evt.keyCode = KEY_pre_face_off){
-		preFaceOff = false;
-		faceOffActive = true;
-	}
-}
-
-function replicateGameScenario(){
-	activePlayer = 2; //is this more complicated that just changing a flag, i.e a function
-	puckOne.x = 748.01171875;
-	puckOne.y = 511.01171875;
-	faceOffActive = false;
 }
 
 function playerControl() {
 	ctrlAtUIControl = false;
 	ctrlAtplayerControl = true;
 	ctrlAIControl = false;
+
 	//put a 'tick' for ctrl reaching the function body of player control
 	if (!shooting && input.clicked() && pointInCircle(input.pointer.position, puckOne)) {
 		shooting = true;
@@ -64,17 +43,20 @@ function playerControl() {
 
 class Input {
 	constructor (target) {
+		this.keyboard = new Keyboard();
 		this.mouse = new Mouse(target);
 		this.touch = new TouchManager(target);
 		this.pointer = this.mouse;
 	}
 
 	init() {
+		this.keyboard.init();
 		this.mouse.init();
 		this.touch.init();
 	}
 
 	update() {
+		this.keyboard.update();
 		this.mouse.update(1);
 		this.touch.update(1);
 		if (this.touch.active) this.pointer = this.touch;
@@ -105,6 +87,68 @@ class Input {
 
 	get mouseY() {
 		return this.mouse.position.y;
+	}
+}
+
+class Keyboard {
+	constructor() {
+		this._keysPressed = new Set();
+		this._keysHeld = new Set();
+		this._keysReleased = new Set();
+	}
+
+	init() {
+		document.addEventListener('keydown', this.keyDown.bind(this));
+		document.addEventListener('keyup', this.keyUp.bind(this));
+	}
+
+	keyDown(evt) {
+		if (!this._keysHeld.has(evt.keyCode)) {
+			this._keysPressed.add(evt.keyCode);
+		}
+	}
+
+	keyUp(evt) {
+		this._keysReleased.add(evt.keyCode);
+	}
+
+	keyPressed(key) {
+		//key down this frame, but not last frame
+		return (this._keysPressed.has(key));
+	}
+
+	keyHeld(key) {
+		//key down this frame or last frame
+		return (this._keysHeld.has(key));
+	}
+
+	keyReleased(key) {
+		//key NOT down this frame, but down last frame
+		return (this._keysReleased.has(key));
+	}
+
+	update() {
+		let iterator = this._keysPressed.values();
+		let key;
+		while((key = iterator.next()).done === false) {
+			//Key not held last frame
+			if (!this._keysHeld.has(key.value)) {
+				this._keysHeld.add(key.value);
+			} else {
+				//Remove from pressed next frame
+				this._keysPressed.delete(key.value);
+			}
+		}
+
+		iterator = this._keysReleased.values();
+		while((key = iterator.next()).done === false) {
+			if (this._keysHeld.has(key.value)) {
+				this._keysHeld.delete(key.value);
+			} else {
+				//delete from released the frame after deleting from held
+				this._keysReleased.delete(key.value);
+			}
+		}
 	}
 }
 
@@ -232,6 +276,8 @@ class TouchManager {
 	}
 
 	init() {
+		window.addEventListener('visibilitychange', () => { this.clearTouches(); })
+		window.addEventListener('blur', () => { this.clearTouches(); })
 		this.target.addEventListener('touchstart', this.handleTouchStart.bind(this));
 		this.target.addEventListener('touchmove', this.handleTouchMove.bind(this));
 		this.target.addEventListener('touchend', this.handleTouchEnd.bind(this));
@@ -310,6 +356,11 @@ class TouchManager {
 				}
 			}
 		}
+	}
+
+	clearTouches() {
+		this.currentTouches.length = 0;
+		this.endedTouches.length = 0;
 	}
 	
 	calculateTouchPos(touch) {
