@@ -43,6 +43,7 @@ function playerControl() {
 
 class Input {
 	constructor (target) {
+		this.gamepads = new GamePadManager();
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse(target);
 		this.touch = new TouchManager(target);
@@ -50,12 +51,14 @@ class Input {
 	}
 
 	init() {
+		this.gamepads.init();
 		this.keyboard.init();
 		this.mouse.init();
 		this.touch.init();
 	}
 
 	update() {
+		this.gamepads.update();
 		this.keyboard.update();
 		this.mouse.update(1);
 		this.touch.update(1);
@@ -368,6 +371,140 @@ class TouchManager {
 		let y = touch.pageY - this.target.offsetTop;
 		
 		return {x: x / gameWindow.scale, y: y / gameWindow.scale};
+	}
+}
+
+class GamePadManager {
+	constructor() {
+		this.enabled = false;
+		this.pads = [];
+		this.xboxButtonLabels = ['A', 'B', 'X', 'Y', 'LB', 'RB', 'LT', 'RT', 'Back', 'Start', 'L3', 'R3', 'Down', 'Left', 'Right'];
+		this.playstationButtonLabels = ['X', 'Circle', 'Square', 'Triangle', 'L1', 'R1', 'L2', 'R2', 'Select', 'Start', 'L3', 'R3', 'Down', 'Left', 'Right'];
+	}
+
+	init() {
+		window.addEventListener('gamepadconnected', function (e) {
+			let gamepads = navigator.getGamepads();
+			for (let g = 0; g < gamepads.length; g++) {
+				if (!gamepads[g]) continue;
+				if (!this.pads[g]) { //No GamePad object currently created for this index
+					let newGP = new GamePad(g);
+					newGP.init();
+					this.pads.push(newGP);
+				} else if (this.pads[g].target === null) {//Previously recognized gamepad
+					this.pads[g].target = g;
+				}
+			}
+			this.enabled = true;
+        }.bind(this));
+
+		window.addEventListener('gamepaddisconnected', function (e) {
+			let gamepads = navigator.getGamepads();
+			for (let i = 0; i < gamepads.length; i++) {
+				if (!gamepads[i] && this.pads[i]) {
+					this.pads[i].target = null;
+				}
+			}
+			
+			//Disabled manager if no pads are connected
+			for(let pad of gamepads) {if (pad != null) return}
+			this.enabled = false;
+		}.bind(this))
+	}
+
+	update() {
+        if (!this.enabled) return;
+        for (let gp of this.pads) {
+			gp.update();
+		}
+	}
+
+	buttonPressed(padIndex, buttonIndex) {
+		if (!this.enabled) return false;
+		return this.pads[padIndex].buttonPressed(buttonIndex);
+	}
+
+	buttonHeld(padIndex, buttonIndex) {
+		if (!this.enabled) return false;
+		return this.pads[padIndex].buttonHeld(buttonIndex);
+	}
+
+	buttonReleased(padIndex, buttonIndex) {
+		if (!this.enabled) return false;
+		return this.pads[padIndex].buttonReleased(buttonIndex);
+    }
+    
+    padAxis(axis, padIndex) {
+		if (!this.enabled) return false;
+		let index = padIndex ? padIndex : 0;
+        return this.pads[index].padAxes[axis];
+    }
+
+}
+
+class GamePad {
+	constructor(target) {
+        this.target = target;
+        this.lastUpdate = null;
+		this._buttonsPressed = new Set();
+		this._buttonsHeld = new Set();
+		this._buttonsReleased = new Set();
+		this.padAxes = [];
+    }
+
+	init() {
+        return;
+	}
+
+	buttonPressed(button) {
+		return (this._buttonsPressed.has(button));
+	}
+
+	buttonHeld(button) {
+		return (this._buttonsHeld.has(button));
+	}
+
+	buttonReleased(button) {
+		return (this._buttonsReleased.has(button));
+	}
+
+	update() {
+        let navPads = navigator.getGamepads();
+		let gp = navPads[this.target];
+		if (gp != null) {
+			//Only update control values if the controller data has been updated
+			if (!this.lastUpdate || gp.timestamp >= this.lastUpdate) this.lastUpdate = gp.timestamp;
+			else return;
+
+			this._buttonsPressed.clear();
+			
+			for (let b = 0; b < gp.buttons.length; b++) {
+				if (gp.buttons[b].pressed) this._buttonsPressed.add(b);
+			}
+			for (let a = 0; a < gp.axes.length; a++) {
+				this.padAxes[a] = gp.axes[a];
+			}
+		}
+
+		this._buttonsReleased.clear();		
+		
+		let iterator, button;
+		iterator = this._buttonsHeld.values();
+		while((button = iterator.next()).done === false) {
+			if (this._buttonsHeld.has(button.value) && !this._buttonsPressed.has(button.value)) {
+                this._buttonsReleased.add(button.value)
+                this._buttonsHeld.delete(button.value);
+			}
+        }
+        
+        iterator = this._buttonsPressed.values();
+		while((button = iterator.next()).done === false) {
+			if (!this._buttonsHeld.has(button.value)) {
+				this._buttonsHeld.add(button.value);
+			} else {
+                this._buttonsPressed.delete(button.value);
+            }
+		}
 	}
 }
 
