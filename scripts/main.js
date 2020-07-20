@@ -48,8 +48,6 @@ function initCanvas() {
 function initGame() {
 	initCanvas();
 	initAudio();
-	//I don't think I wanna create this event here, but I have to bc audio is initialized here. 
-	audio.createEvent('railBounce', './assets/rail-bounce', 1);
 	initInput();
 	initBoard();
 	scaleScreen();
@@ -58,23 +56,20 @@ function initGame() {
 }
 
 function scaleScreen() {
-	let availH = window.innerHeight; //document.documentElement.clientHeight;
-	let availW = window.innerWidth; //document.documentElement.clientWidth;
+	let availH = window.innerHeight;
+	let availW = window.innerWidth;
 
-	if (availW > availH) {
+	let screenScale = availW / canvas.width;
+	if (screenScale * canvas.height > availH) {
 		screenScale = availH / canvas.height;
-	} else {
-		screenScale = availW / canvas.width;
 	}
 
 	gameWindow.scale = screenScale;
 	canvas.style.width = canvas.width * screenScale + 'px';
 	canvas.style.height = canvas.height * screenScale + 'px';
 
-	gameWindow.left = (availW - parseInt(canvas.style.width)) / 2;
-	gameWindow.top = (availH - parseInt(canvas.style.height)) / 2;
-	canvas.style.marginLeft = gameWindow.left;
-	canvas.style.marginTop = gameWindow.top;
+	canvas.style.marginLeft = (availW - parseInt(canvas.style.width)) / 2;
+	canvas.style.marginTop = (availH - parseInt(canvas.style.height)) / 2;
 }
 
 function faceOff() {
