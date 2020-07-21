@@ -33,7 +33,15 @@ const state = {
 let gameState = state.menu;
 let playerControllers = [aiControl, aiControl];
 
+var logoImg = document.createElement('img');
+var logoImgLoaded = false;
+logoImg.onload = function(){
+	logoImgLoaded = true; 
+}
+
+
 window.onload = function() {
+	logoImg.src = 'assets/logo.png'
 	initGame();
 
 	const framesPerSecond = 30;
@@ -237,6 +245,7 @@ function drawEverything() {
 		drawOutOfBoundsIndicator();
 	}
 	if (gameState === state.menu) {
+		canvasContext.drawImage(logoImg, 120, 200);
 		ui.draw();
 	} else if (gameState === state.game) {
 		puckOne.draw();

@@ -134,6 +134,7 @@ class InterfaceButton extends InterfaceElement {
 	}
 }
 
+/*
 class InterfaceText extends InterfaceElement {
 	constructor(properties){
 		super(properties);
@@ -154,8 +155,10 @@ class InterfaceText extends InterfaceElement {
 		canvasContext.restore();
 	}
 }
+*/
 
 let menu_elements = [
+	/*
 	new InterfaceText({
 		parent: canvas,
 		alignment: {x: 'center', y: 'top'},
@@ -165,11 +168,12 @@ let menu_elements = [
 		font: '80px Arial',
 		label: 'VIDEO-NOK',
 	}),
+	*/
 
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, -90),
+		position: new Vector2(-127, 60),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -180,7 +184,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, -45),
+		position: new Vector2(-37, 60),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -191,7 +195,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, 0),
+		position: new Vector2(57, 60),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -202,7 +206,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37.5, 45),
+		position: new Vector2(147, 60),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
