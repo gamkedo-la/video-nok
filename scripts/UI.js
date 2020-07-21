@@ -173,7 +173,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-127, 60),
+		position: new Vector2(-37, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -184,7 +184,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(-37, 60),
+		position: new Vector2(57, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -195,7 +195,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(57, 60),
+		position: new Vector2(147, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
@@ -206,7 +206,7 @@ let menu_elements = [
 	new InterfaceButton({
 		parent: canvas,
 		alignment: {x: 'center', y: 'center'},
-		position: new Vector2(147, 60),
+		position: new Vector2(237, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',

@@ -245,7 +245,7 @@ function drawEverything() {
 		drawOutOfBoundsIndicator();
 	}
 	if (gameState === state.menu) {
-		canvasContext.drawImage(logoImg, 120, 200);
+		canvasContext.drawImage(logoImg, 212, 230);
 		ui.draw();
 	} else if (gameState === state.game) {
 		puckOne.draw();
