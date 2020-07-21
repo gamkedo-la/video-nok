@@ -35,13 +35,28 @@ let playerControllers = [aiControl, aiControl];
 
 var logoImg = document.createElement('img');
 var logoImgLoaded = false;
+var p1winsImg = document.createElement('img');
+var p1winsImgLoaded = false;
+var p2winsImg = document.createElement('img');
+var p2winsImgLoaded = false;
+
 logoImg.onload = function(){
 	logoImgLoaded = true; 
 }
 
+p1winsImg.onload = function(){
+	p1winsImgLoaded = true; 
+}
+
+p2winsImg.onload = function(){
+	p2winsImgLoaded = true; 
+}
+
 
 window.onload = function() {
-	logoImg.src = 'assets/logo.png'
+	logoImg.src = 'assets/logo.png';
+	p1winsImg.src = 'assets/p1-wins.png';
+	p2winsImg.src = 'assets/p2-wins.png';
 	initGame();
 
 	const framesPerSecond = 30;
@@ -283,12 +298,20 @@ function drawBackground() {
 }
 
 function drawGameOver() {
-	colorRect(0,0, canvas.width, canvas.height, 'Black');
-	canvasContext.fillStyle = 'white';
+	colorRect(0,0, canvas.width, canvas.height, 'white');
+	/*
 	const winName = scoreManager.winner === 1 ? 'Left Player' : 'Right Player';
 	canvasContext.fillText(winName + ' Won', 350, 200);
+	*/
+	if(scoreManager.winner === 1) {
+		canvasContext.drawImage(p1winsImg, 212, 230);
+	} else {
+		canvasContext.drawImage(p2winsImg, 212, 230);
+	}
 
-	canvasContext.fillText("click to continue", 350, 500);
+	canvasContext.fillStyle = purple;
+	canvasContext.font = '30px Arial';
+	canvasContext.fillText("CLICK TO CONTINUE", 230, 460);
 }
 
 function drawNet() {
@@ -319,7 +342,8 @@ function drawCredits() {
 }
 
 function replicateGameScenario(){
-	activePlayer = 2; //is this more complicated that just changing a flag, i.e a function
+	activePlayer = 1; //is this more complicated that just changing a flag, i.e a function
+	scoreManager.scores[0] = 2;
 	puckOne.x = 748.01171875;
 	puckOne.y = 511.01171875;
 	faceOffActive = false;
