@@ -21,7 +21,12 @@ var ctrlAtUIControl = false;
 var ctrlAtplayerControl = false;
 var ctrlAIControl = false;
 
-const credits = new Credits(350, 500, text.credits);
+creditsText = [
+	'Andrew M: things',
+	'Ashleigh M: other things'
+];
+const credits = new Credits(350, 500, creditsText);
+
 
 const state = {
 	menu: 0,
@@ -39,6 +44,8 @@ var p1winsImg = document.createElement('img');
 var p1winsImgLoaded = false;
 var p2winsImg = document.createElement('img');
 var p2winsImgLoaded = false;
+var creditsImg = document.createElement('img');
+var creditsImgLoaded = false;
 
 logoImg.onload = function(){
 	logoImgLoaded = true; 
@@ -52,11 +59,16 @@ p2winsImg.onload = function(){
 	p2winsImgLoaded = true; 
 }
 
+creditsImg.onload = function(){
+	creditsImgLoaded = true; 
+}
+
 
 window.onload = function() {
 	logoImg.src = 'assets/logo.png';
 	p1winsImg.src = 'assets/p1-wins.png';
 	p2winsImg.src = 'assets/p2-wins.png';
+	creditsImg.src = 'assets/credits.png';
 	initGame();
 
 	const framesPerSecond = 30;
@@ -263,6 +275,7 @@ function drawEverything() {
 	if (gameState === state.menu) {
 		canvasContext.drawImage(logoImg, 212, 230);
 		ui.draw();
+		
 	} else if (gameState === state.game) {
 		puckOne.draw();
 		drawUI();
@@ -335,11 +348,6 @@ function drawUI() {
 	canvasContext.fillStyle = activePlayer === 1 ? 'white' : blue;
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
 	canvasContext.restore();
-}
-
-function drawCredits() {
-	colorRect(0,0, canvas.width, canvas.height, 'Black');
-	canvasContext.fillText("Credits", 350, 500);
 }
 
 function replicateGameScenario(){
