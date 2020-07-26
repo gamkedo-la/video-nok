@@ -35,7 +35,7 @@ class Puck {
     }
 
     switchPlayer(){
-        activePlayer = activePlayer === 1 ? 2 : 1;
+        activePlayer = Math.abs(activePlayer - 1);
     }
 
     move() {
@@ -57,13 +57,6 @@ class Puck {
             AIFaceOffCountDown  = 100;
             scoreManager.add(0, 1); //Player 1 scores
             audio.playEvent('goal');
-                            /*
-                audio.playEvent('goal');
-                if(this.inPlay){
-                    console.log('comp scored, and puck is in play');
-                    
-                }
-                */
             console.log('adding score to player');
         } else if (this.isInLeftGoal()) {
             AIFaceOffCountDown  = 100;
@@ -140,7 +133,7 @@ class Puck {
         audio.playEvent('strike');
     }
 
-    shotPrediction(skipDraw, testLeftSide){
+    shotPrediction(skipDraw){
         this.lastPredictedBounce = 0;
         this.lastPredictedLength = 0;
 
@@ -153,23 +146,23 @@ class Puck {
         var tempVelX = this.velX;
         var tempVelY = this.velY;
         this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
-        var steps = 300;
         canvasContext.globalAlpha = 0.1;
+        const steps = 300;
         for(var i = 0; i < steps; i++){
             this.velocity.length -= BALL_FRICTION;
             this.x += this.velX;
             this.y += this.velY;
             this.lastPredictedLength += this.velocity.length;
-            if(this.x < 0){
+            if(this.x < 0) {
                 gotPastGoalLeft = true;
                 break;
             }
-            if(this.x > canvas.width){
+            if(this.x > canvas.width) {
                 gotPastGoalRight = true;
                 break;
             }
             this.checkForCollisions(); //if puck winds out outta bounds, velocity gets 0'd out to ruin this test
-            if(i % 2 == 0 && skipDraw == false){
+            if(!skipDraw && i % 2 === 0){
                 canvasContext.globalAlpha = 1.0 - i/steps;
                 //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
                 colorCircle(this.x, this.y, this.radius , 'lime');
@@ -182,12 +175,8 @@ class Puck {
         this.velocity = tempVelocity;
         this.velX = tempVelX;
         this.velY = tempVelY;
-        if(testLeftSide){
-            return gotPastGoalLeft;
-        } else {
-            return gotPastGoalRight;
-            //return false;
-        }
+        
+        return [gotPastGoalRight, gotPastGoalLeft];
     } //end of shotPrediction
 
    drawfaceOffThreat(){

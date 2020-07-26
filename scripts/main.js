@@ -5,7 +5,7 @@ var shooting = false;
 let scoreManager = new ScoreManager();
 
 var puckOne = new Puck();
-var activePlayer = 1;
+var activePlayer = 0;
 
 var preFaceOff = true
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
@@ -100,16 +100,17 @@ function faceOff() {
 	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
 		if (AIFaceOffCountDown > 0)  {
 			if (playerControllers[0] != aiControl) { //Determine if 0 or 1 player mode
-				activePlayer = 1;
+				activePlayer = 0;
 				playerControl();
-				var threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
+				let threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
 				puckOne.faceOffThreat(threatVector);
 				//threatVector.length = clamp(threatVector.length, 0, MAX_SHOT_VELOCITY);
 				//puckWindupJustAni(threatVector);
 			}
 			AIFaceOffCountDown--;
 		} else {
-			activePlayer = 2; //TO DO: randomly select active player in 0 Player mode
+			activePlayer = (playerControllers[0] == aiControl) ? Math.round(Math.random()) : 1;
+			activePlayer = 1;
 			faceOffActive = false;
 			shooting = false;
 			aiControl(); //AI still assumes it is player 2
@@ -144,7 +145,7 @@ function debug() {
 	}
 	
 	if (puckOne.shotVector) {
-		puckOne.shotPrediction(false, false);
+		puckOne.shotPrediction(false);
 	}
 
 	//some guidelines for AI testing, will remove
@@ -190,7 +191,7 @@ function moveEverything() {
 			}	
 		}
 		else {
-			playerControllers[activePlayer - 1](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
+			playerControllers[activePlayer](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
 		}
 		updateAnimations();
 		puckOne.move();
@@ -229,7 +230,7 @@ function drawDebugText(){
 	debugY += debugSkipY;
 	canvasContext.fillText("faceOffActive: " + faceOffActive, debugX, debugY);
 	debugY += debugSkipY;
-	canvasContext.fillText("activePlayer: " + activePlayer, debugX, debugY);
+	canvasContext.fillText("activePlayer: " + (activePlayer + 1), debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("player 1 score: " + scoreManager.scores[0], debugX, debugY);
 	debugY += debugSkipY;
@@ -329,9 +330,9 @@ function drawUI() {
 	canvasContext.save()
 	canvasContext.font = '160px Arial';
 	canvasContext.textAlign = 'center';
-	canvasContext.fillStyle = activePlayer === 1 ? 'white' : blue;
+	canvasContext.fillStyle = activePlayer === 0 ? 'white' : blue;
 	canvasContext.fillText(scoreManager.scores[0], 120, 200, 300);
-	canvasContext.fillStyle = activePlayer === 2 ? 'white' : blue;
+	canvasContext.fillStyle = activePlayer === 1 ? 'white' : blue;
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
 	canvasContext.restore();
 }
@@ -342,7 +343,7 @@ function drawCredits() {
 }
 
 function replicateGameScenario(){
-	activePlayer = 1; //is this more complicated that just changing a flag, i.e a function
+	activePlayer = 0; //is this more complicated that just changing a flag, i.e a function
 	scoreManager.scores[0] = 2;
 	puckOne.x = 748.01171875;
 	puckOne.y = 511.01171875;
