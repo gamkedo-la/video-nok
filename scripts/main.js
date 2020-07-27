@@ -286,15 +286,8 @@ function drawBackground() {
 
 function drawGameOver() {
 	colorRect(0,0, canvas.width, canvas.height, 'white');
-	/*
-	const winName = scoreManager.winner === 1 ? 'Left Player' : 'Right Player';
-	canvasContext.fillText(winName + ' Won', 350, 200);
-	*/
-	if(scoreManager.winner === 1) {
-		canvasContext.drawImage(p1winsImg, 212, 230);
-	} else {
-		canvasContext.drawImage(p2winsImg, 212, 230);
-	}
+	let winImg = scoreManager.winner === 1 ? p1winsImg : p2winsImg;
+	canvasContext.drawImage(winImg, 212, 230);
 
 	canvasContext.fillStyle = purple;
 	canvasContext.font = '30px Arial';
@@ -313,12 +306,22 @@ function drawNet() {
 }
 
 function drawUI() {
+	let p1Type = playerControllers[0] == playerControl ? 'PLAYER' : 'COMPUTER';
+	let p2Type = playerControllers[1] == playerControl ? 'PLAYER' : 'COMPUTER';
+	
 	canvasContext.save()
-	canvasContext.font = '160px Arial';
 	canvasContext.textAlign = 'center';
-	canvasContext.fillStyle = activePlayer === 0 ? 'white' : blue;
-	canvasContext.fillText(scoreManager.scores[0], 120, 200, 300);
-	canvasContext.fillStyle = activePlayer === 1 ? 'white' : blue;
+	// Player 1
+	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? 'white' : blue;
+	canvasContext.font = '20px Arial';
+	canvasContext.fillText(p1Type + ' 1', 120, 65);
+	canvasContext.font = '160px Arial';
+	canvasContext.fillText(scoreManager.scores[0], 120, 200);
+	// Player 2
+	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? 'white' : blue;
+	canvasContext.font = '20px Arial';
+	canvasContext.fillText(p2Type + ' 2', canvas.width-120, 65);
+	canvasContext.font = '160px Arial';
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
 	canvasContext.restore();
 }
