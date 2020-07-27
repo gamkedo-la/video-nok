@@ -4,6 +4,8 @@ var logoImg = document.createElement('img');
 var p1winsImg = document.createElement('img');
 var p2winsImg = document.createElement('img');
 var creditsImg = document.createElement('img');
+var faceOffImg = document.createElement('img');
+var takeYourShotImg = document.createElement('img');
 
 function loadImages(){
     var imageList = [
@@ -11,6 +13,8 @@ function loadImages(){
         {varName: p1winsImg, theFile: 'p1-wins.png'},
         {varName: p2winsImg, theFile: 'p2-wins.png'},
         {varName: creditsImg, theFile: 'credits.png'},
+        {varName: faceOffImg, theFile: 'face-off.png'},
+        {varName: takeYourShotImg, theFile: 'take-your-shot.png'},
     ];
 
     picsToLoad = imageList.length;

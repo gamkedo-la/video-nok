@@ -261,20 +261,15 @@ function drawEverything() {
 		puckOne.draw();
 		drawUI();
 		if(preFaceOff){
-			canvasContext.fillStyle = 'white';
-			canvasContext.font = '100px Arial';
-			canvasContext.textAlign = 'center';
-			canvasContext.fillText("TAKE YOUR SHOT", canvas.width/2, canvas.height/2 + 200);	
+			canvasContext.drawImage(takeYourShotImg, canvas.width/2 - 456, canvas.height/2 + 100);
 			canvasContext.font = '30px Arial';
 			canvasContext.textAlign = 'center';
+			canvasContext.fillStyle = 'white';
 			canvasContext.fillText("press SPACE to continue", canvas.width/2, canvas.height/2 + 230);	
 		}
 
 		if(faceOffActive){
-			canvasContext.fillStyle = 'white';
-			canvasContext.font = '160px Arial';
-			canvasContext.textAlign = 'center';
-			canvasContext.fillText("FACE OFF", canvas.width/2, canvas.height/2 + 200);
+			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
 		}
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();
@@ -315,9 +310,9 @@ function drawNet() {
 	const stripeHeight = spacing/2;
 
 	for(var i=stripeHeight/2; i<canvas.height; i+=spacing) {
-		colorRect(canvas.width/2-stripeWidth/2, i, stripeWidth, stripeHeight,'white');
+		colorRect(canvas.width/2-stripeWidth/2, i, stripeWidth, stripeHeight, yellow);
 	}
-	strokeCircle(canvas.width/2, canvas.height/2, 140, 'white');
+	strokeCircle(canvas.width/2, canvas.height/2, 140, yellow);
 }
 
 function drawUI() {
