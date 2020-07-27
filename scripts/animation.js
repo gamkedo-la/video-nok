@@ -41,13 +41,6 @@ function puckWindup(vector) {
     animations.push(windup);
 }
 
-function puckWindupJustAni(vector) {
-    let windupJustAni = new LerpAnimation(24, smoothStop, windupAnimation, 
-        function(){}, /* passing in an anon function just to fill the slot*/
-        { length: vector.length });
-    animations.push(windupJustAni);
-} //being hacky andrew, sorry!
-
 function puckRelease(vector) {
     let release = new LerpAnimation(5, smoothStart, releaseAnimation,
         () => { puckOne.hold(vector); puckOne.release(); shooting = false; },

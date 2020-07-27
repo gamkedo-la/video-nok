@@ -52,15 +52,12 @@ class Puck {
         this.checkForCollisions();
         
         if (this.isInRightGoal()) {
-            preFaceOff = true;
+            startFaceoff();
             this.reset();
-            AIFaceOffCountDown  = 100;
             scoreManager.add(0, 1); //Player 1 scores
             audio.playEvent('goal');
-            console.log('adding score to player');
         } else if (this.isInLeftGoal()) {
-            AIFaceOffCountDown  = 100;
-            preFaceOff = true;
+            startFaceoff();
             this.reset();
             scoreManager.add(1, 1);
             audio.playEvent('goal');
@@ -90,13 +87,11 @@ class Puck {
                 
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
-                        preFaceOff = true; //if this flag is true, faceOff() will be called in moveEverthing
-                        AIFaceOffCountDown  = 100;
+                        startFaceoff();
                         outOfBoundsTimer = 5;
                         outOfBoundsPuckXPos = this.x;
                         outOfBoundsPuckYPos = this.y;
-                        this.reset(); 
-                        //this.switchPlayer();
+                        this.reset();
                     } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
                         this.velX = this.velY = 0;
                     }

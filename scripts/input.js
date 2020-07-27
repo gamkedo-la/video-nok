@@ -66,6 +66,16 @@ class Input {
 		else this.pointer = this.mouse;
 	}
 
+	anyPressed() {
+		//console.log(this.clicked() + ', ' + this.gamepads.anyPressed() + ', ' + this.keyboard.anyPressed());
+
+		return	(
+			this.clicked() ||
+			this.gamepads.anyPressed() ||
+			this.keyboard.anyPressed()
+		);
+	}
+
 	clicked() {
 		if (this.mouse.mouseClicked(0)) {
 			return true;
@@ -113,6 +123,10 @@ class Keyboard {
 
 	keyUp(evt) {
 		this._keysReleased.add(evt.keyCode);
+	}
+
+	anyPressed() {
+		return (this._keysPressed.size > 0);
 	}
 
 	keyPressed(key) {
@@ -419,6 +433,11 @@ class GamePadManager {
 		}
 	}
 
+	anyPressed() {
+		for (pad of this.pads) { if (pad.anyPressed()) return true; }
+		return false;
+	}
+
 	buttonPressed(padIndex, buttonIndex) {
 		if (!this.enabled) return false;
 		return this.pads[padIndex].buttonPressed(buttonIndex);
@@ -454,6 +473,10 @@ class GamePad {
 
 	init() {
         return;
+	}
+
+	anyPressed() {
+		return (this._buttonsPressed.size > 0);
 	}
 
 	buttonPressed(button) {

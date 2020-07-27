@@ -7,7 +7,7 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 0;
 
-var preFaceOff = true
+var preFaceOff = false;
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 50;
 
@@ -38,10 +38,7 @@ const state = {
 let gameState = state.menu;
 let playerControllers = [aiControl, aiControl];
 
-function initCanvas() {
-	canvas = document.getElementById('gameCanvas');
-	canvasContext = canvas.getContext('2d');
-}
+window.onload = loadImages;
 
 function initGame() {
 	initCanvas();
@@ -53,22 +50,9 @@ function initGame() {
 	window.addEventListener('orientationchange', scaleScreen);
 }
 
-
-window.onload = function() {
-	/* 86ing this to use Chris' ImageLoading.js 
-	logoImg.src = 'assets/logo.png';
-	p1winsImg.src = 'assets/p1-wins.png';
-	p2winsImg.src = 'assets/p2-wins.png';
-	creditsImg.src = 'assets/credits.png';
-	*/
-	/* moving into imagesLoadedSoStartGame
-	initGame();
-
-	const framesPerSecond = 30;
-	setInterval(main, 1000/framesPerSecond);
-	*/
-	loadImages();
-	countLoadedImageAndLaunchIfReady();
+function initCanvas() {
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
 }
 
 function scaleScreen() {
@@ -88,6 +72,20 @@ function scaleScreen() {
 	canvas.style.marginTop = (availH - parseInt(canvas.style.height)) / 2;
 }
 
+function startFaceoff() {
+	if (playerControllers[1] == aiControl || playerControllers[0] == aiControl) {
+		AIFaceOffCountDown = 60;
+	}
+	
+	if (playerControllers[0] == playerControllers[1] && playerControllers[0] == aiControl) {
+		preFaceOff = false;
+		faceOffActive = true;
+	} else {
+		preFaceOff = true;
+		faceOffActive = false;
+	}
+}
+
 function faceOff() {
 	puckOne.reset();
 	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
@@ -98,12 +96,10 @@ function faceOff() {
 				let threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
 				puckOne.faceOffThreat(threatVector);
 				//threatVector.length = clamp(threatVector.length, 0, MAX_SHOT_VELOCITY);
-				//puckWindupJustAni(threatVector);
 			}
 			AIFaceOffCountDown--;
 		} else {
 			activePlayer = (playerControllers[0] == aiControl) ? Math.round(Math.random()) : 1;
-			activePlayer = 1;
 			faceOffActive = false;
 			shooting = false;
 			aiControl(); //AI still assumes it is player 2
@@ -164,6 +160,7 @@ function resetGame() {
 	gameState = state.game;
 	scoreManager.reset();
 	puckOne.reset();
+	startFaceoff();
 }
 
 function moveEverything() {
@@ -178,7 +175,7 @@ function moveEverything() {
 		if(faceOffActive){
 			faceOff();				
 		} else if (preFaceOff) {
-			if(input.keyboard.keyPressed(KEY_pre_face_off)){
+			if(input.anyPressed()) {
 				preFaceOff = false;
 				faceOffActive = true;
 			}	
@@ -191,9 +188,9 @@ function moveEverything() {
 		if (scoreManager.winner) {
 			gameState = state.gameover;
 		}
-	} else if (gameState === state.gameover && input.clicked()) {
+	} else if (gameState === state.gameover && input.anyPressed()) {
 		gameState = state.menu;
-	} else if (gameState === state.credits && input.clicked()) {
+	} else if (gameState === state.credits && input.anyPressed()) {
 		gameState = state.menu;
 	} else if (gameState === state.credits) {
 		credits.update();
@@ -265,7 +262,7 @@ function drawEverything() {
 			canvasContext.font = '30px Arial';
 			canvasContext.textAlign = 'center';
 			canvasContext.fillStyle = 'white';
-			canvasContext.fillText("press SPACE to continue", canvas.width/2, canvas.height/2 + 230);	
+			canvasContext.fillText("press ANYTHING to continue", canvas.width/2, canvas.height/2 + 230);	
 		}
 
 		if(faceOffActive){
@@ -301,7 +298,7 @@ function drawGameOver() {
 
 	canvasContext.fillStyle = purple;
 	canvasContext.font = '30px Arial';
-	canvasContext.fillText("CLICK TO CONTINUE", 230, 460);
+	canvasContext.fillText("INTERACT TO CONTINUE", 230, 460);
 }
 
 function drawNet() {

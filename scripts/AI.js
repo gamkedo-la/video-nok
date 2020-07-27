@@ -57,7 +57,7 @@ function aiControl() {
     }
  
     //maybe try tweaking these numbers first, from various court positions
-    if (input.clicked() && !shooting) {
+    if ((true || input.anyPressed()) && !shooting) {
         shooting = true;
 
         if(AIPowerFail){
