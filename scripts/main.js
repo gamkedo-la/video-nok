@@ -25,7 +25,7 @@ creditsText = [
 	'Andrew M: things',
 	'Ashleigh M: other things'
 ];
-const credits = new Credits(350, 500, creditsText);
+const credits = new Credits(212, 500, creditsText);
 
 
 const state = {
