@@ -38,43 +38,6 @@ const state = {
 let gameState = state.menu;
 let playerControllers = [aiControl, aiControl];
 
-var logoImg = document.createElement('img');
-var logoImgLoaded = false;
-var p1winsImg = document.createElement('img');
-var p1winsImgLoaded = false;
-var p2winsImg = document.createElement('img');
-var p2winsImgLoaded = false;
-var creditsImg = document.createElement('img');
-var creditsImgLoaded = false;
-
-logoImg.onload = function(){
-	logoImgLoaded = true; 
-}
-
-p1winsImg.onload = function(){
-	p1winsImgLoaded = true; 
-}
-
-p2winsImg.onload = function(){
-	p2winsImgLoaded = true; 
-}
-
-creditsImg.onload = function(){
-	creditsImgLoaded = true; 
-}
-
-
-window.onload = function() {
-	logoImg.src = 'assets/logo.png';
-	p1winsImg.src = 'assets/p1-wins.png';
-	p2winsImg.src = 'assets/p2-wins.png';
-	creditsImg.src = 'assets/credits.png';
-	initGame();
-
-	const framesPerSecond = 30;
-	setInterval(main, 1000/framesPerSecond);
-}
-
 function initCanvas() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -88,6 +51,24 @@ function initGame() {
 	scaleScreen();
 	window.addEventListener('resize', scaleScreen);
 	window.addEventListener('orientationchange', scaleScreen);
+}
+
+
+window.onload = function() {
+	/* 86ing this to use Chris' ImageLoading.js 
+	logoImg.src = 'assets/logo.png';
+	p1winsImg.src = 'assets/p1-wins.png';
+	p2winsImg.src = 'assets/p2-wins.png';
+	creditsImg.src = 'assets/credits.png';
+	*/
+	/* moving into imagesLoadedSoStartGame
+	initGame();
+
+	const framesPerSecond = 30;
+	setInterval(main, 1000/framesPerSecond);
+	*/
+	loadImages();
+	countLoadedImageAndLaunchIfReady();
 }
 
 function scaleScreen() {
