@@ -9,6 +9,7 @@ class Puck {
         this.position = new Vector2(500, 333);
         this.velocity = new Vector2(0, 0);
         this.shotVector = null;
+        this.shotVectors = [];
         this.threatVectors = [];
         this.inPlay = false;
         this.radius = 30;
@@ -164,45 +165,40 @@ class Puck {
 
     drawFaceOffThreats() {
         for(let threat of this.threatVectors) {
-            let start = threat.rotate(Math.PI/2).normalize(),
-            weight = threat.length / 200,
-            width = this.radius;
-            let smoothShot = new Vector2(threat.x, threat.y);
-            smoothShot.length = lerp(0, 100, weight);
-
-            canvasContext.fillStyle = threat.color;
-            canvasContext.beginPath();
-            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-            canvasContext.fill();
+            this.drawShotVector(threat, threat.color);
         }
 
         this.threatVectors.length = 0;
     }
 
-   draw(){
-    this.drawFaceOffThreats();		
-    if (this.shotVector) {
-        let start = this.shotVector.rotate(Math.PI/2).normalize(),
-            weight = this.shotVector.length / 200, //length is set in animations
-            width = this.radius;
-        
-        let smoothShot = new Vector2(this.shotVector.x, this.shotVector.y);
-        smoothShot.length = lerp(0, 100, weight);
-
+    draw() {
+        this.drawFaceOffThreats();		
         if (this.shotVector) {
-            canvasContext.fillStyle = 'white';
-            canvasContext.beginPath();
-            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-            canvasContext.fill();
-        } //I think this draws the shot Triangle, and it's shared between the two players. 
+            this.drawShotVector(this.shotVector, 'white');
+        }
+        for (let shot of this.shotVectors) {
+            if (!shot) continue;
+            this.drawShotVector(shot, 'white');
+        }
+
+        colorCircle(this.x, this.y, this.radius, this.color);
     }
 
-    colorCircle(this.x, this.y, this.radius, this.color);
-}
+    drawShotVector(vector, color) {
+        let start = vector.rotate(Math.PI/2).normalize(),
+            weight = vector.length / 200, //length is set in animations
+            width = this.radius;
+    
+        let lerpShot = new Vector2(vector.x, vector.y);
+            lerpShot.length = lerp(0, 100, weight);
+        
+        canvasContext.fillStyle = color;
+        canvasContext.beginPath();
+        canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+        canvasContext.lineTo(this.x + lerpShot.x, this.y + lerpShot.y)
+        canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+        canvasContext.fill();
+    }
 
     get x() {return this.position.x; }
     get y() { return this.position.y; }

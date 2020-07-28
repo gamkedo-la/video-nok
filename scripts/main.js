@@ -65,11 +65,29 @@ function scaleScreen() {
 	}
 
 	gameWindow.scale = screenScale;
-	canvas.style.width = canvas.width * screenScale + 'px';
-	canvas.style.height = canvas.height * screenScale + 'px';
+	let sWidth = canvas.width * screenScale;
+	let sHeight = canvas.height * screenScale;
+	let leftMargin = (availW - sWidth) / 2;
+	let topMargin = (availH - sHeight) / 2;
 
-	canvas.style.marginLeft = (availW - parseInt(canvas.style.width)) / 2;
-	canvas.style.marginTop = (availH - parseInt(canvas.style.height)) / 2;
+
+	canvas.style.width = sWidth + 'px';
+	canvas.style.height = sHeight + 'px';
+	canvas.style.marginLeft = leftMargin;
+	canvas.style.marginTop = topMargin;
+
+	let zone1 = document.getElementById('controlzoneleft');
+	let zone2 = document.getElementById('controlzoneright');
+
+	zone1.style.width = sWidth/2;
+	zone1.style.height = sHeight;
+	zone1.style.left = leftMargin;
+	zone1.style.top = topMargin;
+
+	zone2.style.width = sWidth/2;
+	zone2.style.height = sHeight;
+	zone2.style.left = leftMargin + sWidth/2;
+	zone2.style.top = topMargin;
 }
 
 function startFaceoff() {
