@@ -1,21 +1,15 @@
 const BALL_FRICTION = 0.10;
 const MAX_SHOT_VELOCITY = 200;
-var badShot = false; 
+
 var faceOffThreatTimer = 5;
 var faceOffThreatCooldown = 5;
-
-//I'm a baaaaad programmer
-
-var threatenTop = false;
-var threatVectors = [new Vector2(133.49, 148.93), new Vector2(133.49, -148.93)]; //(133.49, -148.93)
-
 
 class Puck {
     constructor() {
         this.position = new Vector2(500, 333);
         this.velocity = new Vector2(0, 0);
         this.shotVector = null;
-        this.aiFaceOffThreatVector = threatVectors[1];
+        this.threatVectors = [];
         this.inPlay = false;
         this.radius = 30;
         this.color = blue;
@@ -114,12 +108,6 @@ class Puck {
         this.shotVector.clamp(0, MAX_SHOT_VELOCITY);
     }
 
-    faceOffThreat(vector) {
-        if (this.inPlay) return;
-        //this.aiFaceOffThreatVector = vector;
-        this.aiFaceOffThreatVector.clamp(0, MAX_SHOT_VELOCITY);
-    }
-
     release() {
         if (!this.shotVector) return;
         this.velocity = new Vector2(this.shotVector.x / -10, this.shotVector.y / -10);
@@ -174,40 +162,28 @@ class Puck {
         return [gotPastGoalRight, gotPastGoalLeft];
     } //end of shotPrediction
 
-   drawfaceOffThreat(){
-    canvasContext.fillStyle = 'red';
-    if(faceOffThreatTimer > 0){
-        let start = this.aiFaceOffThreatVector.rotate(Math.PI/2).normalize(),
-        weight = this.aiFaceOffThreatVector.length / 200,
-        width = this.radius;
-        let smoothShot = new Vector2(this.aiFaceOffThreatVector.x, this.aiFaceOffThreatVector.y);
-        smoothShot.length = lerp(0, 100, weight);
+    drawFaceOffThreats() {
+        for(let threat of this.threatVectors) {
+            let start = threat.rotate(Math.PI/2).normalize(),
+            weight = threat.length / 200,
+            width = this.radius;
+            let smoothShot = new Vector2(threat.x, threat.y);
+            smoothShot.length = lerp(0, 100, weight);
 
-        canvasContext.beginPath();
-        canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
-        canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
-        canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
-        canvasContext.fill();
-        faceOffThreatTimer--;
-    } else {
-        faceOffThreatCooldown --;        
-        if(faceOffThreatCooldown <= 0){
-            if(threatenTop == false){
-                this.aiFaceOffThreatVector = threatVectors[0]
-            }
-            else {
-                this.aiFaceOffThreatVector = threatVectors[1]
-            }
-            threatenTop = !threatenTop;
-            faceOffThreatTimer = 5;
-            faceOffThreatCooldown = 5;
-        } 
-    } 
-   } 
+            canvasContext.fillStyle = threat.color;
+            canvasContext.beginPath();
+            canvasContext.moveTo(this.x + start.x * width, this.y + start.y * width);
+            canvasContext.lineTo(this.x + smoothShot.x, this.y + smoothShot.y)
+            canvasContext.lineTo(this.x - start.x * width, this.y - start.y * width);
+            canvasContext.fill();
+        }
 
-   draw(){		
+        this.threatVectors.length = 0;
+    }
+
+   draw(){
+    this.drawFaceOffThreats();		
     if (this.shotVector) {
-        //console.log(this.shotVector);
         let start = this.shotVector.rotate(Math.PI/2).normalize(),
             weight = this.shotVector.length / 200, //length is set in animations
             width = this.radius;
@@ -225,42 +201,15 @@ class Puck {
         } //I think this draws the shot Triangle, and it's shared between the two players. 
     }
 
-    if(faceOffActive && this.aiFaceOffThreatVector && !this.inPlay){
-        this.drawfaceOffThreat();
-    } //AI threatening to take a shot
-
     colorCircle(this.x, this.y, this.radius, this.color);
 }
-    
-    get x() {
-        return this.position.x;
-    }
 
-    get y() {
-        return this.position.y;
-    }
-
-    get velX() {
-        return this.velocity.x;
-    }
-
-    get velY() {
-        return this.velocity.y;
-    }
-
-    set x(newX) {
-        this.position.x = newX;
-    }
-
-    set y(newY) {
-        this.position.y = newY;
-    }
-
-    set velX(vx) {
-        this.velocity.x = vx;
-    }
-
-    set velY(vy) {
-        this.velocity.y = vy;
-    }
+    get x() {return this.position.x; }
+    get y() { return this.position.y; }
+    get velX() { return this.velocity.x; }
+    get velY() { return this.velocity.y; }
+    set x(newX) { this.position.x = newX; }
+    set y(newY) { this.position.y = newY; }
+    set velX(vx) { this.velocity.x = vx; }
+    set velY(vy) { this.velocity.y = vy; }
 }

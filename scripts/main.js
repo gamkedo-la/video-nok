@@ -87,15 +87,14 @@ function startFaceoff() {
 }
 
 function faceOff() {
-	puckOne.reset();
-	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player
+	if (playerControllers[1] == aiControl) { //This is currently true in all modes with a computer player		
+		aiThreat(1);
 		if (AIFaceOffCountDown > 0)  {
 			if (playerControllers[0] != aiControl) { //Determine if 0 or 1 player mode
 				activePlayer = 0;
 				playerControl();
-				let threatVector = new Vector2(133.49, 148.93); //a viable vect to score from center court 
-				puckOne.faceOffThreat(threatVector);
-				//threatVector.length = clamp(threatVector.length, 0, MAX_SHOT_VELOCITY);
+			} else {
+				aiThreat(0);
 			}
 			AIFaceOffCountDown--;
 		} else {
@@ -312,13 +311,13 @@ function drawUI() {
 	canvasContext.save()
 	canvasContext.textAlign = 'center';
 	// Player 1
-	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? 'white' : blue;
+	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? yellow : blue;
 	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p1Type + ' 1', 120, 65);
 	canvasContext.font = '160px Arial';
 	canvasContext.fillText(scoreManager.scores[0], 120, 200);
 	// Player 2
-	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? 'white' : blue;
+	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : blue;
 	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p2Type + ' 2', canvas.width-120, 65);
 	canvasContext.font = '160px Arial';

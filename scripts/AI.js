@@ -86,12 +86,26 @@ function aiControl() {
     } 
 }
 
-/*
-    } else { 
-        //console.log('control has made it to the last else statement in ai.js');
-        if(!faceOffActive){
-            puckOne.shotVector = null;
-        } //prevents error from being thrown if Ai takes a shot during Face Off
-        
-    } 
-    */
+let threatTimers = [0, 0];
+let threatenTop = [0, 0];
+const threatColors = ['orange', 'red'];
+
+function aiThreat(player) {
+    const threatVectors = [new Vector2(-133.49, 148.93), new Vector2(-133.49, -148.93)]; //(133.49, -148.93)
+    let threat = threatVectors[threatenTop[player]];
+    if (player === 1) threat = threat.rotate(Math.PI);
+    threatTimers[player]--;
+    if(threatTimers[player] <= 0){
+        if(threatenTop[player] == 0){
+            this.aiFaceOffThreatVector = threatVectors[0]
+            }
+        else {
+            this.aiFaceOffThreatVector = threatVectors[1]
+        }
+        threatenTop[player] = Math.abs(threatenTop[player] - 1);
+        threatTimers[player] = 8 + Math.round(Math.random() * 7);
+    }
+
+    threat.color = threatColors[player];
+    puckOne.threatVectors.push(threat);
+}
