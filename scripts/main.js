@@ -329,17 +329,17 @@ function drawUI() {
 	canvasContext.save()
 	canvasContext.textAlign = 'center';
 	// Player 1
-	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? yellow : blue;
+	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
 	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p1Type + ' 1', 120, 65);
-	canvasContext.font = '160px Arial';
-	canvasContext.fillText(scoreManager.scores[0], 120, 200);
+	canvasContext.font = 'bold 180px futura';
+	canvasContext.fillText(scoreManager.scores[0], 120, 220);
 	// Player 2
-	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : blue;
+	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
 	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p2Type + ' 2', canvas.width-120, 65);
-	canvasContext.font = '160px Arial';
-	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 200);
+	canvasContext.font = 'bold 180px futura';
+	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 220);
 	canvasContext.restore();
 }
 
