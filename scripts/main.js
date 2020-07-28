@@ -272,8 +272,8 @@ function drawEverything() {
 		ui.draw();
 		
 	} else if (gameState === state.game) {
-		puckOne.draw();
 		drawUI();
+		puckOne.draw();
 		if(preFaceOff){
 			canvasContext.drawImage(takeYourShotImg, canvas.width/2 - 456, canvas.height/2 + 100);
 			canvasContext.font = '30px Arial';
@@ -330,13 +330,13 @@ function drawUI() {
 	canvasContext.textAlign = 'center';
 	// Player 1
 	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
-	canvasContext.font = '20px Arial';
+	canvasContext.font = '20px futura';
 	canvasContext.fillText(p1Type + ' 1', 120, 65);
 	canvasContext.font = 'bold 180px futura';
 	canvasContext.fillText(scoreManager.scores[0], 120, 220);
 	// Player 2
 	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
-	canvasContext.font = '20px Arial';
+	canvasContext.font = '20px futura';
 	canvasContext.fillText(p2Type + ' 2', canvas.width-120, 65);
 	canvasContext.font = 'bold 180px futura';
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 220);
