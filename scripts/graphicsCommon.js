@@ -1,9 +1,9 @@
-var bgColor = '#713784';
 var blue = '#6dcff6';
 var yellow = '#fff799';
 var orange = '#f5989d';
-var purple = '#662e78';
+var purple = '#713784';
 var purpleLighter = '#954699';
+var bgColor = purple;
 var railColor = orange;
 
 function colorCircle(centerX, centerY, radius, drawColor) {

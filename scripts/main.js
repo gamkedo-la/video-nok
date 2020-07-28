@@ -334,6 +334,7 @@ function drawUI() {
 	canvasContext.fillText(p1Type + ' 1', 120, 65);
 	canvasContext.font = 'bold 180px futura';
 	canvasContext.fillText(scoreManager.scores[0], 120, 220);
+	//canvasContext.drawImage(score3Active, 120, 220);
 	// Player 2
 	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
 	canvasContext.font = '20px futura';

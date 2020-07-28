@@ -6,6 +6,7 @@ var p2winsImg = document.createElement('img');
 var creditsImg = document.createElement('img');
 var faceOffImg = document.createElement('img');
 var takeYourShotImg = document.createElement('img');
+var score3Active = document.createElement('img');
 
 function loadImages(){
     var imageList = [
@@ -15,6 +16,7 @@ function loadImages(){
         {varName: creditsImg, theFile: 'credits.png'},
         {varName: faceOffImg, theFile: 'face-off.png'},
         {varName: takeYourShotImg, theFile: 'take-your-shot.png'},
+        {varName: score3Active, theFile: 'score-3-active.png'},
     ];
 
     picsToLoad = imageList.length;
