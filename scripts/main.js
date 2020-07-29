@@ -166,7 +166,8 @@ function debug() {
 function newGame(playerCount) {
 	let controllers = playerControllers.length;
 	for (let i = 0; i < controllers; i++) {
-		if (i + 1<= playerCount) {
+		if (i + 1 <= playerCount) {
+			controlZones[i].style.display = 'initial';
 			playerControllers[i] = playerControl;
 		} else playerControllers[i] = aiControl;
 	}
@@ -203,6 +204,7 @@ function moveEverything() {
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
+			controlZones[0].style.display = controlZones[1].style.display = 'none';
 			gameState = state.gameover;
 		}
 	} else if (gameState === state.gameover && input.anyPressed()) {

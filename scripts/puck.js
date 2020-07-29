@@ -11,6 +11,7 @@ class Puck {
         this.shotVector = null;
         this.shotVectors = [];
         this.threatVectors = [];
+        this.shotColors = ['white', yellow];
         this.inPlay = false;
         this.radius = 30;
         this.color = blue;
@@ -176,9 +177,10 @@ class Puck {
         if (this.shotVector) {
             this.drawShotVector(this.shotVector, 'white');
         }
-        for (let shot of this.shotVectors) {
+        for (let s = 0; s < this.shotVectors.length; s++) {
+            let shot = this.shotVectors[s];
             if (!shot) continue;
-            this.drawShotVector(shot, 'white');
+            this.drawShotVector(shot, this.shotColors[s]);
         }
 
         colorCircle(this.x, this.y, this.radius, this.color);
