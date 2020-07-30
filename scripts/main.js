@@ -328,27 +328,84 @@ function drawUI() {
 	let p1Type = playerControllers[0] == playerControl ? 'PLAYER' : 'COMPUTER';
 	let p2Type = playerControllers[1] == playerControl ? 'PLAYER' : 'COMPUTER';
 	
+	/*
 	canvasContext.save()
 	canvasContext.textAlign = 'center';
 	// Player 1
 	canvasContext.fillStyle = (activePlayer === 0 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
-	canvasContext.font = '20px futura';
+	//next 4 lines to be cut out. 
+
+	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p1Type + ' 1', 120, 65);
-	canvasContext.font = 'bold 180px futura';
+	canvasContext.font = 'bold 180px Arial';
 	canvasContext.fillText(scoreManager.scores[0], 120, 220);
-	//canvasContext.drawImage(score3Active, 120, 220);
-	// Player 2
+	*/
+	//PLAYER ONE SCORE NUMBER
+	if(scoreManager.scores[0] === 0){
+		if(activePlayer === 0 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score0Active, railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score0Inactive, railThickness * 2, railThickness * 2);
+		}
+	}
+	else if(scoreManager.scores[0] === 1){
+		if(activePlayer === 0 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score1Active, railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score1Inactive, railThickness * 2, railThickness * 2);
+		}
+	}
+	else if(scoreManager.scores[0] === 2){
+		if(activePlayer === 0 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score2Active, railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score2Inactive, railThickness * 2, railThickness * 2);
+		}
+	}
+	
+	// PLAYER 2 SCORE NUMBER
+	//PLAYER ONE SCORE NUMBER
+	if(scoreManager.scores[1] === 0){
+		if(activePlayer === 1 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score0Active, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score0Inactive, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+	}
+	else if(scoreManager.scores[1] === 1){
+		if(activePlayer === 1 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score1Active, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score1Inactive, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+	}
+	else if(scoreManager.scores[1] === 2){
+		if(activePlayer === 1 && !faceOffActive && !preFaceOff){
+			canvasContext.drawImage(score2Active, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+		else {
+			canvasContext.drawImage(score2Inactive, canvas.width - 110 - railThickness * 2, railThickness * 2);
+		}
+	}
+	
+	/*
 	canvasContext.fillStyle = (activePlayer === 1 && !faceOffActive && !preFaceOff) ? yellow : purpleLighter;
-	canvasContext.font = '20px futura';
+	canvasContext.font = '20px Arial';
 	canvasContext.fillText(p2Type + ' 2', canvas.width-120, 65);
-	canvasContext.font = 'bold 180px futura';
+	canvasContext.font = 'bold 180px Arial';
 	canvasContext.fillText(scoreManager.scores[1], canvas.width-120, 220);
 	canvasContext.restore();
+	*/
 }
 
 function replicateGameScenario(){
 	activePlayer = 0; //is this more complicated that just changing a flag, i.e a function
-	scoreManager.scores[0] = 2;
+	scoreManager.scores[0] = 0;
 	puckOne.x = 748.01171875;
 	puckOne.y = 511.01171875;
 	faceOffActive = false;
