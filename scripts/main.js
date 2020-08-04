@@ -4,6 +4,7 @@ var debugMode = false;
 var shooting = false;
 let scoreManager = new ScoreManager();
 
+
 var puckOne = new Puck();
 var activePlayer = 0;
 
@@ -176,7 +177,6 @@ function newGame(playerCount) {
 
 function resetGame() {
 	gameState = state.game;
-	scoreManager.reset();
 	puckOne.reset();
 	startFaceoff();
 }
@@ -310,7 +310,7 @@ function drawGameOver() {
 
 	canvasContext.fillStyle = purple;
 	canvasContext.font = '30px Arial';
-	canvasContext.fillText("INTERACT TO CONTINUE", 230, 460);
+	canvasContext.fillText("INTERACT TO CONTINUE", 212, 460);
 }
 
 function drawNet() {
@@ -404,8 +404,8 @@ function drawUI() {
 }
 
 function replicateGameScenario(){
-	activePlayer = 0; //is this more complicated that just changing a flag, i.e a function
-	scoreManager.scores[0] = 0;
+	activePlayer = 1; //is this more complicated that just changing a flag, i.e a function
+	scoreManager.scores[1] = 2;
 	puckOne.x = 748.01171875;
 	puckOne.y = 511.01171875;
 	faceOffActive = false;
