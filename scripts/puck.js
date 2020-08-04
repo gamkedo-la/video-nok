@@ -174,7 +174,7 @@ class Puck {
 
     draw() {
         this.drawFaceOffThreats();		
-        if (this.shotVector) {
+        if (this.shotVector) { //&& puck in motion not true
             this.drawShotVector(this.shotVector, 'white');
         }
         for (let s = 0; s < this.shotVectors.length; s++) {
