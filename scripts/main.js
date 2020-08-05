@@ -11,6 +11,7 @@ var activePlayer = 0;
 var preFaceOff = false;
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 50;
+var aiWonFaceOff = false;
 
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
@@ -121,6 +122,7 @@ function faceOff() {
 			faceOffActive = false;
 			shooting = false;
 			aiControl(); //AI still assumes it is player 2
+			aiWonFaceOff = true;
 		}
 	} else { //2 Player mode
 		playerControl();
@@ -260,6 +262,10 @@ function drawDebugText(){
 	canvasContext.fillText("faceOffThreatCooldown " + faceOffThreatCooldown, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("puckOne.x " + puckOne.x, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("AIAimFail " + AIAimFail, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("AIWonFaceOff " + aiWonFaceOff, debugX, debugY);
 }
 
 function drawEverything() {

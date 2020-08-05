@@ -13,16 +13,23 @@ function aiControl() {
     AIFailPerc = Math.random();
 
     let scoreDelta = scoreManager.scores[activePlayer] - scoreManager.scores[Math.abs(activePlayer - 1)];
-    
-    if(scoreDelta > 0 && AIFailPerc > 0.4) {
-        AIPowerFail = true;
-    } // if AI is doing better than player, there's an 60% chance it'll underpower the shot
-    else if(scoreDelta < 0 && AIFailPerc > 0.8) {
-        AIAimFail = true;
-    } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
-    else if(AIFailPerc > 0.6) {
-        AIAimFail = true;
-    } //if AI is even with player, it performs adequately. fail rate 40
+    console.log('faceOffActive ' + faceOffActive);
+    if(aiWonFaceOff){
+        console.log('made it to control block');
+            //AIAimFail = true;
+    } else{
+        console.log('control has reached else');
+        if(scoreDelta > 0 && AIFailPerc > 0.4) {
+            AIPowerFail = true;
+        } // if AI is doing better than player, there's an 60% chance it'll underpower the shot
+        else if(scoreDelta < 0 && AIFailPerc > 0.8) {
+            AIAimFail = true;
+        } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
+        else if(AIFailPerc > 0.6) {
+            AIAimFail = true;
+        } //if AI is even with player, it performs adequately. fail rate 40
+    }
+
      
     const shotSpeedRange = 540; 
     var testVect = new Vector2(0,0);
@@ -61,7 +68,6 @@ function aiControl() {
         shooting = true;
 
         if(AIPowerFail){
-            console.log('power fail');
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
             var failureShotSpeed = correctShotSpeed / (2 * AIFailPerc); //AI will underpower shot
@@ -69,7 +75,6 @@ function aiControl() {
             testVect.y = testVectYTemp * failureShotSpeed;
         }
         if(AIAimFail){
-            console.log('aim fail');
             testVect.x += 50; //AI will skew shot. 
         }
         let launchVector = new Vector2(testVect.x, testVect.y);  
