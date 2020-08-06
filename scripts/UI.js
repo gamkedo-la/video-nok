@@ -211,7 +211,7 @@ let menu_elements = [
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
 		font: '12Px Arial',
 		label: 'Credits',
-		callback: () => { gameState = state.credits },
+		callback: () => { credits.reset(); gameState = state.credits },
 	})
 ];
 

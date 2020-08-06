@@ -1,8 +1,12 @@
 class Credits {
     constructor(x, y, text) {
         this.x = x;
-        this.y = y;
+        this.initialY = this.y = y;
         this.text = text;
+    }
+
+    reset() {
+        this.y = this.initialY;
     }
 
     update() {
