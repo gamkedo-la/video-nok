@@ -10,25 +10,27 @@ function aiControl() {
     AIAimFail  = false;
     AIPowerFail = false;
     
-    AIFailPerc = Math.random();
+    AIRandomNum = Math.random();
 
     let scoreDelta = scoreManager.scores[activePlayer] - scoreManager.scores[Math.abs(activePlayer - 1)];
     console.log('faceOffActive ' + faceOffActive);
-    if(aiWonFaceOff){
-        console.log('made it to control block');
-            //AIAimFail = true;
-    } else{
+    // the numbers on the right most side of the conditionals is the SUCCESS rate
+    if(aiWonFaceOff && AIRandomNum > 0.3){
+        console.log(AIRandomNum);
+            AIAimFail = true; 
+    } //ai wins Face Off only 30% of the time
+    else{
         console.log('control has reached else');
-        if(scoreDelta > 0 && AIFailPerc > 0.4) {
+        if(scoreDelta > 0 && AIRandomNum > 0.4) {
             AIPowerFail = true;
         } // if AI is doing better than player, there's an 60% chance it'll underpower the shot
-        else if(scoreDelta < 0 && AIFailPerc > 0.8) {
+        else if(scoreDelta < 0 && AIRandomNum > 0.8) {
             AIAimFail = true;
         } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
-        else if(AIFailPerc > 0.6) {
+        else if(AIRandomNum > 0.6) {
             AIAimFail = true;
         } //if AI is even with player, it performs adequately. fail rate 40
-    }
+    } // if the AI isn't in a face off
 
      
     const shotSpeedRange = 540; 
@@ -70,7 +72,7 @@ function aiControl() {
         if(AIPowerFail){
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
-            var failureShotSpeed = correctShotSpeed / (2 * AIFailPerc); //AI will underpower shot
+            var failureShotSpeed = correctShotSpeed / (2 * AIRandomNum); //AI will underpower shot
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
         }

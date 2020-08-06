@@ -121,8 +121,10 @@ function faceOff() {
 			activePlayer = (playerControllers[0] == aiControl) ? Math.round(Math.random()) : 1;
 			faceOffActive = false;
 			shooting = false;
-			aiControl(); //AI still assumes it is player 2
 			aiWonFaceOff = true;
+			aiControl(); //AI still assumes it is player 2
+			aiWonFaceOff = false;
+
 		}
 	} else { //2 Player mode
 		playerControl();

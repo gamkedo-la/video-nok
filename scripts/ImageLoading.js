@@ -44,7 +44,6 @@ function beginImageLoading(imgVar, fileName){
 
 
 function loadingDoneSoStartGame(){
-    console.log('hello world');
     initGame();
     const framesPerSecond = 30;
     setInterval(main, 1000/framesPerSecond);
