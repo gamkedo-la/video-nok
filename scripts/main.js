@@ -24,8 +24,19 @@ var ctrlAtplayerControl = false;
 var ctrlAIControl = false;
 
 creditsText = [
-	'Andrew M: things',
-	'Ashleigh M: other things'
+"Ashleigh M.: Project lead, core gameplay, visual design, AI aim, debugging features,",
+"       sounds, font selection, logo, credits screen improvements, assorted bug fixes",
+"",
+"Andrew Mushel: Shot vector animation, score manager, menu system, 2-player mode,",
+"        audio event system, draw refactor, input decoupling from main logic, touch and",
+"        gamepad controls, board collision improvements, debugging improvements, face off",
+"        improvements, canvas scale, AI fix",
+"",
+"Vince McKeown: Code organization, scoring, paddle/puck collision improvements, puck class",
+"",
+"Allan Regush: Wall collisions, game over state, credits screen",
+"",
+"Catherine San Luis: Puck placement debugging / cheat feature",
 ];
 const credits = new Credits(212, 500, creditsText);
 
