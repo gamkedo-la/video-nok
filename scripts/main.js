@@ -180,6 +180,8 @@ function newGame(playerCount) {
 }
 
 function resetGame() {
+	scoreManager.scores[0] = 0;
+	scoreManager.scores[1] = 0; 
 	gameState = state.game;
 	puckOne.reset();
 	startFaceoff();
@@ -203,12 +205,13 @@ function moveEverything() {
 			}	
 		}
 		else {
-			playerControllers[activePlayer](); //notes 4 Ash =^-_-^= : this array contains calls to aiControl
+			playerControllers[activePlayer](); 
 		}
 		updateAnimations();
 		puckOne.move();
 		if (scoreManager.winner) {
 			controlZones[0].style.display = controlZones[1].style.display = 'none';
+			console.log('i think the scores arent being reset');
 			gameState = state.gameover;
 		}
 	} else if (gameState === state.gameover && input.anyPressed()) {
@@ -233,7 +236,7 @@ function drawDebugText(){
 	var debugX = 200;
 	var debugY = 100;
 	var debugSkipY = 15;
-	canvasContext.fillStyle = 'white';
+	canvasContext.fillStyle = 'red';
 	canvasContext.font = '10px Arial';
 	canvasContext.textAlign = 'left';
 	debugY += debugSkipY;
@@ -268,6 +271,8 @@ function drawDebugText(){
 	canvasContext.fillText("AIAimFail " + AIAimFail, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("AIWonFaceOff " + aiWonFaceOff, debugX, debugY);
+	debugY += debugSkipY;
+	canvasContext.fillText("gameState " + gameState, debugX, debugY);
 }
 
 function drawEverything() {
