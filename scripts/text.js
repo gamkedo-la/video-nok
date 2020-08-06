@@ -1,3 +1,0 @@
-const text = {
-    credits: "Credits"
-}
