@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+before release
+x increase AI error ratio in face off
+x bug:pvai:p1win:game reset: - p1 win screen displays each time user "interacts to continue"
+- change text in face off
+	- maybe just reverse face off and "take your shot", or "player 1,  
+          take your shot
+- add additional text, cues to OB
+- include instructions
+- include nunito
+
+[] read z's comments and thank him
+---	
+[] adjust "interact to continue" text on player2 win screen
+[] put the squares on 45 degree angles
+
+
+
+"AI one-shotted me a lot"
+- solution: increase AI error ratio in face off
+
+"I was confused by the red triangles, I thought it was the AI's turn
+something about this says it's turn based to me"
+- "seeing the tail felt like the AIs turn"
+- solution: alter face off text
+
+"it wasn't clear that I was hitting the puck out of bounds,
+looked like a collision error"
+- solution: add additional feedback when puck is hit out of bounds
