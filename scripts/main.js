@@ -8,11 +8,13 @@ let scoreManager = new ScoreManager();
 var puckOne = new Puck();
 var activePlayer = 0;
 
+var outofBoundsActive = false;
 var preFaceOff = false;
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
 var AIFaceOffCountDown = 50;
 var aiWonFaceOff = false;
 
+var outOfBoundsStarburstTimer = 0;
 var outOfBoundsTimer = 0;
 var outOfBoundsPuckXPos;
 var outOfBoundsPuckYPos;
@@ -101,6 +103,10 @@ function scaleScreen() {
 	zone2.style.height = sHeight;
 	zone2.style.left = leftMargin + sWidth/2;
 	zone2.style.top = topMargin;
+}
+
+function outOfBounds(){
+	outOfBoundsTimer--;
 }
 
 function startFaceoff() {
@@ -207,6 +213,11 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
+		/*
+		if(outofBoundsActive){
+			outOfBounds();
+		} 
+		*/
 		if(faceOffActive){
 			faceOff();				
 		} else if (preFaceOff) {
@@ -225,6 +236,7 @@ function moveEverything() {
 			console.log('i think the scores arent being reset');
 			gameState = state.gameover;
 		}
+
 	} else if (gameState === state.gameover && input.anyPressed()) {
 		gameState = state.menu;
 	} else if (gameState === state.credits && input.anyPressed()) {
@@ -288,9 +300,11 @@ function drawDebugText(){
 
 function drawEverything() {
 	drawBackground();
+
+
 	
-	if(outOfBoundsTimer > 0){
-		outOfBoundsTimer--
+	if(outOfBoundsStarburstTimer > 0){
+		outOfBoundsStarburstTimer--
 		drawOutOfBoundsIndicator();
 	}
 	if (gameState === state.menu) {
@@ -300,6 +314,14 @@ function drawEverything() {
 	} else if (gameState === state.game) {
 		drawUI();
 		puckOne.draw();
+		/*
+		if(outOfBoundsTimer > 0){
+			canvasContext.fillStyle = 'red';
+			canvasContext.font = '100px Arial';
+			canvasContext.textAlign = 'left';
+			canvasContext.fillText("Out of Bounds!", canvas.width/2 -100, canvas.height/2);
+		}
+		*/
 		if(preFaceOff){
 			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
 			canvasContext.font = '30px Nunito';

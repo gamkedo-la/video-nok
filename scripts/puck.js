@@ -84,7 +84,9 @@ class Puck {
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
                         startFaceoff();
-                        outOfBoundsTimer = 5;
+                        outOfBoundsTimer = 30;
+                        outOfBoundsStarburstTimer = 5;
+                        
                         outOfBoundsPuckXPos = this.x;
                         outOfBoundsPuckYPos = this.y;
                         this.reset();
