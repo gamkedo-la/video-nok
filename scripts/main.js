@@ -105,10 +105,6 @@ function scaleScreen() {
 	zone2.style.top = topMargin;
 }
 
-function outOfBounds(){
-	outOfBoundsTimer--;
-}
-
 function startFaceoff() {
 	if (playerControllers[1] == aiControl || playerControllers[0] == aiControl) {
 		AIFaceOffCountDown = 60;
@@ -205,6 +201,14 @@ function resetGame() {
 }
 
 function moveEverything() {
+
+	if(outOfBoundsTimer >= 0){
+		outOfBoundsTimer--
+		if (outOfBoundsTimer <= 0) {
+			startFaceoff();
+		}
+	}
+	
 	if (input.keyboard.keyPressed(KEY_Debug)) {
 		toggleDebugMode();
 	}
@@ -213,11 +217,6 @@ function moveEverything() {
 		ui.control();
 	} else if (gameState === state.game) {
 		//if (puckOne.inPlay);
-		/*
-		if(outofBoundsActive){
-			outOfBounds();
-		} 
-		*/
 		if(faceOffActive){
 			faceOff();				
 		} else if (preFaceOff) {
@@ -259,7 +258,7 @@ function drawDebugText(){
 	var debugX = 200;
 	var debugY = 100;
 	var debugSkipY = 15;
-	canvasContext.fillStyle = 'red';
+	canvasContext.fillStyle = 'white';
 	canvasContext.font = '10px Arial';
 	canvasContext.textAlign = 'left';
 	debugY += debugSkipY;
@@ -314,14 +313,15 @@ function drawEverything() {
 	} else if (gameState === state.game) {
 		drawUI();
 		puckOne.draw();
-		/*
 		if(outOfBoundsTimer > 0){
+			/*
 			canvasContext.fillStyle = 'red';
 			canvasContext.font = '100px Arial';
 			canvasContext.textAlign = 'left';
-			canvasContext.fillText("Out of Bounds!", canvas.width/2 -100, canvas.height/2);
+			canvasContext.fillText("Out of Bounds!", canvas.width/2 -200, canvas.height/2);
+			*/
+			canvasContext.drawImage(outOfBoundsTxt, canvas.width/2 - 450, canvas.height/2 + 100);
 		}
-		*/
 		if(preFaceOff){
 			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
 			canvasContext.font = '30px Nunito';

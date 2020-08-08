@@ -12,6 +12,7 @@ var score1Inactive = document.createElement('img');
 var score1Active = document.createElement('img');
 var score2Inactive = document.createElement('img');
 var score2Active = document.createElement('img');
+var outOfBoundsTxt = document.createElement('img');
 
 function loadImages(){
     var imageList = [
@@ -27,6 +28,7 @@ function loadImages(){
         {varName: score1Active, theFile: 'score-1-active.png'},
         {varName: score2Inactive, theFile: 'score-2-inactive.png'},
         {varName: score2Active, theFile: 'score-2-active.png'},
+        {varName: outOfBoundsTxt, theFile: 'outofbounds.png'},
     ];
 
     picsToLoad = imageList.length;
