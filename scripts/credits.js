@@ -20,7 +20,7 @@ class Credits {
         var creditsTextY = this.y + 100
         var skipY = 20;
         canvasContext.fillStyle = '#662e78';
-        canvasContext.font = '16px Arial';
+        canvasContext.font = '16px nunito';
         canvasContext.textAlign = 'left';
         for (var i = 0; i<this.text.length; i++){
             creditsTextY += skipY;

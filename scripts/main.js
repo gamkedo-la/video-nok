@@ -301,15 +301,17 @@ function drawEverything() {
 		drawUI();
 		puckOne.draw();
 		if(preFaceOff){
-			canvasContext.drawImage(takeYourShotImg, canvas.width/2 - 456, canvas.height/2 + 100);
+			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
 			canvasContext.font = '30px Arial';
 			canvasContext.textAlign = 'center';
 			canvasContext.fillStyle = 'white';
-			canvasContext.fillText("press ANYTHING to continue", canvas.width/2, canvas.height/2 + 230);	
+			canvasContext.fillText("Fight over the puck! Drag and release to aim and shoot!", canvas.width/2, canvas.height/2 + 230);
+			canvasContext.font = '16px Arial';
+			canvasContext.fillText("press ANYTHING to continue", canvas.width/2, canvas.height/2 + 270);	
 		}
 
 		if(faceOffActive){
-			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
+			canvasContext.drawImage(takeYourShotImg, canvas.width/2 - 456, canvas.height/2 + 100);
 		}
 	}else if ( gameState == state.gameover ) {
 		drawGameOver();
