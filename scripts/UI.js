@@ -176,8 +176,8 @@ let menu_elements = [
 		position: new Vector2(-37, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
-		font: '12Px Arial',
-		label: '0 Players',
+		font: '12Px Nunito',
+		label: '0 PLAYERS',
 		callback: () => {newGame(0)},
 	}),
 	
@@ -187,8 +187,8 @@ let menu_elements = [
 		position: new Vector2(57, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
-		font: '12Px Arial',
-		label: '1 Players',
+		font: '12Px Nunito',
+		label: '1 PLAYERS',
 		callback: () => {newGame(1)},
 	}),
 
@@ -198,8 +198,8 @@ let menu_elements = [
 		position: new Vector2(147, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
-		font: '12Px Arial',
-		label: '2 Players',
+		font: '12Px Nunito',
+		label: '2 PLAYERS',
 		callback: () => {newGame(2)},
 	}),
 
@@ -209,8 +209,8 @@ let menu_elements = [
 		position: new Vector2(237, 100),
 		dimensions: new Vector2(75, 30),
 		colors: {text: 'white', border: blue, background: bgColor, hoverText: 'white', hoverBorder: 'white', hoverBackground: railColor},
-		font: '12Px Arial',
-		label: 'Credits',
+		font: '12Px Nunito',
+		label: 'CREDITS',
 		callback: () => { credits.reset(); gameState = state.credits },
 	})
 ];

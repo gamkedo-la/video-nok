@@ -302,11 +302,11 @@ function drawEverything() {
 		puckOne.draw();
 		if(preFaceOff){
 			canvasContext.drawImage(faceOffImg, canvas.width/2 - 250, canvas.height/2 + 100);
-			canvasContext.font = '30px Arial';
+			canvasContext.font = '30px Nunito';
 			canvasContext.textAlign = 'center';
 			canvasContext.fillStyle = 'white';
 			canvasContext.fillText("Fight over the puck! Drag and release to aim and shoot!", canvas.width/2, canvas.height/2 + 230);
-			canvasContext.font = '16px Arial';
+			canvasContext.font = '16px Nunito';
 			canvasContext.fillText("press ANYTHING to continue", canvas.width/2, canvas.height/2 + 270);	
 		}
 
@@ -335,7 +335,7 @@ function drawGameOver() {
 	canvasContext.drawImage(winImg, 212, 230);
 
 	canvasContext.fillStyle = purple;
-	canvasContext.font = '30px Arial';
+	canvasContext.font = '30px Nunito';
 	canvasContext.fillText("INTERACT TO CONTINUE", 212, 460);
 }
 
