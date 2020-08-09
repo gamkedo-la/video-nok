@@ -11,18 +11,20 @@
 before release
 x increase AI error ratio in face off
 x bug:pvai:p1win:game reset: - p1 win screen displays each time user "interacts to continue"
-- p1vAI: Face Off: if player is pulling back to shoot, and loses face off, "tail" will still be drawn: turn that off
 x change text in face off
 	- look up what a modern media query for <tablet and >laptop would be. 
 	- maybe just reverse face off and "take your shot", or "player 1,  
           take your shot
-- add additional text, cues to OB
-- include instructions
+x add additional text, cues to OB
 x include nunito
+- include instructions
 
-[] read z's comments and thank him
----	
-[] adjust "interact to continue" text on player2 win screen
+- p1vAI: Face Off: if player is pulling back to shoot, and loses face off, "tail" will still be drawn: turn that off
+	- when exactly does that happen
+- adjust "interact to continue" text on player2 win screen
+	- when exactly does that happen
+
+
 [] put the squares on 45 degree angles
 
 
