@@ -39,6 +39,8 @@ creditsText = [
 "Allan Regush: Wall collisions, game over state, credits screen",
 "",
 "Catherine San Luis: Puck placement debugging / cheat feature",
+"",
+"Andy King: Detailed playtesting and pre-release prioritization feedback",
 ];
 const credits = new Credits(212, 500, creditsText);
 
