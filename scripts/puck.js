@@ -176,15 +176,19 @@ class Puck {
     }
 
     draw() {
+        
         this.drawFaceOffThreats();		
         if (this.shotVector) { //&& puck in motion not true
-            this.drawShotVector(this.shotVector, 'white');
+            this.drawShotVector(this.shotVector, 'white'); //commenting this out disables player's tail on desktop, not on mobile
         }
         for (let s = 0; s < this.shotVectors.length; s++) {
             let shot = this.shotVectors[s];
             if (!shot) continue;
-            this.drawShotVector(shot, this.shotColors[s]);
+            if(this.inPlay == false){
+                this.drawShotVector(shot, this.shotColors[s]);
+            }
         }
+        
 
         colorCircle(this.x, this.y, this.radius, this.color);
     }

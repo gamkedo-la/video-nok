@@ -17,7 +17,8 @@ x change text in face off
           take your shot
 x add additional text, cues to OB
 x include nunito
-- include instructions
+
+
 
 - p1vAI: Face Off: if player is pulling back to shoot, and loses face off, "tail" will still be drawn: turn that off
 	- when exactly does that happen

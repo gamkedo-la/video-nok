@@ -354,13 +354,14 @@ function drawBackground() {
 }
 
 function drawGameOver() {
+	//note: whatever reason, debug mode will skew the alignment of these two items.
 	colorRect(0,0, canvas.width, canvas.height, 'white');
 	let winImg = scoreManager.winner === 1 ? p1winsImg : p2winsImg;
-	canvasContext.drawImage(winImg, 212, 230);
+	canvasContext.drawImage(winImg, (canvas.width/2)-250, 230);
 
 	canvasContext.fillStyle = purple;
 	canvasContext.font = '30px Nunito';
-	canvasContext.fillText("INTERACT TO CONTINUE", 212, 460);
+	canvasContext.fillText("INTERACT TO CONTINUE", (canvas.width/2) - 70 , 460);
 }
 
 function drawNet() {
