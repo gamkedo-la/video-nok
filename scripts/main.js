@@ -227,8 +227,9 @@ function moveEverything() {
 				faceOffActive = true;
 			}	
 		}
-		else {
-			playerControllers[activePlayer](); 
+		else{
+			//console.log('else if !outOfBoundsTimer >= 0 is being reached');
+			//playerControllers[activePlayer](); 
 		}
 		updateAnimations();
 		puckOne.move();
@@ -291,8 +292,6 @@ function drawDebugText(){
 	canvasContext.fillText("faceOffThreatCooldown " + faceOffThreatCooldown, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("puckOne.x " + puckOne.x, debugX, debugY);
-	debugY += debugSkipY;
-	canvasContext.fillText("AIAimFail " + AIAimFail, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("AIWonFaceOff " + aiWonFaceOff, debugX, debugY);
 	debugY += debugSkipY;
@@ -455,7 +454,7 @@ function drawUI() {
 }
 
 function replicateGameScenario(){
-	activePlayer = 1; //is this more complicated that just changing a flag, i.e a function
+	activePlayer = 0; //is this more complicated that just changing a flag, i.e a function
 	scoreManager.scores[1] = 2;
 	puckOne.x = 748.01171875;
 	puckOne.y = 511.01171875;

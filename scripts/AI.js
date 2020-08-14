@@ -13,14 +13,12 @@ function aiControl() {
     AIRandomNum = Math.random();
 
     let scoreDelta = scoreManager.scores[activePlayer] - scoreManager.scores[Math.abs(activePlayer - 1)];
-    console.log('faceOffActive ' + faceOffActive);
     // the numbers on the right most side of the conditionals is the SUCCESS rate
     if(aiWonFaceOff && AIRandomNum > 0.3){
         console.log(AIRandomNum);
             AIAimFail = true; 
     } //ai wins Face Off only 30% of the time
     else{
-        console.log('control has reached else');
         if(scoreDelta > 0 && AIRandomNum > 0.4) {
             AIPowerFail = true;
         } // if AI is doing better than player, there's an 60% chance it'll underpower the shot
@@ -69,6 +67,7 @@ function aiControl() {
     if ((true || input.anyPressed()) && !shooting) {
         shooting = true;
 
+        /*
         if(AIPowerFail){
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
@@ -76,6 +75,16 @@ function aiControl() {
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
         }
+        */
+
+        if(AIPowerFail){
+            var testVectXTemp = testVect.x/correctShotSpeed;
+            var testVectYTemp = testVect.y/correctShotSpeed;
+            var failureShotSpeed = correctShotSpeed * 8; //AI will underpower shot
+            testVect.x = testVectXTemp * failureShotSpeed;
+            testVect.y = testVectYTemp * failureShotSpeed;
+        }
+        
         if(AIAimFail){
             testVect.x += 50; //AI will skew shot. 
         }
@@ -83,9 +92,7 @@ function aiControl() {
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
         puckWindup(launchVector);
         faceOffActive = false;
-        console.log(launchVector);
     } else { 
-        //console.log('control has made it to the last else statement in ai.js');
         if(!faceOffActive){
             puckOne.shotVector = null;
         } //prevents error from being thrown if Ai takes a shot during Face Off

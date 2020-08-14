@@ -79,7 +79,6 @@ class Puck {
                     this.x += penetration.x * -dir.x;
                 }
 
-                //hacky way to reset the puck if it hits the wall too hard
                 
                 if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
                     if(this.inPlay){ //if actually firing
