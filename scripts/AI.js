@@ -67,7 +67,7 @@ function aiControl() {
     if ((true || input.anyPressed()) && !shooting) {
         shooting = true;
 
-        /*
+        
         if(AIPowerFail){
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
@@ -75,8 +75,9 @@ function aiControl() {
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
         }
-        */
+        
 
+        /*
         if(AIPowerFail){
             var testVectXTemp = testVect.x/correctShotSpeed;
             var testVectYTemp = testVect.y/correctShotSpeed;
@@ -84,6 +85,7 @@ function aiControl() {
             testVect.x = testVectXTemp * failureShotSpeed;
             testVect.y = testVectYTemp * failureShotSpeed;
         }
+        */
         
         if(AIAimFail){
             testVect.x += 50; //AI will skew shot. 

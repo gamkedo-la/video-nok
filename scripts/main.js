@@ -207,6 +207,7 @@ function moveEverything() {
 	if(outOfBoundsTimer >= 0){
 		outOfBoundsTimer--
 		if (outOfBoundsTimer <= 0) {
+			outofBoundsActive = false;
 			startFaceoff();
 		}
 	}
@@ -226,10 +227,10 @@ function moveEverything() {
 				preFaceOff = false;
 				faceOffActive = true;
 			}	
-		}
-		else{
-			//console.log('else if !outOfBoundsTimer >= 0 is being reached');
-			//playerControllers[activePlayer](); 
+		} else if (!outofBoundsActive){
+		//} else if (!outOfBoundsTimer > -2){
+			console.log(outOfBoundsTimer > -1);
+			playerControllers[activePlayer](); 
 		}
 		updateAnimations();
 		puckOne.move();
@@ -264,6 +265,7 @@ function drawDebugText(){
 	canvasContext.fillStyle = 'white';
 	canvasContext.font = '10px Arial';
 	canvasContext.textAlign = 'left';
+	canvasContext.fillText("outOfBoundsTimer: " + outOfBoundsTimer, debugX, debugY);
 	debugY += debugSkipY;
 	canvasContext.fillText("AIFaceOffCountDown: " + AIFaceOffCountDown, debugX, debugY);
 	debugY += debugSkipY;
