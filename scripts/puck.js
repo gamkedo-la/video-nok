@@ -175,21 +175,21 @@ class Puck {
     }
 
     draw() {
-        
         this.drawFaceOffThreats();		
         if (this.shotVector) { //&& puck in motion not true
-            this.drawShotVector(this.shotVector, 'white'); //commenting this out disables player's tail on desktop, not on mobile
+            console.log(this.inPlay);
+            this.drawShotVector(this.shotVector, 'white'); 
         }
         for (let s = 0; s < this.shotVectors.length; s++) {
             let shot = this.shotVectors[s];
             if (!shot) continue;
-            if(this.inPlay == false){
-                this.drawShotVector(shot, this.shotColors[s]);
+            if(this.inPlay == false){ //this is always false it seems so the tail is never not drawn
+                console.log(this.inPlay);
+                this.drawShotVector(shot, this.shotColors[s]); // this line draws the shot vector on mobile
             }
         }
-        
-
         colorCircle(this.x, this.y, this.radius, this.color);
+        
     }
 
     drawShotVector(vector, color) {
