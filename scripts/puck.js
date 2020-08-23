@@ -31,6 +31,7 @@ class Puck {
     }
 
     switchPlayer(){
+        forgetInputToRemoveTail();
         activePlayer = Math.abs(activePlayer - 1);
     }
 
@@ -177,14 +178,15 @@ class Puck {
     draw() {
         this.drawFaceOffThreats();		
         if (this.shotVector) { //&& puck in motion not true
-            console.log(this.inPlay);
+            //console.log(this.inPlay);
             this.drawShotVector(this.shotVector, 'white'); 
         }
+        
         for (let s = 0; s < this.shotVectors.length; s++) {
             let shot = this.shotVectors[s];
             if (!shot) continue;
             if(this.inPlay == false){ //this is always false it seems so the tail is never not drawn
-                console.log(this.inPlay);
+                //console.log(this.inPlay);
                 this.drawShotVector(shot, this.shotColors[s]); // this line draws the shot vector on mobile
             }
         }
@@ -193,6 +195,9 @@ class Puck {
     }
 
     drawShotVector(vector, color) {
+        if(this.velocity.length > 0.1){
+            return;
+        }
         let start = vector.rotate(Math.PI/2).normalize(),
             weight = vector.length / 200, //length is set in animations
             width = this.radius;

@@ -107,7 +107,12 @@ function scaleScreen() {
 	zone2.style.top = topMargin;
 }
 
+function forgetInputToRemoveTail(){
+	puckOne.shotVectors.length = 0;
+}
+
 function startFaceoff() {
+	forgetInputToRemoveTail();
 	if (playerControllers[1] == aiControl || playerControllers[0] == aiControl) {
 		AIFaceOffCountDown = 60;
 	}
@@ -229,7 +234,7 @@ function moveEverything() {
 			}	
 		} else if (!outofBoundsActive){
 		//} else if (!outOfBoundsTimer > -2){
-			console.log(outOfBoundsTimer > -1);
+			//console.log(outOfBoundsTimer > -1);
 			playerControllers[activePlayer](); 
 		}
 		updateAnimations();

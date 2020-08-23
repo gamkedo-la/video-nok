@@ -15,7 +15,6 @@ function aiControl() {
     let scoreDelta = scoreManager.scores[activePlayer] - scoreManager.scores[Math.abs(activePlayer - 1)];
     // the numbers on the right most side of the conditionals is the SUCCESS rate
     if(aiWonFaceOff && AIRandomNum > 0.3){
-        console.log(AIRandomNum);
             AIAimFail = true; 
     } //ai wins Face Off only 30% of the time
     else{
@@ -29,7 +28,6 @@ function aiControl() {
             AIAimFail = true;
         } //if AI is even with player, it performs adequately. fail rate 40
     } // if the AI isn't in a face off
-
      
     const shotSpeedRange = 540; 
     var testVect = new Vector2(0,0);
