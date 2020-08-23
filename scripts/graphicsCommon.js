@@ -31,6 +31,16 @@ function colorRect(leftX,topY, width,height, drawColor, rotation) {
 	canvasContext.restore();
 }
 
+function colorDiamond(centerX,centerY, radius, drawColor){
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.moveTo(centerX - radius, centerY);
+	canvasContext.lineTo(centerX, centerY - radius);
+	canvasContext.lineTo(centerX + radius, centerY);
+	canvasContext.lineTo(centerX, centerY + radius);
+	canvasContext.fill();
+}
+
 function colorLine(startX, startY, endX, endY, width, color) {
 	canvasContext.strokeStyle = color;
 	canvasContext.lineWidth = width;

@@ -68,6 +68,13 @@ function circleRectCollision(circle, rect) {
     return false;
 }
 
+function circleDiamondCollision(circle, diamond){
+    let deltaX = circle.x - diamond.x;
+    let deltaY = circle.y - diamond.y;
+    let diamondDist = Math.abs(deltaX) + Math.abs(deltaY);
+    return (deltaX + deltaY < circle.radius + diamond.radius);
+}
+
 function vectorDirection(vector) {
     const compass = [
         new Vector2(1, 0),
