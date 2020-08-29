@@ -97,7 +97,46 @@ class Puck {
                 }  
                 
             } // end if collision 
+            
         }
+        for (let i of obstaclesDiamonds) {
+            /*
+            let goalieCollision = circleDiamondCollision(this, i);
+            if (goalieCollision) {   
+                if(this.inPlay){
+                    audio.playEvent('railBounce');
+                }
+                this.lastPredictedBounce++;
+                let dir = vectorDirection(goalieCollision);
+                let penetration = new Vector2(this.radius - Math.abs(goalieCollision.x), this.radius - Math.abs(goalieCollision.y));
+                if (dir.y != 0)  {;
+                    this.velY *= -1;
+                    this.y += penetration.y * -dir.y;
+                } else {
+                    this.velX *= -1;
+                    this.x += penetration.x * -dir.x;
+                }
+            
+                
+                if((Math.abs(this.velocity.x) > 15 || Math.abs(this.velocity.y) > 15)){
+                    if(this.inPlay){ //if actually firing
+                        //outOfBounds();
+                        outOfBoundsTimer = 30;
+                        outofBoundsActive = true;
+                        outOfBoundsStarburstTimer = 5;
+                        
+                        outOfBoundsPuckXPos = this.x;
+                        outOfBoundsPuckYPos = this.y;
+                        this.reset();
+                    } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
+                        this.velX = this.velY = 0;
+                    }
+                }  
+                
+            } // end if goalieCollision 
+            */
+        }
+        
     }
 
     isInRightGoal() {
