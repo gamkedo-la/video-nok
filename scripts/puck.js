@@ -100,14 +100,16 @@ class Puck {
             
         }
         for (let i of obstaclesDiamonds) {
-            /*
             let goalieCollision = circleDiamondCollision(this, i);
             if (goalieCollision) {   
+                console.log("hitGoalie");
+                this.velX *= -1;
+                this.velY *= -1;
                 if(this.inPlay){
                     audio.playEvent('railBounce');
                 }
                 this.lastPredictedBounce++;
-                let dir = vectorDirection(goalieCollision);
+                /*let dir = vectorDirection(goalieCollision);
                 let penetration = new Vector2(this.radius - Math.abs(goalieCollision.x), this.radius - Math.abs(goalieCollision.y));
                 if (dir.y != 0)  {;
                     this.velY *= -1;
@@ -131,10 +133,9 @@ class Puck {
                     } else { //ruin shotPrediction since puck is outta bounds, we didn't actually fire
                         this.velX = this.velY = 0;
                     }
-                }  
+                } */
                 
             } // end if goalieCollision 
-            */
         }
         
     }

@@ -72,7 +72,7 @@ function circleDiamondCollision(circle, diamond){
     let deltaX = circle.x - diamond.x;
     let deltaY = circle.y - diamond.y;
     let diamondDist = Math.abs(deltaX) + Math.abs(deltaY);
-    return (deltaX + deltaY < circle.radius + diamond.radius);
+    return (diamondDist < circle.radius + diamond.radius);
 }
 
 function vectorDirection(vector) {
