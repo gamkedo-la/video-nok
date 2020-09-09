@@ -68,22 +68,22 @@ function circleRectCollision(circle, rect) {
     return false;
 }
 
-function circleDiamondCollision(circle, diamond){
+function circleDiamondCollisionApprox(circle, diamond){
     let deltaX = circle.x - diamond.x;
     let deltaY = circle.y - diamond.y;
     let diamondDist = Math.abs(deltaX) + Math.abs(deltaY);
-    return (diamondDist < circle.radius + diamond.radius);
+    return (diamondDist < circle.radius + diamond.radius + 100);
 }
 
 //helper functions for diamond collision
 
-function findDiamondVertices(d){
+function findDiamondVerticesForCircle(d, c){
     
     var diamondVertices = [];
-    diamondVertices[0] = new Vector2(d.x-d.radius, d.y);
-    diamondVertices[1] = new Vector2(d.x, d.y-d.radius);
-    diamondVertices[2] = new Vector2(d.x+d.radius, d.y);
-    diamondVertices[3] = new Vector2(d.x, d.y+d.radius);
+    diamondVertices[0] = new Vector2(d.x-d.radius-c.radius, d.y);
+    diamondVertices[1] = new Vector2(d.x, d.y-d.radius-c.radius);
+    diamondVertices[2] = new Vector2(d.x+d.radius+c.radius, d.y);
+    diamondVertices[3] = new Vector2(d.x, d.y+d.radius+c.radius);
     return diamondVertices;
 
 }
@@ -107,7 +107,7 @@ function segmentOverlap(p_x1, p_y1, p_x2, p_y2,
 
     if (s >= 0 && s <= 1 && t >= 0 && t <= 1) //what % along either line
     {
-    return true;
+        return true;  
     }
 
     return false; // No collision
@@ -117,7 +117,7 @@ function dotProduct(a_x, a_y, b_x, b_y){
     return (a_x * b_x) + (a_y * b_y);
 }
 
-function newV(vX, vY, nX, nY){
+    function newV(vX, vY, nX, nY){
     var dotProd = dotProduct(vX, vY, nX, nY);
     var dotProdByNeg2 = -2*dotProd;
     nX = nX*dotProdByNeg2;
@@ -125,21 +125,7 @@ function newV(vX, vY, nX, nY){
     newX = vX + nX;
     newY = vY + nY;
 
-    //attempt to put a ceiling on the vector
-    var cappedX = Math.min(Math.abs(newX), 10);
-    var cappedY = Math.min(Math.abs(newY), 10);
-
-    if(newX < 0){
-    cappedX = -cappedX;
-    }
-
-    if(newY < 0){
-    cappedY = -cappedY;
-    }
-
-    console.log(cappedX);
-    console.log(cappedY);
-    var newVector = {x:cappedX, y:cappedY};
+    var newVector = {x:newX, y:newY};
     return newVector; 
 }
 

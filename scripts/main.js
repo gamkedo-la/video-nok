@@ -307,9 +307,6 @@ function drawDebugText(){
 
 function drawEverything() {
 	drawBackground();
-
-
-	
 	if(outOfBoundsStarburstTimer > 0){
 		outOfBoundsStarburstTimer--
 		drawOutOfBoundsIndicator();
@@ -319,6 +316,8 @@ function drawEverything() {
 		ui.draw();
 		
 	} else if (gameState === state.game) {
+		canvasContext.fillStyle = "red";
+		canvasContext.fillText('x: ' + Math.floor(debugMousePos.x) + ', y: ' + Math.floor(debugMousePos.y), debugMousePos.x, debugMousePos.y);
 		drawUI();
 		puckOne.draw();
 		if(outOfBoundsTimer > 0){
@@ -349,6 +348,7 @@ function drawEverything() {
 		credits.draw();
 	}
 	input.touch.draw();
+
 }
 
 function drawBackground() {

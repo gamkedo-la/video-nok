@@ -1,3 +1,5 @@
+var debugMousePos = {x: 0, y: 0};
+
 const KEY_Debug = 68; //Press 'D' for Debug to put puck anywhere
 const KEY_Replicate_game_scenario = 69 //press 'E' to replicate a game scenario, set puck position and active plaer to specfic values
 const KEY_pre_face_off  = 32;
@@ -209,9 +211,8 @@ class Mouse {
 
 	moveMouse(evt) {
 		//putting in some draw code here for debug purposes
-		var debugMousePos = this.calculateMousePos(evt);
-		canvasContext.fillText(debugMousePos.x, debugMousePos.y, 'hey');
-		console.log(this.calculateMousePos.x)
+		debugMousePos = this.calculateMousePos(evt);
+		//console.log(debugMousePos);
 		if (this.locked) {
 			this.clearBuffer();
 			this.moveBuffer.x += evt.movementX;

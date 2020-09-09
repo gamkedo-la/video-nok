@@ -41,6 +41,15 @@ function colorDiamond(centerX,centerY, radius, drawColor){
 	canvasContext.fill();
 }
 
+//to be moved into math or goalie.js, write a function to get the lines of the diamon, use the guts of colorDiamond bc that info is basically there
+//call it diamondVertices it returns an array, 0 is a, 1, b, 2 is c, 3 is d, 
+//var dVerts[...]
+/*for(do 4 times){
+	//segmentO(dVerts[0].x, dVerts[0].y, dVerts[1].x, dVerts[1].y)
+}
+*/
+
+
 function colorLine(startX, startY, endX, endY, width, color) {
 	canvasContext.strokeStyle = color;
 	canvasContext.lineWidth = width;

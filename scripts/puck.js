@@ -4,6 +4,13 @@ const MAX_SHOT_VELOCITY = 200;
 var faceOffThreatTimer = 5;
 var faceOffThreatCooldown = 5;
 
+const diamondNormals = [
+    {x:-.707,y:-.707},
+    {x:.707,y:-.707},
+    {x:.707,y:.707},
+    {x:-.707,y:.707}
+];
+
 class Puck {
     constructor() {
         this.position = new Vector2(500, 333);
@@ -100,16 +107,43 @@ class Puck {
             
         }
         for (let i of obstaclesDiamonds) {
-            let goalieCollision = circleDiamondCollision(this, i);
+            let goalieCollision = circleDiamondCollisionApprox(this, i);
             if (goalieCollision) {   
-                var diamondVertices = findDiamondVertices(i);
+                var diamondVertices = findDiamondVerticesForCircle(i, this);
                 //console.log(diamondVertices);
-                this.velX *= -1;
-                this.velY *= -1;
-                if(this.inPlay){
-                    audio.playEvent('railBounce');
+                //call out which side of the goalie is being hit
+                //use segmentOverlap()
+                //function segmentOverlap(p_x1, p_y1, p_x2, p_y2,q_x1, q_y1, q_x2, q_y2)
+                var q_x1 = this.x;
+                var q_y1 = this.y;
+                var q_x2 = this.x + this.velX;
+                var q_y2 = this.y + this.velY;
+
+                var hitAnyEdge = false;
+                for(var ii=0;ii<diamondVertices.length;ii++){
+                    var nextII = ii+1;
+                    if(nextII >= diamondVertices.length){
+                        nextII = 0;
+                    }
+                    var p_x1 = diamondVertices[ii].x;
+                    var p_y1 = diamondVertices[ii].y;
+                    var p_x2 = diamondVertices[nextII].x;
+                    var p_y2 = diamondVertices[nextII].y;
+
+                    if(segmentOverlap(p_x1, p_y1, p_x2, p_y2,q_x1, q_y1, q_x2, q_y2)){
+                        //console.log('edge being bumped: ' + ii);
+                        var newVector = newV(this.velX, this.velY, diamondNormals[ii].x, diamondNormals[ii].y);
+                        this.velX = newVector.x;
+                        this.velY = newVector.y;
+                        hitAnyEdge = true;
+                    }
                 }
-                this.lastPredictedBounce++;
+                if(hitAnyEdge){
+                    if(this.inPlay){
+                        audio.playEvent('railBounce');
+                    }
+                    this.lastPredictedBounce++;
+                }
                 /*let dir = vectorDirection(goalieCollision);
                 let penetration = new Vector2(this.radius - Math.abs(goalieCollision.x), this.radius - Math.abs(goalieCollision.y));
                 if (dir.y != 0)  {;
@@ -194,7 +228,7 @@ class Puck {
             if(!skipDraw && i % 2 === 0){
                 canvasContext.globalAlpha = 1.0 - i/steps;
                 //var colorHere = '#FFF' + (Math.floor((i/steps)* 255).toString(16));
-                colorCircle(this.x, this.y, this.radius , 'lime');
+                colorCircle(this.x, this.y, this.radius/2 , 'lime');
             }
 
         }
