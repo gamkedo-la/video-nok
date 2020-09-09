@@ -208,6 +208,10 @@ class Mouse {
 	}
 
 	moveMouse(evt) {
+		//putting in some draw code here for debug purposes
+		var debugMousePos = this.calculateMousePos(evt);
+		canvasContext.fillText(debugMousePos.x, debugMousePos.y, 'hey');
+		console.log(this.calculateMousePos.x)
 		if (this.locked) {
 			this.clearBuffer();
 			this.moveBuffer.x += evt.movementX;

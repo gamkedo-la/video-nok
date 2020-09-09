@@ -75,6 +75,74 @@ function circleDiamondCollision(circle, diamond){
     return (diamondDist < circle.radius + diamond.radius);
 }
 
+//helper functions for diamond collision
+
+function findDiamondVertices(d){
+    
+    var diamondVertices = [];
+    diamondVertices[0] = new Vector2(d.x-d.radius, d.y);
+    diamondVertices[1] = new Vector2(d.x, d.y-d.radius);
+    diamondVertices[2] = new Vector2(d.x+d.radius, d.y);
+    diamondVertices[3] = new Vector2(d.x, d.y+d.radius);
+    return diamondVertices;
+
+}
+
+function segmentOverlap(p_x1, p_y1, p_x2, p_y2, 
+    q_x1, q_y1, q_x2, q_y2){
+    var s1_x, s1_y, s2_x, s2_y;
+
+    //describing it from the origin, doesn't know position of ball, 
+    //it's just where the line is pointing 
+    //vector for line 1
+    s1_x = p_x2 - p_x1;     
+    s1_y = p_y2 - p_y1;
+
+    //vector for line 2
+    s2_x = q_x2 - q_x1;     
+    s2_y = q_y2 - q_y1;
+
+    var s = (-s1_y * (p_x1 - q_x1) + s1_x * (p_y1 - q_y1)) / (-s2_x * s1_y + s1_x * s2_y);
+    var t = ( s2_x * (p_y1 - q_y1) - s2_y * (p_x1 - q_x1)) / (-s2_x * s1_y + s1_x * s2_y);
+
+    if (s >= 0 && s <= 1 && t >= 0 && t <= 1) //what % along either line
+    {
+    return true;
+    }
+
+    return false; // No collision
+}
+
+function dotProduct(a_x, a_y, b_x, b_y){
+    return (a_x * b_x) + (a_y * b_y);
+}
+
+function newV(vX, vY, nX, nY){
+    var dotProd = dotProduct(vX, vY, nX, nY);
+    var dotProdByNeg2 = -2*dotProd;
+    nX = nX*dotProdByNeg2;
+    nY = nY*dotProdByNeg2;
+    newX = vX + nX;
+    newY = vY + nY;
+
+    //attempt to put a ceiling on the vector
+    var cappedX = Math.min(Math.abs(newX), 10);
+    var cappedY = Math.min(Math.abs(newY), 10);
+
+    if(newX < 0){
+    cappedX = -cappedX;
+    }
+
+    if(newY < 0){
+    cappedY = -cappedY;
+    }
+
+    console.log(cappedX);
+    console.log(cappedY);
+    var newVector = {x:cappedX, y:cappedY};
+    return newVector; 
+}
+
 function vectorDirection(vector) {
     const compass = [
         new Vector2(1, 0),

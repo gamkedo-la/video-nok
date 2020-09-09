@@ -102,7 +102,8 @@ class Puck {
         for (let i of obstaclesDiamonds) {
             let goalieCollision = circleDiamondCollision(this, i);
             if (goalieCollision) {   
-                console.log("hitGoalie");
+                var diamondVertices = findDiamondVertices(i);
+                //console.log(diamondVertices);
                 this.velX *= -1;
                 this.velY *= -1;
                 if(this.inPlay){
