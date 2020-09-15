@@ -11,7 +11,7 @@ var activePlayer = 0;
 var outofBoundsActive = false;
 var preFaceOff = false;
 var faceOffActive = false; //defaults to true because that's how the game would normally start. 
-var AIFaceOffCountDown = 50;
+var AIFaceOffCountDown = 30;
 var aiWonFaceOff = false;
 
 var outOfBoundsStarburstTimer = 0;
@@ -114,7 +114,7 @@ function forgetInputToRemoveTail(){
 function startFaceoff() {
 	forgetInputToRemoveTail();
 	if (playerControllers[1] == aiControl || playerControllers[0] == aiControl) {
-		AIFaceOffCountDown = 60;
+		AIFaceOffCountDown = 30;
 	}
 	
 	if (playerControllers[0] == playerControllers[1] && playerControllers[0] == aiControl) {

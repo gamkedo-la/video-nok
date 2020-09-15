@@ -14,21 +14,21 @@ function aiControl() {
 
     let scoreDelta = scoreManager.scores[activePlayer] - scoreManager.scores[Math.abs(activePlayer - 1)];
     // the numbers on the right most side of the conditionals is the SUCCESS rate
-    if(aiWonFaceOff && AIRandomNum > 0.3){
+    if(aiWonFaceOff && AIRandomNum > 0.1){
             AIAimFail = true; 
     } //ai wins Face Off only 30% of the time
     else{
-        if(scoreDelta > 0 && AIRandomNum > 0.4) {
+        if(scoreDelta > 0 && AIRandomNum > 0.2) {
             AIPowerFail = true;
-        } // if AI is doing better than player, there's an 60% chance it'll underpower the shot
-        else if(scoreDelta < 0 && AIRandomNum > 0.8) {
+        } // if AI is doing better than player, there's an 80% chance it'll underpower the shot
+        else if(scoreDelta < 0 && AIRandomNum > 0.5) {
             AIAimFail = true;
-        } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 20 
-        else if(AIRandomNum > 0.6) {
+        } //if AI is behind player, it starts doing well, bc it hates losing, fail rate 50 
+        else if(AIRandomNum > 0.3) {
             AIAimFail = true;
-        } //if AI is even with player, it performs adequately. fail rate 40
+        } //if AI is even with player, it performs adequately. fail rate 70
     } // if the AI isn't in a face off
-     
+
     const shotSpeedRange = 540; 
     var testVect = new Vector2(0,0);
     possibleShots[0] = testVect;
@@ -86,7 +86,7 @@ function aiControl() {
         */
         
         if(AIAimFail){
-            testVect.x += 50; //AI will skew shot. 
+            testVect.x -= 50; //AI will skew shot. 
         }
         let launchVector = new Vector2(testVect.x, testVect.y);  
         launchVector.length = clamp(launchVector.length, 0, MAX_SHOT_VELOCITY);
