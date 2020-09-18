@@ -1,5 +1,7 @@
 var canvas, canvasContext;
 var debugMode = false;
+var onMobile = true;
+var tempBool = false;
 
 var shooting = false;
 let scoreManager = new ScoreManager();
@@ -75,6 +77,14 @@ function initCanvas() {
 function scaleScreen() {
 	let availH = window.innerHeight;
 	let availW = window.innerWidth;
+
+	if(availW < 1024){
+		onMobile = true;
+		console.log(onMobile);
+	} else {
+		onMobile = false;
+		//console.log(onMobile);
+	}
 
 	let screenScale = availW / canvas.width;
 	if (screenScale * canvas.height > availH) {
@@ -307,6 +317,7 @@ function drawDebugText(){
 
 function drawEverything() {
 	drawBackground();
+	
 	if(outOfBoundsStarburstTimer > 0){
 		outOfBoundsStarburstTimer--
 		drawOutOfBoundsIndicator();
@@ -316,8 +327,10 @@ function drawEverything() {
 		ui.draw();
 		
 	} else if (gameState === state.game) {
+		/*
 		canvasContext.fillStyle = "red";
 		canvasContext.fillText('x: ' + Math.floor(debugMousePos.x) + ', y: ' + Math.floor(debugMousePos.y), debugMousePos.x, debugMousePos.y);
+		*/
 		drawUI();
 		puckOne.draw();
 		if(outOfBoundsTimer > 0){

@@ -19,8 +19,8 @@ function initBoard() {
     ]
 
     obstaclesDiamonds = [
-        {x: railThickness*4, y: canvas.height/2, radius: GOALIE_SIZE, color: 'yellow'},
-        {x: canvas.width-(railThickness*4), y: canvas.height/2, radius: GOALIE_SIZE, color: 'yellow'},
+        {x: railThickness*4, y: canvas.height/2, radius: GOALIE_SIZE, color: railColor},
+        {x: canvas.width-(railThickness*4), y: canvas.height/2, radius: GOALIE_SIZE, color: railColor},
     ];
 }
 

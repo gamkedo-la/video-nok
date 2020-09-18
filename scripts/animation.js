@@ -51,7 +51,7 @@ function puckRelease(vector) {
 function windupAnimation(t, args) {
     let shot = lerp(1, args.length, t);
     if(puckOne.shotVector == null){
-        console.log('shotVector is null!');
+        //console.log('shotVector is null!');
         return;
     } 
     puckOne.shotVector.length = shot;
@@ -60,7 +60,7 @@ function windupAnimation(t, args) {
 function releaseAnimation(t, args) {
     let shot = lerp(args.length, 1, t);
     if(puckOne.shotVector == null){
-        console.log('shotVector is null!');
+        //console.log('shotVector is null!');
         return;
     } 
     puckOne.shotVector.length = shot;
